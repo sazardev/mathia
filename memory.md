@@ -5,9 +5,10 @@
 
 ## Estado del repo (última actualización: 2026-08-22)
 
-- Repo git inicializado, sin historial previo que preservar.
+- Repo git con commit inicial `47dacae` (chore: inicializa repo...). Rama: `main`, sin remoto aún.
 - Stack: Tauri 2 + Rust (edition 2024, rustc 1.97) + React 19 + TypeScript 7.0.2 + Vite 7.
 - Tooling instalado y funcionando: Oxlint 1.79 (lint), Prettier 3.9 (formato), lefthook 2.1 (hooks), commitlint 21, gitleaks 8.28.
+- Hooks verificados en vivo: pre-commit (oxlint + prettier staged + gitleaks protect), commit-msg (commitlint), pre-push paralelo (~1s cacheado): typecheck, lint, format-check, rust-fmt, clippy.
 - CI en `.github/workflows/ci.yml`: frontend (typecheck+lint+format+build), rust (fmt+clippy+test), security (gitleaks+audit).
 
 ## Decisiones y pendientes
