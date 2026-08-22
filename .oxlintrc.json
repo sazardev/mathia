@@ -1,0 +1,47 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "eslint",
+    "react",
+    "react-perf",
+    "unicorn",
+    "typescript",
+    "oxc",
+    "import",
+    "promise",
+    "jsx-a11y"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "pedantic": "off",
+    "style": "off",
+    "restriction": "off"
+  },
+  "rules": {
+    "eqeqeq": "error",
+    "no-unused-vars": "warn",
+    "prefer-const": "error",
+    "no-var": "error",
+    "no-console": "warn",
+    "react/react-in-jsx-scope": "off",
+    "import/no-unassigned-import": "off"
+  },
+  "settings": {
+    "react": {
+      "jsxRuntime": "automatic"
+    }
+  },
+  "env": {
+    "builtin": true,
+    "browser": true,
+    "es2025": true
+  },
+  "ignorePatterns": [
+    "dist",
+    "dist-ssr",
+    "coverage",
+    "src-tauri/target",
+    "src-tauri/gen"
+  ]
+}

@@ -1,0 +1,5 @@
+# CODEOWNERS — revisores requeridos por ruta (GitHub)
+# Reemplazar @sazar por la cuenta/org real cuando exista el remoto.
+* @sazar
+/.github/ @sazar
+/src-tauri/ @sazar

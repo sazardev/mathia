@@ -1,0 +1,42 @@
+# Normalizar fin de línea: todo texto LF en el repo
+* text=auto eol=lf
+
+# Tipos explícitos
+*.rs text diff=rust
+*.ts text diff=typescript
+*.tsx text diff=typescript
+*.js text
+*.json text
+*.md text diff=markdown
+*.toml text
+*.yml text
+*.yaml text
+*.sh text eol=lf
+*.html text diff=html
+*.css text diff=css
+
+# Binarios
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.icns binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.deb binary
+*.rpm binary
+*.AppImage binary
+*.wasm binary
+
+# Linguist
+package-lock.json linguist-generated=true
+Cargo.lock linguist-generated=true
+public/tauri.svg linguist-vendored=true
+public/vite.svg linguist-vendored=true

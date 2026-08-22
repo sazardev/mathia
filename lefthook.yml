@@ -1,0 +1,52 @@
+# ──────────────────────────────────────────────────────────────
+# Lefthook — git hooks del proyecto
+# Instalar: `npx lefthook install` (automático vía `npm run prepare`)
+# Omitir en emergencias: `git commit --no-verify` (prohibido para agentes)
+# ──────────────────────────────────────────────────────────────
+
+# PRE-COMMIT: rápido, solo sobre archivos staged
+pre-commit:
+  commands:
+    oxlint:
+      glob: "*.{ts,tsx,js,jsx}"
+      run: npx oxlint --fix {staged_files}
+      stage_fixed: true
+    prettier:
+      glob: "*.{js,json,css,html,yml,yaml}"
+      run: |
+        files=$(printf '%s\n' {staged_files} | grep -Ev '(^|/)package-lock\.json$' || true)
+        if [ -n "$files" ]; then npx prettier --write $files; fi
+      stage_fixed: true
+    gitleaks:
+      # Siempre al final: escanea el estado final de lo staged
+      run: gitleaks protect --staged --config .gitleaks.toml -v
+
+# COMMIT-MSG: valida Conventional Commits
+commit-msg:
+  commands:
+    commitlint:
+      run: npx commitlint --edit {1}
+
+# PRE-PUSH: verificación rápida en paralelo (sin builds completos)
+pre-push:
+  parallel: true
+  commands:
+    typecheck:
+      run: npm run typecheck
+    lint:
+      run: npx oxlint
+    format-check:
+      run: npx prettier --check .
+    rust-fmt:
+      root: src-tauri
+      run: cargo fmt --all -- --check
+    clippy:
+      root: src-tauri
+      run: cargo clippy --all-targets -- -D warnings
+
+# POST-MERGE: mantiene dependencias sincronizadas tras pull
+post-merge:
+  commands:
+    deps:
+      skip: true # descomenta/activa si quieres `npm install` automático:
+      # run: npm install
