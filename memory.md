@@ -13,6 +13,7 @@
 - Release multiplataforma (`.github/workflows/release.yml`): tag `v*` → Windows (msi/nsis), macOS universal (dmg), Linux x64 (deb/rpm/AppImage) vía tauri-action; Android (APK split-per-abi: arm64/arm32/x86_64) con firma opcional por secrets. Todo entra como draft.
 - Updater desktop integrado: `tauri-plugin-updater` + `tauri-plugin-process` registrados solo con `#[cfg(desktop)]`; frontend en `src/lib/updater.ts` (check silencioso al arrancar, instala y relanza). Keypair minisign generado SIN password: privada en `~/.tauri/mathia.key` (NUNCA commitear), pública ya embebida en `tauri.conf.json` con endpoint `releases/latest/download/latest.json` de sazardev/mathia.
 - Android local OK: SDK en `~/Android/Sdk`, NDK 30.0.14904198, los 4 targets Rust instalados; proyecto generado y versionado en `src-tauri/gen/android/` con signing config por env vars (`TAURI_ANDROID_KEYSTORE_PATH/PASSWORD/ALIAS/KEY_PASSWORD`) parcheada en su build.gradle.kts.
+- **GPG**: `commit.gpgsign=false` SOLO en este repo (decisión del usuario el 2026-08-22 porque pinentry gtk2 falla en sesiones de agente). El global sigue firmando; no revertir sin preguntar.
 
 ## Decisiones y pendientes
 
