@@ -33,7 +33,7 @@ Mathia es una app de escritorio para aprender álgebra de forma completa. Constr
 | Backend       | Rust ([Tauri](https://tauri.app) 2)     |
 | Estilos       | CSS Modules + design tokens propios     |
 | Fórmulas      | KaTeX                                   |
-| Calidad       | ESLint · Prettier · Clippy · gitleaks   |
+| Calidad       | Oxlint · Prettier · Clippy · gitleaks   |
 
 ## Requisitos
 
@@ -54,6 +54,33 @@ npm run tauri dev
 npm run tauri build
 ```
 
+## Despliegue automático
+
+Al pushear un tag `v*` (ej. `git tag v0.1.0 && git push origin v0.1.0`), el workflow
+[release.yml](.github/workflows/release.yml) construye todo y publica un draft de release:
+
+| Plataforma | Artefactos |
+| --- | --- |
+| Windows | `.msi`, `.exe` (NSIS) x64 |
+| macOS | `.dmg` universal (Intel + Apple Silicon) |
+| Linux | `.deb` (Ubuntu/Debian), `.rpm` (Fedora/openSUSE), `.AppImage` (Arch y demás) |
+| Android | APK por ABI: `arm64-v8a`, `armeabi-v7a`, `x86_64` |
+
+Los builds de escritorio generan además `latest.json` (manifiesto del **auto-updater**):
+la app instalada se actualiza sola al publicar el release.
+
+### Secrets necesarios en GitHub (Settings → Secrets → Actions)
+
+| Secret | Para qué | Cómo obtenerlo |
+| --- | --- | --- |
+| `TAURI_SIGNING_PRIVATE_KEY` | Firmar updates desktop | Contenido de `~/.tauri/mathia.key` |
+| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | Ídem | Vacío (key sin password) |
+| `ANDROID_KEYSTORE_B64` | Firmar APKs | `base64 -w0 mathia.keystore` |
+| `ANDROID_KEYSTORE_PASSWORD` / `ANDROID_KEY_ALIAS` / `ANDROID_KEY_PASSWORD` | Ídem | De tu keystore |
+
+Sin secrets, los releases salen sin firma (el updater desktop no funciona hasta configurar la key;
+los APK sin firmar requieren instalación por sideload con permiso explícito).
+
 ## Comandos útiles
 
 | Comando             | Qué hace                                    |
@@ -68,19 +95,23 @@ npm run tauri build
 
 ```
 src/                     # Frontend React + TypeScript
+src/lib/updater.ts       # Auto-actualización (desktop)
 src-tauri/               # Backend Rust (Tauri), config en src-tauri/tauri.conf.json
-.github/workflows/ci.yml # CI: lint, typecheck, clippy, tests, gitleaks
+src-tauri/gen/android/   # Proyecto Android (versionado, gradle personalizable)
+.github/workflows/ci.yml      # CI: lint, typecheck, clippy, tests, gitleaks
+.github/workflows/release.yml # Releases multiplataforma al pushear tags v*
 DESIGN.md                # Design system y estándares de ingeniería
 ```
 
 ## Roadmap
 
 - [x] Scaffold del proyecto (Tauri 2 + React 19 + TS estricto)
+- [x] Pipeline de builds y releases multiplataforma (Windows/macOS/Linux/Android)
 - [ ] Módulo de lecciones con renderizado KaTeX
 - [ ] Sistema de ejercicios y quizzes con feedback inmediato
 - [ ] Progreso local persistente (SQLite vía Rust)
 - [ ] Gamificación: XP, rachas y ligas
-- [ ] Builds oficiales para Windows, macOS y Linux
+- [ ] Publicación en Play Store y App Store (iOS)
 
 ## IDE recomendado
 

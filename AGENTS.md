@@ -9,7 +9,7 @@
 2. **Bypass de hooks**: prohibido `--no-verify` o desactivar lefthook/gitleaks/commitlint. Si un hook falla, se arregla el problema; nunca se salta el hook.
 3. **Secretos**: prohibido commitear credenciales, tokens, claves ni archivos `.env*`. No añadir allowlists a gitleaks sin aprobación humana.
 4. **Lockfiles**: prohibido editar `package-lock.json` y `src-tauri/Cargo.lock` a mano. Solo se regeneran con `npm install <pkg>` / `cargo update`.
-5. **Archivos generados**: no editar nada bajo `src-tauri/target/`, `src-tauri/gen/`, `node_modules/` ni `dist/`.
+5. **Archivos generados**: no editar nada bajo `src-tauri/target/`, `src-tauri/gen/schemas/`, `node_modules/` ni `dist/`. Excepción: `src-tauri/gen/android/` está versionado a propósito y su Gradle sí se edita cuando la tarea lo pida (ej. firma).
 6. **Alcance mínimo**: hacer solo lo pedido. Sin refactors de paso, sin upgrades de dependencias, sin cambios de configuración no solicitados.
 7. **Verificación obligatoria**: antes de dar una tarea por terminada, correr `npm run check`. Si toca Rust: también `npm run rust:test`.
 8. **Commits**: solo cuando se pida. Formato Conventional Commits (`feat:`, `fix:`, ...). Máx 72 caracteres en el asunto. Nunca commitear todo con `git add .` sin revisar `git status` y `git diff`.
