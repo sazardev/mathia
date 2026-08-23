@@ -7,5 +7,46 @@
       "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
       "enabled": true
     }
+  },
+  "permission": {
+    "bash": {
+      "*": "ask",
+
+      "npm run *": "allow",
+      "npm test*": "allow",
+      "npx tsc*": "allow",
+      "npx vitest*": "allow",
+      "npx vite*": "allow",
+      "npx oxlint*": "allow",
+
+      "cargo check*": "allow",
+      "cargo test*": "allow",
+      "cargo fmt*": "allow",
+      "cargo clippy*": "allow",
+      "cargo build*": "allow",
+
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git show*": "allow",
+      "git branch --list*": "allow",
+
+      "node --version*": "allow",
+      "node -e*": "allow",
+      "ls*": "allow",
+      "find src*": "allow",
+      "grep*": "allow",
+
+      "rm -rf*": "deny",
+      "sudo *": "deny",
+      "git push --force*": "deny",
+      "git push -f*": "deny",
+      "git reset --hard*": "deny",
+      "git clean*": "deny",
+      "git filter-repo*": "deny",
+      "* --no-verify*": "deny",
+      "npm publish*": "deny",
+      "cargo install*": "deny"
+    }
   }
 }

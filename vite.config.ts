@@ -1,11 +1,19 @@
-import { defineConfig } from "vite";
+import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
 const host = process.env.TAURI_DEV_HOST;
+const srcPath = fileURLToPath(new URL("./src", import.meta.url));
 
 // https://vite.dev/config/
 export default defineConfig(async () => ({
   plugins: [react()],
+
+  resolve: {
+    alias: {
+      "@": srcPath,
+    },
+  },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //

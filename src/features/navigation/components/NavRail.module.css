@@ -1,0 +1,29 @@
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition:
+    background-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+}
+
+.item:hover {
+  background-color: var(--color-surface-2);
+  color: var(--color-text-primary);
+}
+
+.active {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-500);
+}

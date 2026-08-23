@@ -1,0 +1,106 @@
+.choice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  background-color: var(--color-surface-0);
+  border-radius: var(--radius-md);
+  box-shadow:
+    inset 0 0 0 2px var(--color-border),
+    0 3px 0 var(--color-border);
+  transition:
+    transform var(--dur-instant) var(--ease-standard),
+    box-shadow var(--dur-instant) var(--ease-standard);
+}
+
+.choice:not(:disabled):hover {
+  box-shadow:
+    inset 0 0 0 2px var(--color-primary-300),
+    0 3px 0 var(--color-border);
+}
+
+.choice:not(:disabled):active {
+  transform: scale(0.98);
+  box-shadow:
+    inset 0 0 0 2px var(--color-primary-300),
+    0 1px 0 var(--color-border);
+}
+
+.choice:disabled {
+  opacity: 0.7;
+}
+
+.selected {
+  box-shadow:
+    inset 0 0 0 2px var(--color-primary-500),
+    0 3px 0 var(--color-primary-300);
+  background-color: var(--color-primary-100);
+}
+
+.correct {
+  animation: pop var(--dur-celebrate) var(--ease-standard);
+  box-shadow:
+    inset 0 0 0 2px var(--color-success-500),
+    0 3px 0 rgba(47, 179, 68, 0.4);
+  background-color: var(--color-success-bg);
+}
+
+.wrong {
+  animation: shake var(--dur-normal) var(--ease-standard);
+  box-shadow:
+    inset 0 0 0 2px var(--color-danger-500),
+    0 3px 0 rgba(229, 72, 77, 0.4);
+  background-color: var(--color-danger-bg);
+}
+
+.index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

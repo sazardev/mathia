@@ -1,0 +1,28 @@
+.map {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--space-1);
+}
+
+.cell {
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-2);
+}
+
+.lvl1 {
+  background-color: var(--color-primary-100);
+}
+
+.lvl2 {
+  background-color: var(--color-primary-300);
+}
+
+.lvl3 {
+  background-color: var(--color-primary-500);
+}

@@ -1,0 +1,89 @@
+:root {
+  --color-primary-100: #dcf5e9;
+  --color-primary-300: #7ddcb0;
+  --color-primary-500: #17a55c;
+  --color-primary-600: #0f7d45;
+  --color-success-500: #2fb344;
+  --color-success-bg: #e4f6e8;
+  --color-danger-500: #e5484d;
+  --color-danger-600: #c73338;
+  --color-danger-bg: #fdebec;
+  --color-warning-500: #ffb224;
+  --color-flame-500: #ff7a1a;
+  --color-xp-500: #8b5cf6;
+  --color-gold-500: #ffc94d;
+
+  --color-surface-0: #ffffff;
+  --color-surface-1: #f5f8f6;
+  --color-surface-2: #eaf0ed;
+  --color-border: #dbe5e0;
+
+  --color-text-primary: #17201c;
+  --color-text-secondary: #52635c;
+  --color-text-muted: #86968f;
+  --color-text-on-primary: #ffffff;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+
+  --font-ui:
+    "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
+    sans-serif;
+  --font-math: "KaTeX_Math", "Times New Roman", serif;
+
+  --text-xs: 12px;
+  --lh-xs: 16px;
+  --text-sm: 14px;
+  --lh-sm: 20px;
+  --text-base: 16px;
+  --lh-base: 24px;
+  --text-lg: 18px;
+  --lh-lg: 28px;
+  --text-xl: 22px;
+  --lh-xl: 30px;
+  --text-2xl: 28px;
+  --lh-2xl: 36px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-full: 999px;
+
+  --shadow-1: 0 1px 3px rgb(23 32 28 / 0.08), 0 1px 2px rgb(23 32 28 / 0.04);
+  --shadow-2: 0 8px 24px rgb(23 32 28 / 0.12);
+
+  --dur-instant: 80ms;
+  --dur-fast: 150ms;
+  --dur-normal: 250ms;
+  --dur-celebrate: 400ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+}
+
+:root[data-theme="dark"] {
+  --color-primary-100: #123527;
+  --color-primary-300: #3f9a6b;
+  --color-primary-500: #22c06b;
+  --color-primary-600: #17854d;
+  --color-success-bg: #14291a;
+  --color-danger-bg: #33181a;
+
+  --color-surface-0: #121715;
+  --color-surface-1: #181f1c;
+  --color-surface-2: #212a26;
+  --color-border: #2c3833;
+
+  --color-text-primary: #ecf2ef;
+  --color-text-secondary: #a3b3ac;
+  --color-text-muted: #6f7f78;
+
+  --shadow-1: 0 1px 3px rgb(0 0 0 / 0.4), 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-2: 0 8px 24px rgb(0 0 0 / 0.5);
+}

@@ -1,0 +1,9 @@
+.loading {
+  color: var(--color-text-secondary);
+  font-family: var(--font-math);
+  font-style: italic;
+}
+
+.math :global(.katex-display) {
+  margin: var(--space-2) 0;
+}

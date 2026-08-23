@@ -11,6 +11,8 @@
     "tauri": "tauri",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
@@ -20,21 +22,25 @@
     "rust:test": "cargo test --manifest-path src-tauri/Cargo.toml",
     "audit": "npm audit --audit-level=moderate && cargo audit 2>/dev/null || true",
     "secrets": "gitleaks detect --config .gitleaks.toml -v",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run rust:fmt && npm run rust:clippy",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test && npm run rust:fmt && npm run rust:clippy",
     "verify": "npm run check && npm run build"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.170.32",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
     "@tauri-apps/plugin-process": "^2.3.1",
     "@tauri-apps/plugin-updater": "^2.10.1",
+    "katex": "^0.18.4",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.2",
     "@commitlint/config-conventional": "^21.2.2",
     "@tauri-apps/cli": "^2",
+    "@types/katex": "^0.16.8",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
@@ -42,6 +48,7 @@
     "oxlint": "^1.79.0",
     "prettier": "^3.9.6",
     "typescript": "~7.0.2",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "vitest": "^4.1.11"
   }
 }

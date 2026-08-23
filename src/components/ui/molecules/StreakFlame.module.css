@@ -1,0 +1,21 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.flameOn {
+  display: inline-flex;
+  color: var(--color-flame-500);
+}
+
+.flameOff {
+  display: inline-flex;
+  color: var(--color-text-muted);
+}
+
+.days {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}

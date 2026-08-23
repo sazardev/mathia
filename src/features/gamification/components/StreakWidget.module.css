@@ -1,0 +1,46 @@
+.widget {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.week {
+  display: flex;
+  justify-content: space-between;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+}
+
+.on {
+  background-color: var(--color-flame-500);
+}
+
+.off {
+  background-color: var(--color-surface-2);
+}
+
+.dayLabel {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}

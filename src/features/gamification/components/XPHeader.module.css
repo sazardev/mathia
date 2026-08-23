@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.level {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-gold-500);
+  color: #5c4300;
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+.barArea {
+  flex: 1;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.labels {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}

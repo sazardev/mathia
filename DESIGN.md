@@ -48,7 +48,9 @@ src/
 │       ├── stores/       # Estado local de feature (zustand/context)
 │       ├── types.ts
 │       └── index.ts      # API pública de la feature (lo único importable)
-├── components/ui/  # Design system atomic (atoms/molecules), sin lógica de dominio
+├── templates/        # Layouts de pantalla (slots, sin datos) — §3.4
+├── pages/            # Una página por ruta: compone template + organismos
+├── components/ui/    # Design system: atoms/ y molecules/, sin lógica de dominio
 ├── lib/            # Utilidades puras y genéricas (math, format, katex)
 └── styles/         # Tokens CSS (custom properties), reset, themes
 ```
@@ -71,9 +73,29 @@ src/
 - Estado compartido con `tauri::State` + `Mutex` fino; bloquear lo mínimo.
 - Todo comando nuevo se registra en `invoke_handler` y declara permisos en `capabilities/`.
 
+### 2.6 Stack y política de dependencias
+
+| Capa | Herramienta | Rol |
+|---|---|---|
+| UI | React 19 | function components + hooks |
+| Lenguaje | TypeScript (strict) | sin `any` (§2.1) |
+| Build | Vite 7 | dev server + chunks por ruta |
+| Shell nativo | Tauri 2 + WRY | ventana, IPC, plugins |
+| Backend | Rust | comandos, SQLite local |
+| Estilos | CSS Modules + `tokens.css` | sin Tailwind/CSS-in-JS |
+| Matemáticas | KaTeX | lazy por lección (§5.5) |
+| Estado | zustand *(planeado)* | stores finos por feature |
+| Validación | zod *(planeado)* | valida DTOs de Tauri en la frontera |
+| Router | **TanStack Router** (aprobado por humano, 2026-08-22) | rutas tipadas, search params con zod, deep links `mathia://` (leyes R-* RULES.md) |
+| Tests | Vitest + Testing Library *(planeado)* · cargo test | unidades + componentes |
+
+Reglas para una dependencia runtime nueva: necesidad real no cubierta por < 30 líneas propias · coste medido < 10 KB gzip salvo justificación escrita · no duplica lo ya en el repo · se aprueba en PR y se registra en esta tabla. Prohibidas: Tailwind/styled-components, librerías de charts (SVG propio, §5), lodash/moment (JS nativo alcanza).
+
 ---
 
 ## 3. Atomic Design
+
+### 3.1 Jerarquía y permisos
 
 Jerarquía obligatoria. Cada capa tiene permisos claros — respetar la dirección de dependencia (↓ only).
 
@@ -85,7 +107,7 @@ Pages → Templates → Organisms → Molecules → Atoms
 |---|---|---|---|
 | **Atom** | `<Button>`, `<Input>`, `<ProgressRing>`, `<KaTeX>` | Recibir props, estilos variantes | Lógica de negocio, fetch, stores, contexto de dominio |
 | **Molecule** | `<AnswerChoice>`, `<StatBadge>`, `<StreakFlame>`, `<ExercisePrompt>` | Componer atoms, micro-estado visual (hover/open) | Fetch, IPC, stores globales |
-| **Organism** | `<LessonPlayer>`, `<XPHeader>`, `<QuizSection>`, `<ReviewSummary>` | Hooks de feature, stores, servicios | Anidar otros organisms arbitrariamente (solo los suyos) |
+| **Organism** | `<LessonPlayer>`, `<XPHeader>`, `<LeagueBoard>` | Hooks de feature, stores, servicios | Anidar otros organisms arbitrariamente (solo los suyos) |
 | **Template** | Layout de pantalla: `<LessonTemplate>`, `<HomeTemplate>` | Grid/estructura/responsive | Conocer datos, solo slots/props |
 | **Page** | Ruta concreta | Componer template + organismos, cargar datos, routing | Lógica de presentación fina |
 
@@ -94,6 +116,168 @@ Reglas:
 2. Prohibido saltarse capas hacia abajo desde Page directo a Atom si existe un Molecule que compone ese caso.
 3. Variantes por props (`variant="primary" | "ghost"`), nunca duplicar componente para variar estilo.
 4. Estilos: CSS Modules + custom properties de `styles/tokens.css`. Sin Tailwind/styled-components (webview perf + bundle). Animaciones: `transform`/`opacity` únicamente.
+
+### 3.2 Fluidez visual (lenguaje de movimiento)
+
+La fluidez es requisito de diseño, no decoración. Tokens definidos en `styles/tokens.css`:
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--dur-instant` | 80 ms | press, hover, focus |
+| `--dur-fast` | 150 ms | feedback de respuesta, toggles |
+| `--dur-normal` | 250 ms | cambio de vista, diálogos |
+| `--dur-celebrate` | 400 ms | fin de sesión, logro desbloqueado |
+| `--ease-standard` | `cubic-bezier(0.2, 0, 0, 1)` | entradas y movimientos default |
+| `--ease-exit` | `cubic-bezier(0.4, 0, 1, 1)` | salidas |
+
+Reglas:
+1. Solo `transform`/`opacity`; jamás animar propiedades de layout.
+2. Press = `scale(0.97)` con `--dur-instant`. Toda superficie interactiva tiene estado visible.
+3. Máximo UN elemento animado durante la respuesta activa (§6).
+4. `prefers-reduced-motion` desactiva toda animación no esencial.
+
+### 3.3 Registro de componentes (doc-first)
+
+Todo componente se registra aquí ANTES de escribirse; ampliar su API exige actualizar el registro en el mismo PR. Estado: ✅ implementado · 🟨 parcial · ⬜ planeado. **Realidad actual: scaffold inicial — todo ⬜.**
+
+Ubicaciones fijas: atoms en `components/ui/atoms/`, molecules en `components/ui/molecules/`, organisms en `features/<dominio>/components/`.
+
+#### UI base — Atoms (`components/ui/atoms/`)
+
+| Componente | Responsabilidad única | Props clave | Estado |
+|---|---|---|---|
+| `Button` | acción primaria táctil | `variant`, `size`, `disabled`, `onPress` | ⬜ |
+| `IconButton` | acción icónica accesible | `icon`, `label`, `variant` | ⬜ |
+| `Input` | entrada texto/número | `value`, `onChange`, `inputMode` | ⬜ |
+| `KaTeX` | render matemático | `tex`, `displayMode` | ⬜ |
+| `Icon` | SVG inline tree-shakeable | `name`, `size` | ⬜ |
+| `Text` | tipografía semántica | `as`, `size`, `weight`, `tone` | ⬜ |
+| `ProgressBar` | progreso lineal | `value`, `max` | ⬜ |
+| `ProgressRing` | progreso circular | `value`, `size` | ⬜ |
+| `Spinner` | carga indeterminada | `size` | ⬜ |
+| `Switch` | toggle binario (ajustes) | `checked`, `onChange` | ⬜ |
+| `Skeleton` | placeholder de carga | `shape` | ⬜ |
+
+#### UI base — Molecules (`components/ui/molecules/`)
+
+| Componente | Responsabilidad única | Props clave | Estado |
+|---|---|---|---|
+| `AnswerChoice` | opción seleccionable de ejercicio | `state: idle/selected/correct/wrong`, `onSelect` | ⬜ |
+| `ExercisePrompt` | enunciado + matemática | `prompt` | ⬜ |
+| `Numpad` | teclado numérico de respuesta | `onDigit`, `onSubmit` | ⬜ |
+| `StatBadge` | métrica compacta | `label`, `value`, `tone` | ⬜ |
+| `StreakFlame` | racha visual | `days`, `activeToday` | ⬜ |
+| `Dialog` | modal propio (nunca `alert` nativo, §4) | `open`, `title`, `onClose` | ⬜ |
+| `Toast` | feedback efímero | `message`, `tone` | ⬜ |
+| `FormField` | label + input + error | `label`, `error` | ⬜ |
+| `EmptyState` | vacío con salida clara | `title`, `action` | ⬜ |
+| `Tabs` | navegación local | `items`, `value`, `onChange` | ⬜ |
+
+#### Organisms — Navegación y app (`features/navigation/components/`)
+
+| Componente | Responsabilidad única | Props clave | Estado |
+|---|---|---|---|
+| `AppShell` | chrome global persistente (header + nav + contenido) | slots | ⬜ |
+| `NavRail` | navegación principal escritorio | `items`, `activeId` | ⬜ |
+| `BottomNav` | navegación principal móvil | `items`, `activeId` | ⬜ |
+
+#### Organisms — Estadística (`features/stats/components/`)
+
+Charts SIEMPRE SVG propio (§2.6); sin librerías.
+
+| Componente | Responsabilidad única | Props clave | Estado |
+|---|---|---|---|
+| `StatsPeriodPicker` | selector de rango temporal | `range`, `onChangeRange` | ⬜ |
+| `MetricSummary` | fila de métricas clave del periodo | `metrics` | ⬜ |
+| `AccuracyChart` | precisión por día | `series` | ⬜ |
+| `WeeklyHeatmap` | actividad semanal | `weeks` | ⬜ |
+| `MasteryMap` | dominio por tema/lección | `topics` | ⬜ |
+| `XpTimeline` | XP acumulado en el tiempo | `points` | ⬜ |
+
+#### Organisms — Lección y ejercicio (`features/lesson/components/`)
+
+| Componente | Responsabilidad única | Props clave | Estado |
+|---|---|---|---|
+| `LessonPlayer` | orquesta la sesión activa | `sessionId` | ⬜ |
+| `ExerciseCard` | ejercicio activo: prompt + respuesta + check | `exercise` | ⬜ |
+| `HintPanel` | pistas progresivas | `hints`, `revealedCount` | ⬜ |
+| `ReviewSummary` | cierre de sesión: aciertos, XP, siguiente paso | `sessionResult` | ⬜ |
+
+#### Organisms — Gamificación (`features/gamification/components/`)
+
+| Componente | Responsabilidad única | Props clave | Estado |
+|---|---|---|---|
+| `XPHeader` | nivel + barra de XP | `level`, `xp`, `nextLevelXp` | ⬜ |
+| `StreakWidget` | calendario de racha | `streak` | ⬜ |
+| `LeagueBoard` | ranking de liga (virtualizado si > 50, §5) | `entries` | ⬜ |
+| `AchievementGrid` | logros | `achievements` | ⬜ |
+
+### 3.4 Layouts (Templates)
+
+Viven en `src/templates/`. Un template define estructura y slots; jamás importa datos ni organismos concretos. Breakpoints definidos como tokens en `styles/tokens.css`.
+
+| Template | Pantalla | Slots |
+|---|---|---|
+| `HomeTemplate` | inicio / ruta de aprendizaje | `header`, `content`, `nav` |
+| `LessonTemplate` | lección fullscreen (§4) | `topbar`, `exercise`, `footerAction` |
+| `StatsTemplate` | estadísticas | `header`, `grid` |
+| `SettingsTemplate` | ajustes | `sections` |
+| `OnboardingTemplate` | primer uso | `step`, `footer` |
+
+Páginas que los componen (`src/pages/`): `HomePage`, `PathPage`, `LessonPage`, `StatsPage`, `AchievementsPage`, `SettingsPage`, `OnboardingPage`.
+
+### 3.5 Acciones (flujo completo)
+
+Toda acción sigue una sola ruta: **UI dispara → store de la feature decide (optimistic) → service invoca comando Tauri → Rust persiste en SQLite**. La UI nunca llama a `invoke` directamente.
+
+| Acción | Disparador | Store dueño | Comando (tentativo) |
+|---|---|---|---|
+| Responder | `ExerciseCard` / tecla Enter | `lessonStore` | `submit_answer` |
+| Saltar ejercicio | botón footer | `lessonStore` | `skip_exercise` |
+| Pedir pista | `HintPanel` | `lessonStore` | `reveal_hint` |
+| Iniciar sesión | CTA en `HomePage` | `lessonStore` | `start_session` |
+| Finalizar sesión | `ReviewSummary` | `lessonStore` | `complete_session` |
+| Continuar donde quedó | arranque de app (§6, cero fricción) | hook `resume` | `get_resume_state` |
+| Cambiar ajuste | `SettingsPage` | `settingsStore` | `set_setting` |
+
+Atajos de teclado (nativo, §4): `Enter` responder/continuar · `1-9` elegir opción · `Esc` cerrar diálogo · `Cmd/Ctrl+,` ajustes.
+
+Regla optimistic: el estado visual cambia en < 100 ms; la persistencia confirma después. Si falla: rollback + `Toast` — jamás catch silencioso (§2.1).
+
+### 3.6 Rutas y deep linking (leyes R-* RULES.md)
+
+Arquitectura: **todo es una ruta consultable** — cero modales de navegación, todo estado de pantalla/sección/dato tiene URL canónica compartible como `mathia://…`.
+
+```
+src/
+├── app/router/          # NÚCLEO: árbol tipado, instancia router, registro historial
+│   ├── routes.tsx       # rutas + schemas zod de search params (R-04)
+│   └── router.ts        # createRouter + suscripción historial (R-06)
+├── lib/deeplink.ts      # parser puro mathia:// ↔ ruta interna (única puerta, R-05)
+├── lib/route-history.ts # ring buffer puro del historial de rutas
+└── pages/               # una pantalla = una ruta = un chunk lazy (R-08)
+```
+
+Mapa canónico de rutas (ampliar AQUÍ antes de crear una pantalla nueva):
+
+| URL interna | Deep link | Page | Search schema (zod) |
+|---|---|---|---|
+| `/` | `mathia://` | `HomePage` | — |
+| `/ruta` | `mathia://ruta` | `PathPage` | — |
+| `/leccion/$lessonId` | `mathia://leccion/{lessonId}` | `LessonPage` | `{ step?: int ≥1 }` |
+| `/stats` | `mathia://stats` | `StatsPage` | `{ range?: '7d'\|'30d'\|'90d' }` |
+| `/logros` | `mathia://logros` | `AchievementsPage` | — |
+| `/ajustes` · `/ajustes/$section` | `mathia://ajustes[/{section}]` | `SettingsPage` | — |
+| `/onboarding` | `mathia://onboarding` | `OnboardingPage` | `{ step?: int ≥1 }` |
+| *(cualquier otra)* | — | 404 enrutable con salida a home | — |
+
+Reglas:
+1. Pantalla/sección nueva ⇒ PRIMERO fila en esta tabla, luego código (doc-first, igual que §3.3).
+2. Secciones/pestañas/diálogos = segmento de ruta (`/ajustes/perfil`), nunca overlay efímero (R-02).
+3. Params SIEMPRE por schema zod en `validateSearch`; inválido = error screen de la ruta con acción de reset (R-04).
+4. Deep links nativos (plugin Tauri, pendiente) alimentan SOLO `parseDeepLink()`; el resto del código ignora cómo llegó el enlace (R-05).
+5. Redirecciones en `beforeLoad` preservando search params; historial registrado vía `router.history.listen` → `routeHistory` (R-06).
+6. El mapa de rutas vive en UN lugar (`app/router/routes.tsx`); jamás duplicar paths en strings sueltas por el repo.
 
 ---
 
@@ -180,6 +364,85 @@ Obligatorio antes de cada release y tras cambios de UI:
   5. perf-profiler   → presupuesto §5 verificado
   6. repetir 3-5 hasta cero bloqueantes y cero mayores
 ```
+
+---
+
+## 8. Convenciones de nombres
+
+| Elemento | Convención | Ejemplo |
+|---|---|---|
+| Componente/archivo de componente | PascalCase | `LessonPlayer.tsx` |
+| Hook | `use` + camelCase | `useSessionProgress.ts` |
+| Store | camelCase + `Store` | `progressStore.ts` |
+| Función utilitaria | camelCase verbo-acción | `normalizeExpression()` |
+| Tipo/interfaz | PascalCase sin prefijos | `ExerciseResult` (no `IExercise`) |
+| Constantes de módulo | SCREAMING_CASE solo para verdaderas constantes | `MAX_PROFILES` |
+| CSS Module | camelCase clases | `.answerChoiceSelected` |
+| Tests | igual al archivo + `.test` | `mastery.test.ts` |
+| Ramas | `<tipo>/<slug-kebab>` | `feat/onboarding-placement-test` |
+| IDs de negocio | prefijo dominio | `BR-M5-1`, `HU-03`, `ACH-04`, `UIAX-007` |
+
+## 9. Design tokens (fuente única: `src/styles/tokens.css`)
+
+```css
+:root {
+  /* Color — semántico, nunca crudo en componentes */
+  --color-primary-500; --color-primary-600;   /* acción principal */
+  --color-success-500; --color-danger-500;
+  --color-surface-0|1|2;                       /* fondo/elevación */
+  --color-text-primary|secondary|muted;
+
+  /* Espaciado — escala 4px */
+  --space-1..10  (4·n px);
+
+  /* Tipografía */
+  --font-ui; --font-math;                       /* KaTeX hereda su propia fuente */
+  --text-xs|sm|base|lg|xl|2xl con line-height emparejado;
+
+  --radius-sm|md|full;
+  --shadow-1|2;
+}
+```
+
+Reglas: los componentes NUNCA hardcodean hex/px fuera de tokens; tema oscuro = segundo bloque `:root[data-theme="dark"]` que reasigna los mismos tokens; añadir un token nuevo exige usarlo ≥2 veces o no entra.
+
+## 10. Plantilla canónica de componente
+
+```tsx
+import styles from "./Button.module.css";
+
+type ButtonProps = {
+  variant?: "primary" | "ghost";
+  disabled?: boolean;
+  onClick?: () => void;
+  children: React.ReactNode;
+};
+
+export function Button({ variant = "primary", ...rest }: ButtonProps) {
+  return <button className={styles[variant]} {...rest} />;
+}
+```
+
+Orden interno obligatorio: tipos → imports → componente → helpers privados. Estados derivados en el render, efectos al final.
+
+## 11. Estrategia de pruebas
+
+| Nivel | Qué cubre | Herramienta |
+|---|---|---|
+| Unit Rust | Toda fórmula/regla BR-* del dominio (mastery, XP, SRS, validaciones) | `cargo test` |
+| Unit TS | Lógica pura de `lib/` y composición de sesión | Vitest |
+| Contrato IPC | DTOs serde ↔ tipos TS espejados | tests Rust + types derivados |
+| E2E manual-agentes | Flujos completos como usuario final | `@ui-e2e-auditor`, `@ui-auditor-max` (§7) |
+| Perf | Presupuestos §5 | `@perf-profiler` |
+
+Regla dura: una regla BR-* sin test es código incompleto (C-08 RULES.md).
+
+## 12. Manejo de errores en UI
+
+1. Errores esperados (validación, DB ocupada): mensaje inline contextual, jamás diálogo.
+2. ErrorBoundary por Page: pantalla de error propia con «Reintentar» + detalle técnico colapsable.
+3. Errores de persistencia: estado conservado en memoria; reintento automático ×1; si falla, aviso claro sin perder datos.
+4. Prohibido: toasts apilados, errores genéricos («Algo salió mal»), console.log como manejo.
 
 ---
 
