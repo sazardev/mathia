@@ -88,6 +88,32 @@ pub fn list_profiles(db: State<'_, Db>) -> MathiaResult<Vec<ProfileDto>> {
 }
 
 #[tauri::command]
+pub fn rename_profile(db: State<'_, Db>, id: String, name: String) -> MathiaResult<()> {
+    let name = name.trim();
+    if name.is_empty() {
+        return Err(crate::errors::MathiaError::InvalidInput(
+            "El nombre no puede estar vacío".into(),
+        ));
+    }
+    if name.chars().count() > 24 {
+        return Err(crate::errors::MathiaError::InvalidInput(
+            "El nombre debe tener máximo 24 caracteres".into(),
+        ));
+    }
+    let conn = db.0.lock().map_err(lock_poisoned)?;
+    let changed = conn.execute(
+        "UPDATE profiles SET name = ?1 WHERE id = ?2",
+        rusqlite::params![name, id],
+    )?;
+    if changed == 0 {
+        return Err(crate::errors::MathiaError::InvalidInput(
+            "Perfil no encontrado".into(),
+        ));
+    }
+    Ok(())
+}
+
+#[tauri::command]
 pub fn delete_profile(db: State<'_, Db>, id: String) -> MathiaResult<()> {
     let conn = db.0.lock().map_err(lock_poisoned)?;
     conn.execute("DELETE FROM profiles WHERE id = ?1", rusqlite::params![id])?;

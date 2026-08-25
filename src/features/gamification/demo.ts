@@ -10,7 +10,7 @@ export const demoStreak: StreakData = {
   currentDays: 12,
   bestDays: 21,
   activeToday: true,
-  lastSevenDays: [true, true, false, true, true, true, true],
+  lastSevenDays: [true, true, true, true, true, true, true],
 };
 
 const NAMES = [

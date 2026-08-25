@@ -9,14 +9,10 @@
   gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
-  background-color: #fff7e6;
+  background-color: var(--color-amber-bg);
   color: var(--color-text-primary);
   font-size: var(--text-sm);
   animation: reveal var(--dur-normal) var(--ease-standard);
-}
-
-:global([data-theme="dark"]) .hint {
-  background-color: #2d2410;
 }
 
 .icon {

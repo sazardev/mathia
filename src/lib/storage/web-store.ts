@@ -151,6 +151,11 @@ export class WebStore implements MathiaStore {
     }));
   }
 
+  async renameProfile(id: string, name: string): Promise<void> {
+    this.db.run("UPDATE profiles SET name = ?1 WHERE id = ?2", [name, id]);
+    this.scheduleSave();
+  }
+
   async deleteProfile(id: string): Promise<void> {
     this.db.run("PRAGMA foreign_keys = ON");
     this.db.run("DELETE FROM profiles WHERE id = ?1", [id]);

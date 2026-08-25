@@ -34,9 +34,10 @@ Hito activo según `SPEC.md` §7: **v0.2 Núcleo de aprendizaje**.
 
 | ID | Pri | Tarea | Estado | Notas |
 |---|---|---|---|---|
-| B-13 | P1 | Corregir errores jsx-a11y preexistentes en atoms/molecules (ProgressRing, ProgressBar, Spinner, Dialog, WeeklyHeatmap, MasteryMap) | pendiente | Ley A-01..A-04 de RULES.md; bloquea QA E2E limpio |
+| B-13 | P1 | Corregir errores jsx-a11y preexistentes en atoms/molecules (ProgressRing, ProgressBar, Spinner, Dialog, WeeklyHeatmap, MasteryMap) | hecho 2026-08-25 | A-01..A-04 RULES.md; aria-labels verificados en todos; WeeklyHeatmap resuelto con `<figure>`+`figcaption` sr-only |
 | B-14 | P2 | Endurecer CSP en `tauri.conf.json` (pendiente histórico) | pendiente | Requiere humano (RULES autonomía) |
 
 ## Registro de decisiones de backlog
 
 - 2026-08-22: backlog inicial creado. Contenido Unidad 1 (8 lecciones, 47 ejercicios) ya embebido y validado; pipeline `/content-lesson` disponible para ampliar unidades.
+- 2026-08-25 (auditoría web-mode): conexión parcial de modalidades — persistencia de ajustes/tema/meta y nombre de perfil funcionando (BR-M8-1: sin botón Guardar); Path/Home consumen currículo real; `rename_profile` añadido al stack completo (TS+Rust). Pendientes para siguiente iteración (v0.2/v0.3): **B-04** (LessonPlayer debe consumir ejercicios reales de `features/content` vía adaptador de los 6 tipos de ejercicio, hoy sigue con demo), **B-07** (persistir sesión/XP — la sesión vive en memoria, nada se guarda a progreso), **B-08** (motor mastery BR-M5 para desbloqueo real en lugar del placeholder lineal), **B-05** (XP/racha reales desde store, hoy demo), perfil múltiple/renombrar desde B-02.

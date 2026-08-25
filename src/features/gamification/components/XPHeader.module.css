@@ -13,7 +13,7 @@
   height: 48px;
   border-radius: var(--radius-full);
   background-color: var(--color-gold-500);
-  color: #5c4300;
+  color: var(--color-amber-text);
   font-size: var(--text-lg);
   font-weight: 800;
 }

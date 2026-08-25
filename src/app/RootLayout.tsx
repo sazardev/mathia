@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { ROUTE_PATHS as ROUTES } from "@/app/router/paths";
 import { AppShell } from "@/features/navigation";
 import type { NavItem } from "@/features/navigation";
+import { applyTheme, loadSettings } from "@/features/settings";
 import styles from "./RootLayout.module.css";
 
 const NAV_ITEMS: NavItem[] = [
@@ -43,6 +45,12 @@ export function RootLayout() {
     select: (state) => state.location.pathname,
   });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    void loadSettings()
+      .then((settings) => applyTheme(settings.theme))
+      .catch(() => applyTheme("light"));
+  }, []);
 
   if (pathname.startsWith("/leccion") || pathname.startsWith("/onboarding")) {
     return <Outlet />;

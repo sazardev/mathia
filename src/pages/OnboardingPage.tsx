@@ -1,22 +1,40 @@
 import { useState } from "react";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Button } from "@/components/ui/atoms/Button";
 import { Icon } from "@/components/ui/atoms/Icon";
 import { Text } from "@/components/ui/atoms/Text";
 import { navigate, ROUTES } from "@/app/router";
+import {
+  DAILY_GOALS,
+  DEFAULT_SETTINGS,
+  saveSettings,
+  type DailyGoal,
+} from "@/features/settings";
 import { OnboardingTemplate } from "@/templates/OnboardingTemplate";
 import styles from "./shared.module.css";
 
-const GOALS = [
-  { id: "casual", label: "Casual", detail: "5 min al día" },
-  { id: "regular", label: "Regular", detail: "10 min al día" },
-  { id: "intensa", label: "Intensa", detail: "20 min al día" },
-] as const;
-
-type GoalId = (typeof GOALS)[number]["id"];
-
 export function OnboardingPage() {
-  const [step, setStep] = useState<1 | 2>(1);
-  const [goal, setGoal] = useState<GoalId | null>(null);
+  const search = useSearch({ from: "/onboarding" });
+  const navigateFn = useNavigate();
+  const step: 1 | 2 = search.step === 2 ? 2 : 1;
+  const [goal, setGoal] = useState<DailyGoal | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const goToStep = (next: 1 | 2) => {
+    void navigateFn({ to: "/onboarding", search: { step: next } });
+  };
+
+  const finish = () => {
+    if (goal === null) return;
+    void (async () => {
+      try {
+        await saveSettings({ ...DEFAULT_SETTINGS, dailyGoal: goal });
+        navigate(ROUTES.home);
+      } catch (cause) {
+        setError(cause instanceof Error ? cause.message : String(cause));
+      }
+    })();
+  };
 
   return (
     <OnboardingTemplate
@@ -39,7 +57,7 @@ export function OnboardingPage() {
               Elige cuánto quieres practicar cada día. Puedes cambiarlo luego.
             </Text>
             <div className={`${styles["stack"]} ${styles["goalsGrid"]}`}>
-              {GOALS.map((option) => (
+              {DAILY_GOALS.map((option) => (
                 <Button
                   key={option.id}
                   variant={goal === option.id ? "primary" : "secondary"}
@@ -49,26 +67,27 @@ export function OnboardingPage() {
                 </Button>
               ))}
             </div>
+            {error !== null && (
+              <Text size="sm" tone="secondary">
+                No se pudo guardar tu meta: {error}. Inténtalo de nuevo.
+              </Text>
+            )}
           </>
         )
       }
       footer={
         <>
           {step === 2 && (
-            <Button variant="secondary" onPress={() => setStep(1)}>
+            <Button variant="secondary" onPress={() => goToStep(1)}>
               Atrás
             </Button>
           )}
           {step === 1 ? (
-            <Button size="lg" onPress={() => setStep(2)}>
+            <Button size="lg" onPress={() => goToStep(2)}>
               Empezar
             </Button>
           ) : (
-            <Button
-              size="lg"
-              disabled={goal === null}
-              onPress={() => navigate(ROUTES.home)}
-            >
+            <Button size="lg" disabled={goal === null} onPress={finish}>
               Listo
             </Button>
           )}

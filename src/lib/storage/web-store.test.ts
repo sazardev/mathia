@@ -56,6 +56,14 @@ describe("WebStore — perfiles y progreso", () => {
     expect(progress[0]?.state).toBe("completed");
   });
 
+  it("renameProfile actualiza el nombre visible del perfil", async () => {
+    const store = await WebStore.openInMemory(SQL);
+    const profile = await store.createProfile("Temporal", 0);
+    await store.renameProfile(profile.id, "Omar");
+    const profiles = await store.listProfiles();
+    expect(profiles[0]?.name).toBe("Omar");
+  });
+
   it("deleteProfile elimina en cascada progreso y settings", async () => {
     const store = await WebStore.openInMemory(SQL);
     const profile = await store.createProfile("Carl", 2);

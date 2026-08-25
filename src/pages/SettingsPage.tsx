@@ -1,26 +1,88 @@
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/atoms/Button";
+import { Input } from "@/components/ui/atoms/Input";
+import { Skeleton } from "@/components/ui/atoms/Skeleton";
 import { Switch } from "@/components/ui/atoms/Switch";
 import { Text } from "@/components/ui/atoms/Text";
 import { FormField } from "@/components/ui/molecules/FormField";
-import { Input } from "@/components/ui/atoms/Input";
 import { Toast } from "@/components/ui/molecules/Toast";
 import { SettingsTemplate } from "@/templates/SettingsTemplate";
+import { getDefaultProfile, getStore } from "@/lib/storage";
+import {
+  applyTheme,
+  loadSettings,
+  saveSettings,
+  type MathiaSettings,
+} from "@/features/settings";
 import styles from "./shared.module.css";
 
+function errorMessage(cause: unknown): string {
+  return cause instanceof Error ? cause.message : String(cause);
+}
+
 export function SettingsPage() {
-  const [name, setName] = useState("Estudiante");
-  const [darkTheme, setDarkTheme] = useState(
-    document.documentElement.dataset["theme"] === "dark",
-  );
-  const [sounds, setSounds] = useState(true);
-  const [saved, setSaved] = useState(false);
+  const [profileName, setProfileName] = useState<string | null>(null);
+  const [settings, setSettings] = useState<MathiaSettings | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!saved) return;
-    const timer = window.setTimeout(() => setSaved(false), 2500);
-    return () => window.clearTimeout(timer);
-  }, [saved]);
+    let alive = true;
+    void (async () => {
+      try {
+        const [loaded, profile] = await Promise.all([
+          loadSettings(),
+          getDefaultProfile(),
+        ]);
+        if (!alive) return;
+        setSettings(loaded);
+        setProfileName(profile.name);
+        applyTheme(loaded.theme);
+      } catch (cause) {
+        if (alive) setError(errorMessage(cause));
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const update = (patch: Partial<MathiaSettings>) => {
+    if (settings === null) return;
+    const next = { ...settings, ...patch };
+    setSettings(next);
+    applyTheme(next.theme);
+    void saveSettings(next).catch((cause: unknown) => {
+      setError(errorMessage(cause));
+    });
+  };
+
+  const saveName = () => {
+    const trimmed = profileName?.trim() ?? "";
+    if (trimmed === "") return;
+    void (async () => {
+      try {
+        const store = await getStore();
+        const profile = await getDefaultProfile();
+        await store.renameProfile(profile.id, trimmed);
+      } catch (cause) {
+        setError(errorMessage(cause));
+      }
+    })();
+  };
+
+  if (settings === null || profileName === null) {
+    return (
+      <SettingsTemplate
+        title={<h1 className={styles["pageTitle"]}>Ajustes</h1>}
+        sections={
+          <div className={styles["stack"]}>
+            <Skeleton shape="rect" />
+            <Skeleton shape="rect" />
+            <Skeleton shape="rect" />
+          </div>
+        }
+      />
+    );
+  }
 
   return (
     <>
@@ -33,7 +95,12 @@ export function SettingsPage() {
                 Perfil
               </Text>
               <FormField label="Nombre">
-                <Input value={name} onChange={setName} />
+                <Input
+                  value={profileName}
+                  onChange={setProfileName}
+                  ariaLabel="Nombre del perfil"
+                  onBlur={saveName}
+                />
               </FormField>
             </section>
 
@@ -46,9 +113,11 @@ export function SettingsPage() {
                   Tema oscuro
                 </Text>
                 <Switch
-                  checked={darkTheme}
+                  checked={settings.theme === "dark"}
                   label="Tema oscuro"
-                  onChange={setDarkTheme}
+                  onChange={(checked) => {
+                    update({ theme: checked ? "dark" : "light" });
+                  }}
                 />
               </div>
             </section>
@@ -62,9 +131,9 @@ export function SettingsPage() {
                   Sonidos de acierto
                 </Text>
                 <Switch
-                  checked={sounds}
+                  checked={settings.sounds}
                   label="Sonidos de acierto"
-                  onChange={setSounds}
+                  onChange={(checked) => update({ sounds: checked })}
                 />
               </div>
             </section>
@@ -79,29 +148,11 @@ export function SettingsPage() {
                 </Text>
               </div>
             </section>
-
-            <Button
-              block
-              onPress={() => {
-                if (darkTheme) {
-                  document.documentElement.dataset["theme"] = "dark";
-                } else {
-                  delete document.documentElement.dataset["theme"];
-                }
-                setSaved(true);
-              }}
-            >
-              Guardar cambios
-            </Button>
           </>
         }
       />
-      {saved && (
-        <Toast
-          message="Ajustes guardados"
-          tone="success"
-          onDismiss={() => setSaved(false)}
-        />
+      {error !== null && (
+        <Toast message={error} tone="error" onDismiss={() => setError(null)} />
       )}
     </>
   );

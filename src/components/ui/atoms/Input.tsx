@@ -9,6 +9,7 @@ type InputProps = {
   ariaLabel?: string;
   invalid?: boolean;
   disabled?: boolean;
+  onBlur?: () => void;
 };
 
 export function Input({
@@ -19,6 +20,7 @@ export function Input({
   ariaLabel,
   invalid = false,
   disabled = false,
+  onBlur,
 }: InputProps) {
   return (
     <input
@@ -30,6 +32,7 @@ export function Input({
       aria-invalid={invalid || undefined}
       disabled={disabled}
       onChange={(event) => onChange(event.currentTarget.value)}
+      onBlur={onBlur}
       className={cn(
         styles["input"],
         invalid && styles["invalid"],

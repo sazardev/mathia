@@ -140,7 +140,7 @@ Reglas:
 
 Todo componente se registra aquí ANTES de escribirse; ampliar su API exige actualizar el registro en el mismo PR. Estado: ✅ implementado · 🟨 parcial · ⬜ planeado. **Realidad actual (2026-08-24): todo el registro implementado ✅ sobre datos demo locales — pendiente conectar a comandos Rust.**
 
-Extensiones de API ya implementadas sobre las props mínimas listadas: `Button` (+`type`, `block`), `Input` (+`ariaLabel`, `invalid`, `placeholder`, `disabled`), `AnswerChoice` (+`indexLabel`, `disabled`), `ExercisePrompt` (+`tex`), `Numpad` (+`onBackspace`, `onSubmit`, `submitLabel`, `submitDisabled`), `Dialog`/`FormField`/`EmptyState` (slot `children`; +`description`, `icon`), `Toast` (+`duration`, `onDismiss`), `StreakFlame` (`activeToday` opcional), `LessonPlayer` (+`onExit`), `AppShell` (+`items`, `activeId`, `onNavigate`).
+Extensiones de API ya implementadas sobre las props mínimas listadas: `Button` (+`type`, `block`), `Input` (+`ariaLabel`, `invalid`, `placeholder`, `disabled`, `onBlur`), `AnswerChoice` (+`indexLabel`, `disabled`), `ExercisePrompt` (+`tex`), `Numpad` (+`onBackspace`, `onSubmit`, `submitLabel`, `submitDisabled`), `Dialog`/`FormField`/`EmptyState` (slot `children`; +`description`, `icon`), `Toast` (+`duration`, `onDismiss`), `StreakFlame` (`activeToday` opcional), `LessonPlayer` (+`onExit`), `AppShell` (+`items`, `activeId`, `onNavigate`).
 
 Ubicaciones fijas: atoms en `components/ui/atoms/`, molecules en `components/ui/molecules/`, organisms en `features/<dominio>/components/`.
 

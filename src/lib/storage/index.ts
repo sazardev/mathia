@@ -8,6 +8,7 @@ import { createTauriStore } from "@/lib/storage/tauri-store";
 import type { MathiaStore } from "@/lib/storage/types";
 import { WebStore, type BinaryPersistence } from "@/lib/storage/web-store";
 
+export { getDefaultProfile } from "@/lib/storage/bootstrap";
 export type {
   MathiaStore,
   Profile,

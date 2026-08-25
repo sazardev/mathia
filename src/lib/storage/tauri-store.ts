@@ -17,6 +17,10 @@ export function createTauriStore(): MathiaStore {
       return invoke<Profile[]>("list_profiles");
     },
 
+    async renameProfile(id, name) {
+      await invoke("rename_profile", { id, name });
+    },
+
     async deleteProfile(id) {
       await invoke("delete_profile", { id });
     },

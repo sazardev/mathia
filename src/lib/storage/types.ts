@@ -29,6 +29,7 @@ export interface MathiaStore {
 
   createProfile(name: string, avatar: number): Promise<Profile>;
   listProfiles(): Promise<Profile[]>;
+  renameProfile(id: string, name: string): Promise<void>;
   deleteProfile(id: string): Promise<void>;
 
   saveProgress(

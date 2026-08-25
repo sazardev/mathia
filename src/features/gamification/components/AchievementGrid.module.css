@@ -16,7 +16,7 @@
 
 .unlocked {
   box-shadow: inset 0 0 0 2px var(--color-gold-500);
-  background-color: #fff8e4;
+  background-color: var(--color-amber-bg);
 }
 
 .icon {
@@ -26,5 +26,5 @@
 }
 
 .unlocked .icon {
-  color: #b8860b;
+  color: var(--color-amber-text);
 }

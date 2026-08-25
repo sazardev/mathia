@@ -1,41 +1,12 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/atoms/Button";
 import { Icon } from "@/components/ui/atoms/Icon";
 import { ProgressRing } from "@/components/ui/atoms/ProgressRing";
+import { Skeleton } from "@/components/ui/atoms/Skeleton";
 import { Text } from "@/components/ui/atoms/Text";
 import { navigate } from "@/app/router";
+import { loadPath, type PathLesson, type PathUnit } from "@/features/progress";
 import styles from "./shared.module.css";
-
-type PathLesson = {
-  id: string;
-  title: string;
-  status: "done" | "current" | "locked";
-};
-
-type Unit = {
-  id: string;
-  title: string;
-  lessons: PathLesson[];
-};
-
-const UNITS: Unit[] = [
-  {
-    id: "u1",
-    title: "Unidad 1 · Operaciones básicas",
-    lessons: [
-      { id: "l1", title: "Sumas y restas", status: "done" },
-      { id: "l2", title: "Tablas de multiplicar", status: "done" },
-      { id: "l3", title: "Divisiones exactas", status: "current" },
-    ],
-  },
-  {
-    id: "u2",
-    title: "Unidad 2 · Fracciones",
-    lessons: [
-      { id: "l4", title: "Qué es una fracción", status: "locked" },
-      { id: "l5", title: "Fracciones equivalentes", status: "locked" },
-    ],
-  },
-];
 
 const badgeByStatus = {
   done: styles["doneBadge"],
@@ -43,15 +14,20 @@ const badgeByStatus = {
   locked: styles["lockedBadge"],
 } as const;
 
+const iconByStatus = {
+  done: "check",
+  current: "play",
+  locked: "lock",
+} as const;
+
 const unitProgress = (lessons: PathLesson[]): number =>
   lessons.filter((lesson) => lesson.status === "done").length /
   Math.max(1, lessons.length);
 
-export function PathPage() {
+function PathUnits({ units }: { units: PathUnit[] }) {
   return (
-    <div className={styles["stack"]}>
-      <h1 className={styles["pageTitle"]}>Tu ruta</h1>
-      {UNITS.map((unit) => (
+    <>
+      {units.map((unit) => (
         <section key={unit.id} className={styles["card"]}>
           <div className={styles["sectionHead"]}>
             <Text as="h2" size="lg" weight="bold">
@@ -71,16 +47,7 @@ export function PathPage() {
               >
                 <span className={styles["row"]}>
                   <span className={badgeByStatus[lesson.status]}>
-                    <Icon
-                      name={
-                        lesson.status === "locked"
-                          ? "lock"
-                          : lesson.status === "done"
-                            ? "check"
-                            : "play"
-                      }
-                      size={16}
-                    />
+                    <Icon name={iconByStatus[lesson.status]} size={16} />
                   </span>
                   <Text as="span" size="sm" weight="semibold">
                     {lesson.title}
@@ -106,6 +73,35 @@ export function PathPage() {
           </div>
         </section>
       ))}
+    </>
+  );
+}
+
+export function PathPage() {
+  const [units, setUnits] = useState<PathUnit[] | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    void (async () => {
+      const loaded = await loadPath();
+      if (alive) setUnits(loaded);
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  return (
+    <div className={styles["stack"]}>
+      <h1 className={styles["pageTitle"]}>Tu ruta</h1>
+      {units === null ? (
+        <>
+          <Skeleton shape="rect" />
+          <Skeleton shape="rect" />
+        </>
+      ) : (
+        <PathUnits units={units} />
+      )}
     </div>
   );
 }

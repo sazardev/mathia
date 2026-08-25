@@ -9,6 +9,8 @@
   --color-danger-600: #c73338;
   --color-danger-bg: #fdebec;
   --color-warning-500: #ffb224;
+  --color-amber-bg: #fff8e4;
+  --color-amber-text: #5c4300;
   --color-flame-500: #ff7a1a;
   --color-xp-500: #8b5cf6;
   --color-gold-500: #ffc94d;
@@ -74,6 +76,8 @@
   --color-primary-600: #17854d;
   --color-success-bg: #14291a;
   --color-danger-bg: #33181a;
+  --color-amber-bg: #2d2712;
+  --color-amber-text: #ffc94d;
 
   --color-surface-0: #121715;
   --color-surface-1: #181f1c;
