@@ -31,6 +31,7 @@ export function Toast({
   return (
     <output
       role={tone === "error" ? "alert" : "status"}
+      aria-atomic="true"
       className={`${styles["toast"]} ${styles[tone]}`}
     >
       <Icon name={toneIcon[tone]} size={18} />

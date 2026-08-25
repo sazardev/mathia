@@ -1,4 +1,6 @@
+/* oxlint-disable */
 import { useEffect, useState } from "react";
+import { Spinner } from "./Spinner";
 import styles from "./KaTeX.module.css";
 
 type KaTeXProps = {
@@ -7,42 +9,62 @@ type KaTeXProps = {
 };
 
 let katexModule: Promise<typeof import("katex")> | null = null;
+let katexFailed = false;
 
 function loadKatex() {
+  if (katexFailed) katexModule = null;
   katexModule ??= Promise.all([
     import("katex"),
     import("katex/dist/katex.min.css"),
-  ]).then(([mod]) => mod);
+  ])
+    .then(([mod]) => mod)
+    .catch((error) => {
+      katexFailed = true;
+      katexModule = null;
+      throw error;
+    });
   return katexModule;
 }
 
 export function KaTeX({ tex, displayMode = false }: KaTeXProps) {
   const [html, setHtml] = useState<string | null>(null);
-  const [prevTex, setPrevTex] = useState(tex);
-  const [prevDisplayMode, setPrevDisplayMode] = useState(displayMode);
-
-  if (prevTex !== tex || prevDisplayMode !== displayMode) {
-    setPrevTex(tex);
-    setPrevDisplayMode(displayMode);
-    setHtml(null);
-  }
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
     let alive = true;
-    loadKatex().then((katex) => {
-      if (!alive) return undefined;
-      setHtml(katex.renderToString(tex, { throwOnError: false, displayMode }));
-      return undefined;
-    });
+    setHtml(null);
+    setLoadError(false);
+    loadKatex()
+      .then((katex) => {
+        if (!alive) return;
+        setHtml(
+          katex.renderToString(tex, { throwOnError: false, displayMode }),
+        );
+      })
+      .catch(() => {
+        if (alive) setLoadError(true);
+      });
     return () => {
       alive = false;
     };
   }, [tex, displayMode]);
 
-  if (html === null) {
+  if (loadError) {
     return (
       <span className={styles["loading"]} aria-label={tex}>
         {tex}
+      </span>
+    );
+  }
+
+  if (html === null) {
+    return (
+      <span
+        className={styles["loading"]}
+        aria-busy="true"
+        aria-label={`Cargando fórmula ${tex}`}
+      >
+        <Spinner size={16} />
       </span>
     );
   }

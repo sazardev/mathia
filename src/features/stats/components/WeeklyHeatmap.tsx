@@ -16,7 +16,7 @@ function levelClass(count: number): string {
 export function WeeklyHeatmap({ weeks }: WeeklyHeatmapProps) {
   const total = weeks.flat().reduce((sum, day) => sum + day.count, 0);
   return (
-    <figure className={styles["map"]}>
+    <figure className={styles["container"]}>
       <figcaption className={styles["srOnly"]}>
         Actividad de las últimas {weeks.length} semanas: {total} ejercicios en
         total.

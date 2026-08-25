@@ -77,8 +77,13 @@ export function continueSession(): void {
   emit(advanced(state));
 }
 
+let lastSkipAt = 0;
+
 export function skipExercise(): void {
   if (state.status !== "active") return;
+  const now = Date.now();
+  if (now - lastSkipAt < 300) return;
+  lastSkipAt = now;
   const withSkip =
     state.lastFeedback === null
       ? { ...state, skippedCount: state.skippedCount + 1 }

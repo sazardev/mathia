@@ -11,6 +11,7 @@ export function StreakFlame({ days, activeToday = true }: StreakFlameProps) {
     <span
       className={styles["wrap"]}
       title={`${days} ${days === 1 ? "día" : "días"} de racha`}
+      aria-label={`${days} ${days === 1 ? "día" : "días"} de racha`}
     >
       <span className={activeToday ? styles["flameOn"] : styles["flameOff"]}>
         <Icon name="flame" size={22} />

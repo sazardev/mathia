@@ -7,5 +7,5 @@ export { DEEP_LINK_SCHEME } from "@/lib/deeplink";
 export type { DeepLink } from "@/lib/deeplink";
 
 export function navigate(to: string): void {
-  void router.navigate({ to });
+  void router.navigate({ to }).catch(() => {});
 }

@@ -1,0 +1,12 @@
+.error {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 640px;
+  margin: var(--space-8) auto;
+  padding: var(--space-6);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-4);
+}

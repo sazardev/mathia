@@ -28,6 +28,16 @@ export function StreakWidget({ streak }: StreakWidgetProps) {
           </Text>
         </div>
       </div>
+      <p className={styles["srOnly"]}>
+        Actividad de los últimos 7 días:{" "}
+        {streak.lastSevenDays
+          .map(
+            (active, index) =>
+              `${DAY_LABELS[index] ?? ""}: ${active ? "activo" : "inactivo"}`,
+          )
+          .join(", ")}
+        .
+      </p>
       <div className={styles["week"]} aria-hidden="true">
         {streak.lastSevenDays.map((active, index) => (
           <span key={`day-${index}`} className={styles["day"]}>

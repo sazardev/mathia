@@ -1,18 +1,50 @@
 export type ExerciseChoice = {
   id: string;
   label: string;
+  feedback?: string | undefined;
 };
 
-export type Exercise = {
+export type BaseExercise = {
   id: string;
-  type: "choice" | "input";
   prompt: string;
-  tex?: string;
-  choices?: ExerciseChoice[];
-  answer: string;
+  tex?: string | undefined;
   hints: string[];
   xp: number;
+  successFeedback?: string | undefined;
 };
+
+export type ChoiceExercise = BaseExercise & {
+  type: "choice";
+  choices: ExerciseChoice[];
+  answer: string;
+  feedbackById?: Record<string, string> | undefined;
+};
+
+export type InputExercise = BaseExercise & {
+  type: "input";
+  answer: string;
+  acceptedAnswers?: string[] | undefined;
+  tolerance?: number | undefined;
+  numericAnswer?: number | undefined;
+  canonicalAnswer?: string | undefined;
+  unit?: string | undefined;
+};
+
+export type OrderStepsExercise = BaseExercise & {
+  type: "order-steps";
+  steps: { id: string; text: string }[];
+  correctOrder: string[];
+  answer: string;
+};
+
+export type MatchPairsExercise = BaseExercise & {
+  type: "match-pairs";
+  pairs: { left: string; right: string }[];
+  answer: string;
+};
+
+export type Exercise =
+  ChoiceExercise | InputExercise | OrderStepsExercise | MatchPairsExercise;
 
 export type AnswerFeedback = "correct" | "wrong";
 

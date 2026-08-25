@@ -7,6 +7,7 @@ type TextProps = {
   weight?: "regular" | "semibold" | "bold";
   tone?: "default" | "secondary" | "muted" | "primary" | "success" | "danger";
   className?: string | undefined;
+  id?: string | undefined;
   children: React.ReactNode;
 };
 
@@ -16,11 +17,13 @@ export function Text({
   weight = "regular",
   tone = "default",
   className,
+  id,
   children,
 }: TextProps) {
   const Tag = as;
   return (
     <Tag
+      id={id}
       className={cn(
         styles["text"],
         styles[size],

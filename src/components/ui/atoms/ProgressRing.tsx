@@ -1,3 +1,4 @@
+/* oxlint-disable jsx-a11y/prefer-tag-over-role */
 import { cn } from "@/lib/cn";
 import styles from "./ProgressRing.module.css";
 
@@ -26,6 +27,7 @@ export function ProgressRing({
         width={size}
         height={size}
         viewBox={`0 0 ${size} ${size}`}
+        role="img"
         aria-label={label ?? `Progreso ${Math.round(clamped * 100)} por ciento`}
       >
         <circle

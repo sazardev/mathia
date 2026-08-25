@@ -8,7 +8,6 @@ import {
   WeeklyHeatmap,
   XpTimeline,
 } from "@/features/stats";
-import type { StatsRange } from "@/features/stats/types";
 import {
   demoAccuracy,
   demoMetrics,
@@ -19,18 +18,10 @@ import {
 import { StatsTemplate } from "@/templates/StatsTemplate";
 import styles from "./shared.module.css";
 
-const RANGES: StatsRange[] = ["7d", "30d", "90d"];
-
-function parseRange(raw: unknown): StatsRange {
-  return typeof raw === "string" && (RANGES as string[]).includes(raw)
-    ? (raw as StatsRange)
-    : "7d";
-}
-
 export function StatsPage() {
-  const search = useSearch({ strict: false });
+  const search = useSearch({ from: "/stats" });
   const navigate = useNavigate();
-  const range = parseRange(search["range"]);
+  const range = search.range ?? "7d";
 
   return (
     <StatsTemplate
@@ -40,10 +31,7 @@ export function StatsPage() {
           <StatsPeriodPicker
             range={range}
             onChangeRange={(next) => {
-              void navigate({
-                to: "/stats",
-                search: { range: next },
-              });
+              void navigate({ to: "/stats", search: { range: next } });
             }}
           />
           <MetricSummary metrics={demoMetrics(range)} />

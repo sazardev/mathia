@@ -23,15 +23,28 @@ export function Tabs({ items, value, onChange }: TabsProps) {
             type="button"
             role="tab"
             aria-selected={active}
+            tabIndex={active ? 0 : -1}
             onClick={() => onChange(item.id)}
             onKeyDown={(event) => {
-              if (event.key !== "ArrowRight" && event.key !== "ArrowLeft")
+              if (
+                event.key !== "ArrowRight" &&
+                event.key !== "ArrowLeft" &&
+                event.key !== "Home" &&
+                event.key !== "End"
+              )
                 return;
-              const direction = event.key === "ArrowRight" ? 1 : -1;
-              const index = items.findIndex((tab) => tab.id === value);
-              if (index === -1) return;
-              const next = (index + direction + items.length) % items.length;
-              const target = items[next];
+              event.preventDefault();
+              let nextIndex: number;
+              const currentIndex = items.findIndex((tab) => tab.id === value);
+              if (currentIndex === -1) return;
+              if (event.key === "Home") nextIndex = 0;
+              else if (event.key === "End") nextIndex = items.length - 1;
+              else {
+                const direction = event.key === "ArrowRight" ? 1 : -1;
+                nextIndex =
+                  (currentIndex + direction + items.length) % items.length;
+              }
+              const target = items[nextIndex];
               if (target !== undefined) onChange(target.id);
             }}
             className={cn(styles["tab"], active && styles["active"])}

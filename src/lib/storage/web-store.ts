@@ -114,6 +114,10 @@ export class WebStore implements MathiaStore {
 
   async flush(): Promise<void> {
     if (this.persistence === null) return;
+    if (this.saveTimer !== null) {
+      clearTimeout(this.saveTimer);
+      this.saveTimer = null;
+    }
     await this.persistence.save(this.db.export());
   }
 

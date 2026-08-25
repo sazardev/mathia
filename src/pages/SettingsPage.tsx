@@ -23,6 +23,7 @@ export function SettingsPage() {
   const [profileName, setProfileName] = useState<string | null>(null);
   const [settings, setSettings] = useState<MathiaSettings | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [nameError, setNameError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     let alive = true;
@@ -57,7 +58,11 @@ export function SettingsPage() {
 
   const saveName = () => {
     const trimmed = profileName?.trim() ?? "";
-    if (trimmed === "") return;
+    if (trimmed === "") {
+      setNameError("El nombre no puede estar vacío");
+      return;
+    }
+    setNameError(undefined);
     void (async () => {
       try {
         const store = await getStore();
@@ -94,11 +99,18 @@ export function SettingsPage() {
               <Text as="h2" size="md" weight="bold">
                 Perfil
               </Text>
-              <FormField label="Nombre">
+              <FormField
+                label="Nombre"
+                {...(nameError !== undefined ? { error: nameError } : {})}
+              >
                 <Input
                   value={profileName}
-                  onChange={setProfileName}
+                  onChange={(value) => {
+                    setProfileName(value);
+                    if (nameError !== undefined) setNameError(undefined);
+                  }}
                   ariaLabel="Nombre del perfil"
+                  autoComplete="name"
                   onBlur={saveName}
                 />
               </FormField>

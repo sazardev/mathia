@@ -1,7 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/atoms/Button";
 import { ProgressBar } from "@/components/ui/atoms/ProgressBar";
 import { Spinner } from "@/components/ui/atoms/Spinner";
+import { EmptyState } from "@/components/ui/molecules/EmptyState";
+import { navigate, ROUTES } from "@/app/router";
+import { getDefaultProfile, getStore } from "@/lib/storage";
 import { fetchSessionExercises } from "../services/sessionService";
 import {
   continueSession,
@@ -25,17 +28,60 @@ type LessonPlayerProps = {
 
 export function LessonPlayer({ sessionId, onExit }: LessonPlayerProps) {
   const session = useSessionState();
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const exercises = await fetchSessionExercises(sessionId);
-      if (alive) startSession(sessionId, exercises);
+      setLoadError(null);
+      try {
+        const exercises = await fetchSessionExercises(sessionId);
+        if (alive) startSession(sessionId, exercises);
+      } catch (cause) {
+        if (alive)
+          setLoadError(cause instanceof Error ? cause.message : String(cause));
+      }
     })();
     return () => {
       alive = false;
     };
   }, [sessionId]);
+
+  useEffect(() => {
+    if (session.status !== "finished") return;
+    void (async () => {
+      try {
+        const store = await getStore();
+        const profile = await getDefaultProfile();
+        const total = session.queue.length;
+        const accuracy = total === 0 ? 1 : session.correctCount / total;
+        const mastery = Math.round(accuracy * 100);
+        await store.saveProgress(profile.id, {
+          lessonId: sessionId,
+          mastery,
+          state: "completed",
+        });
+        await store.flush();
+      } catch {
+        // Persistencia best-effort
+      }
+    })();
+  }, [session.status, session.queue.length, session.correctCount, sessionId]);
+
+  if (loadError !== null) {
+    return (
+      <div className={styles["loading"]}>
+        <EmptyState
+          title="Lección no encontrada"
+          description={loadError}
+          action={{
+            label: "Volver al inicio",
+            onPress: () => navigate(ROUTES.home),
+          }}
+        />
+      </div>
+    );
+  }
 
   if (session.status === "idle") {
     return (
