@@ -18,7 +18,7 @@
 
 **Diferenciales defendibles**:
 1. **Offline-first total**: funciona en cualquier lugar; la red jamás es requisito.
-2. **Privacidad radical**: sin cuenta, sin telemetría, todo local (RB-M9 / RB-11).
+2. **Privacidad radical**: sin cuenta, sin telemetría, todo local (M9 / S-01 RULES.md).
 3. **Gratis y libre**: Apache-2.0, sin paywalls ni vidas que comprar.
 4. **Pedagogía verificada**: práctica espaciada, recuperación activa y distractores que enseñan del error.
 
@@ -42,6 +42,14 @@
 | SRS | Cola de repaso espaciado de fallos | BR-M6-*, F5 |
 | Gamificación | XP, niveles cosméticos, rachas con freeze, ligas simuladas honestas, 8 logros | BR-M7-* |
 | Ajustes | Meta diaria, tema, sonido, idioma es/en | mínimo v1 |
+
+**Semántica de progreso (resumen de producto; las fórmulas viven en BUSINESS-RULES.md)**:
+- El mastery por lección (0–100) es la ÚNICA llave de contenido: umbrales 40/60/100, desbloqueo lineal dentro de la unidad (BR-M2-3) y avance de unidad solo con examen aprobado (BR-M2-1).
+- La sesión diaria mezcla ~70% contenido nuevo / 30% repaso SRS (50/50 si la cola está cargada) en 8–12 ítems terminables en una sentada (F3.1).
+- La meta diaria (20/50/100/200 XP) alimenta el hábito y la racha; cambiarla no reniega el día en curso (BR-M7-10, BR-M7-13).
+- Nivel y ligas son cosméticos u honestos: jamás bloquean contenido ni presionan (BR-M7-9, BR-M7-7).
+- Estadísticas sin inflación: precisión real ponderada, días practicados ≠ racha (BR-M5-4, BR-M5-5).
+- Los 8 logros v1 celebran constancia y dominio real; ACH-04 «Sin red» lee el estado de conexión del SO localmente, sin enviar nada (BR-M7-17).
 
 **Fuera de alcance v1** (explícito): cuentas/sync en la nube, multiusuario online, contenido generado por IA en runtime, móvil, marketplace de cursos, integración con colegios.
 
@@ -117,7 +125,7 @@ Tuteo cercano sin infantilizar. Celebrar logros específicos («Dominaste ecuaci
 |---|---|---|
 | **v0.1 Fundaciones** | Scaffold Tauri 2 + React 19 + TS strict, tooling completo, CI verde, docs maestras | ✅ Hecho |
 | **v0.2 Núcleo de aprendizaje** | M1 perfiles + F1 onboarding + M2 currículo (3 unidades) + M4 ejercicios (MC y numérico) + F3 sesión/lección + KaTeX lazy | Pendiente |
-| **v0.3 Progreso y hábito** | M5 mastery + M6 SRS + F4 exámenes + M7 XP/niveles/rachas/logros + ligas simuladas + ajustes mínimos | Pendiente |
+| **v0.3 Progreso y hábito** | M5 mastery + estadísticas (§4 BUSINESS-RULES) + M6 SRS + F4 exámenes (composición canónica §F4) + M7 XP/niveles/rachas/logros + ligas simuladas + ajustes mínimos | Pendiente |
 | **v0.4 Pulido y distribución** | Presupuestos §5 verificados, auditoría ui-auditor-max limpia, bundles Win/Mac/Linux, landing + SEO §5 | Pendiente |
 | **v1.0 Lanzamiento público** | Contenido completo de álgebra básica, stores listados, updater decidido, CSP endurecida | Pendiente |
 
@@ -136,4 +144,4 @@ Regla: ningún hito avanza con hallazgos bloqueantes/mayores abiertos en su alca
 
 ---
 
-*Fuente de verdad de producto. Actualizar aquí primero, después el código. Última actualización: 2026-08-22.*
+*Fuente de verdad de producto. Actualizar aquí primero, después el código. Última actualización: 2026-08-24.*
