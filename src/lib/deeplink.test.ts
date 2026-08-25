@@ -39,7 +39,9 @@ describe("parseDeepLink", () => {
   });
 
   it("decodifica valores percent-encoded", () => {
-    const result = parseDeepLink("mathia://ajustes/perfil?nombre=Maria%20Lopez");
+    const result = parseDeepLink(
+      "mathia://ajustes/perfil?nombre=Maria%20Lopez",
+    );
 
     expect(result).not.toBeInstanceOf(MathiaError);
     if (result instanceof MathiaError) return;
@@ -85,7 +87,10 @@ describe("buildDeepLink", () => {
     if (built instanceof MathiaError) return;
 
     const parsed = parseDeepLink(built);
-    expect(parsed).toEqual({ path: "/busqueda", search: { q: "fracciones propias" } });
+    expect(parsed).toEqual({
+      path: "/busqueda",
+      search: { q: "fracciones propias" },
+    });
   });
 
   it("rechaza rutas sin slash inicial", () => {

@@ -13,10 +13,7 @@ export function isAnswerCorrect(exercise: Exercise, response: string): boolean {
   return normalizedResponse === normalizedAnswer;
 }
 
-export function computeAccuracy(
-  correct: number,
-  answered: number,
-): number {
+export function computeAccuracy(correct: number, answered: number): number {
   if (answered <= 0) return 1;
   return correct / answered;
 }

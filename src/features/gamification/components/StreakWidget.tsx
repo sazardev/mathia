@@ -14,7 +14,10 @@ export function StreakWidget({ streak }: StreakWidgetProps) {
   return (
     <div className={styles["widget"]}>
       <div className={styles["head"]}>
-        <StreakFlame days={streak.currentDays} activeToday={streak.activeToday} />
+        <StreakFlame
+          days={streak.currentDays}
+          activeToday={streak.activeToday}
+        />
         <div className={styles["texts"]}>
           <Text as="span" size="sm" weight="bold">
             Racha de {streak.currentDays}{" "}
@@ -28,7 +31,12 @@ export function StreakWidget({ streak }: StreakWidgetProps) {
       <div className={styles["week"]} aria-hidden="true">
         {streak.lastSevenDays.map((active, index) => (
           <span key={`day-${index}`} className={styles["day"]}>
-            <span className={cn(styles["dot"], active ? styles["on"] : styles["off"])} />
+            <span
+              className={cn(
+                styles["dot"],
+                active ? styles["on"] : styles["off"],
+              )}
+            />
             <span className={styles["dayLabel"]}>
               {DAY_LABELS[index] ?? ""}
             </span>

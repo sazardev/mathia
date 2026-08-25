@@ -7,10 +7,11 @@
 import type { Concept } from "@/features/content/schema";
 import { CONCEPTS } from "@/features/content/data/concepts";
 import { UNIT1 } from "@/features/content/data/unit1";
+import { UNIT2 } from "@/features/content/data/unit2";
 
 export * from "@/features/content/schema";
 export * from "@/features/content/types";
 
-export const CURRICULUM = [UNIT1];
+export const CURRICULUM = [UNIT1, UNIT2];
 
 export const ALL_CONCEPTS: Concept[] = Object.values(CONCEPTS);

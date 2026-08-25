@@ -8,7 +8,10 @@ describe("createRouteHistory", () => {
     history.record("/", "", 1000);
     history.record("/ruta", "", 2000);
 
-    expect(history.entries().map((entry) => entry.path)).toEqual(["/", "/ruta"]);
+    expect(history.entries().map((entry) => entry.path)).toEqual([
+      "/",
+      "/ruta",
+    ]);
     expect(history.current()?.path).toBe("/ruta");
   });
 
@@ -29,7 +32,10 @@ describe("createRouteHistory", () => {
     history.record("/ruta", "", 2000);
     history.record("/logros", "", 3000);
 
-    expect(history.entries().map((entry) => entry.path)).toEqual(["/ruta", "/logros"]);
+    expect(history.entries().map((entry) => entry.path)).toEqual([
+      "/ruta",
+      "/logros",
+    ]);
   });
 
   it("distingue la misma ruta con distinto search", () => {

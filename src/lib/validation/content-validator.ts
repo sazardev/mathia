@@ -35,15 +35,31 @@ export function validateCurriculum(units: Unit[]): ValidationResult {
 
   for (const unit of units) {
     if (seenUnitIds.has(unit.id)) {
-      errors.push({ ruleId: "SCHEMA", message: `ID de unidad duplicado: ${unit.id}`, unitId: unit.id });
+      errors.push({
+        ruleId: "SCHEMA",
+        message: `ID de unidad duplicado: ${unit.id}`,
+        unitId: unit.id,
+      });
     }
     seenUnitIds.add(unit.id);
     if (unit.lessons.length === 0) {
-      errors.push({ ruleId: "SCHEMA", message: "Unidad sin lecciones", unitId: unit.id });
+      errors.push({
+        ruleId: "SCHEMA",
+        message: "Unidad sin lecciones",
+        unitId: unit.id,
+      });
     }
 
     for (const lesson of unit.lessons) {
-      errors.push(...validateLesson(unit.id, lesson, seenLessonIds, seenExerciseIds, conceptsTaughtSoFar));
+      errors.push(
+        ...validateLesson(
+          unit.id,
+          lesson,
+          seenLessonIds,
+          seenExerciseIds,
+          conceptsTaughtSoFar,
+        ),
+      );
       for (const conceptId of lesson.conceptIdsTaught) {
         conceptsTaughtSoFar.add(conceptId);
       }
@@ -63,11 +79,18 @@ function validateLesson(
   const ctx: ErrorCtx = { unitId, lessonId: lesson.id };
 
   if (seenLessonIds.has(lesson.id)) {
-    errors.push({ ...ctx, ruleId: "SCHEMA", message: `ID de lección duplicado: ${lesson.id}` });
+    errors.push({
+      ...ctx,
+      ruleId: "SCHEMA",
+      message: `ID de lección duplicado: ${lesson.id}`,
+    });
   }
   seenLessonIds.add(lesson.id);
 
-  if (lesson.exercises.length < MIN_EXERCISES || lesson.exercises.length > MAX_EXERCISES) {
+  if (
+    lesson.exercises.length < MIN_EXERCISES ||
+    lesson.exercises.length > MAX_EXERCISES
+  ) {
     errors.push({
       ...ctx,
       ruleId: "CONTENT",
@@ -79,7 +102,11 @@ function validateLesson(
   for (let i = 1; i < lesson.exercises.length; i += 1) {
     const prev = lesson.exercises[i - 1];
     const cur = lesson.exercises[i];
-    if (prev !== undefined && cur !== undefined && cur.difficulty < prev.difficulty) {
+    if (
+      prev !== undefined &&
+      cur !== undefined &&
+      cur.difficulty < prev.difficulty
+    ) {
       errors.push({
         ...ctx,
         ruleId: "M-04",
@@ -93,12 +120,16 @@ function validateLesson(
     errors.push({
       ...ctx,
       ruleId: "M-04",
-      message: "Todos los ejercicios tienen la misma dificultad; falta progresión",
+      message:
+        "Todos los ejercicios tienen la misma dificultad; falta progresión",
     });
   }
 
   // M-03: solo conceptos ya enseñados (los de esta lección cuentan como disponibles).
-  const availableConcepts = new Set([...conceptsTaughtSoFar, ...lesson.conceptIdsTaught]);
+  const availableConcepts = new Set([
+    ...conceptsTaughtSoFar,
+    ...lesson.conceptIdsTaught,
+  ]);
   for (const exercise of lesson.exercises) {
     for (const conceptId of exercise.conceptsUsed) {
       if (!availableConcepts.has(conceptId)) {
@@ -111,7 +142,12 @@ function validateLesson(
       }
     }
     if (seenExerciseIds.has(exercise.id)) {
-      errors.push({ ...ctx, ruleId: "SCHEMA", exerciseId: exercise.id, message: `ID de ejercicio duplicado: ${exercise.id}` });
+      errors.push({
+        ...ctx,
+        ruleId: "SCHEMA",
+        exerciseId: exercise.id,
+        message: `ID de ejercicio duplicado: ${exercise.id}`,
+      });
     }
     seenExerciseIds.add(exercise.id);
     errors.push(...validateExercise(ctx, exercise));
@@ -119,7 +155,10 @@ function validateLesson(
   return errors;
 }
 
-function validateExercise(ctx: ErrorCtx, exercise: Exercise): ValidationError[] {
+function validateExercise(
+  ctx: ErrorCtx,
+  exercise: Exercise,
+): ValidationError[] {
   const base: ErrorCtx = { ...ctx, exerciseId: exercise.id };
   const errors: ValidationError[] = [];
 
@@ -140,7 +179,11 @@ function validateExercise(ctx: ErrorCtx, exercise: Exercise): ValidationError[] 
         });
       }
       if (hint.text.trim() === "") {
-        errors.push({ ...base, ruleId: "CONTENT", message: `Pista ${index + 1} vacía` });
+        errors.push({
+          ...base,
+          ruleId: "CONTENT",
+          message: `Pista ${index + 1} vacía`,
+        });
       }
       errors.push(...checkMathText(base, "U-06", hint.text));
     });
@@ -148,24 +191,42 @@ function validateExercise(ctx: ErrorCtx, exercise: Exercise): ValidationError[] 
 
   switch (exercise.type) {
     case "multiple-choice":
-      errors.push(...validateMultipleChoice(base, exercise.prompt, exercise.choices));
+      errors.push(
+        ...validateMultipleChoice(base, exercise.prompt, exercise.choices),
+      );
       break;
     case "numeric-input":
-      errors.push(...validateNumericInput(base, exercise.prompt, exercise.answer, exercise.derivation, exercise.tolerance));
+      errors.push(
+        ...validateNumericInput(
+          base,
+          exercise.prompt,
+          exercise.answer,
+          exercise.derivation,
+          exercise.tolerance,
+        ),
+      );
       break;
     case "true-false": {
       if (exercise.statement.trim() === "") {
         errors.push({ ...base, ruleId: "CONTENT", message: "Enunciado vacío" });
       }
       if (exercise.explanation.trim() === "") {
-        errors.push({ ...base, ruleId: "M-02", message: "True/false sin explicación: no enseña del error" });
+        errors.push({
+          ...base,
+          ruleId: "M-02",
+          message: "True/false sin explicación: no enseña del error",
+        });
       }
       errors.push(...checkMathText(base, "U-06", exercise.statement));
       break;
     }
     case "expression-input": {
       if (exercise.canonicalAnswer.trim() === "") {
-        errors.push({ ...base, ruleId: "SCHEMA", message: "canonicalAnswer vacía" });
+        errors.push({
+          ...base,
+          ruleId: "SCHEMA",
+          message: "canonicalAnswer vacía",
+        });
       }
       errors.push(...checkMathText(base, "U-06", exercise.prompt));
       errors.push(...checkMathText(base, "U-06", exercise.canonicalAnswer));
@@ -178,17 +239,33 @@ function validateExercise(ctx: ErrorCtx, exercise: Exercise): ValidationError[] 
         exercise.correctOrder.length === exercise.steps.length &&
         exercise.correctOrder.every((id) => stepIds.has(id));
       if (!orderValid) {
-        errors.push({ ...base, ruleId: "SCHEMA", message: "correctOrder no corresponde exactamente a los pasos" });
+        errors.push({
+          ...base,
+          ruleId: "SCHEMA",
+          message: "correctOrder no corresponde exactamente a los pasos",
+        });
       }
       break;
     }
     case "match-pairs": {
       const lefts = new Set(exercise.pairs.map((p) => p.left));
-      if (exercise.pairs.some((p) => p.left.trim() === "" || p.right.trim() === "")) {
-        errors.push({ ...base, ruleId: "SCHEMA", message: "Par vacío en match-pairs" });
+      if (
+        exercise.pairs.some(
+          (p) => p.left.trim() === "" || p.right.trim() === "",
+        )
+      ) {
+        errors.push({
+          ...base,
+          ruleId: "SCHEMA",
+          message: "Par vacío en match-pairs",
+        });
       }
       if (lefts.size !== exercise.pairs.length) {
-        errors.push({ ...base, ruleId: "SCHEMA", message: "Lados izquierdos duplicados en match-pairs" });
+        errors.push({
+          ...base,
+          ruleId: "SCHEMA",
+          message: "Lados izquierdos duplicados en match-pairs",
+        });
       }
       break;
     }
@@ -196,7 +273,11 @@ function validateExercise(ctx: ErrorCtx, exercise: Exercise): ValidationError[] 
   return errors;
 }
 
-function validateMultipleChoice(ctx: ErrorCtx, prompt: string, choices: Choice[]): ValidationError[] {
+function validateMultipleChoice(
+  ctx: ErrorCtx,
+  prompt: string,
+  choices: Choice[],
+): ValidationError[] {
   const errors: ValidationError[] = [];
   if (prompt.trim() === "") {
     errors.push({ ...ctx, ruleId: "CONTENT", message: "Prompt vacío" });
@@ -204,7 +285,11 @@ function validateMultipleChoice(ctx: ErrorCtx, prompt: string, choices: Choice[]
   errors.push(...checkMathText(ctx, "U-06", prompt));
 
   if (choices.length < 3 || choices.length > 6) {
-    errors.push({ ...ctx, ruleId: "CONTENT", message: `multiple-choice requiere 3-6 opciones; tiene ${choices.length}` });
+    errors.push({
+      ...ctx,
+      ruleId: "CONTENT",
+      message: `multiple-choice requiere 3-6 opciones; tiene ${choices.length}`,
+    });
   }
   const correctCount = choices.filter((c) => c.isCorrect).length;
   if (correctCount !== 1) {
@@ -217,7 +302,11 @@ function validateMultipleChoice(ctx: ErrorCtx, prompt: string, choices: Choice[]
   for (const choice of choices) {
     errors.push(...checkMathText(ctx, "U-06", choice.text));
     // BR-M4-4: cada distractor explica el error común que representa.
-    if (!choice.isCorrect && (choice.feedbackIfWrong === undefined || choice.feedbackIfWrong.trim() === "")) {
+    if (
+      !choice.isCorrect &&
+      (choice.feedbackIfWrong === undefined ||
+        choice.feedbackIfWrong.trim() === "")
+    ) {
       errors.push({
         ...ctx,
         ruleId: "BR-M4-4",
@@ -246,7 +335,11 @@ function validateNumericInput(
     return errors;
   }
   if (tolerance !== undefined && tolerance <= 0) {
-    errors.push({ ...ctx, ruleId: "SCHEMA", message: "La tolerancia debe ser > 0" });
+    errors.push({
+      ...ctx,
+      ruleId: "SCHEMA",
+      message: "La tolerancia debe ser > 0",
+    });
   }
   // Verificación programática de la solución: la derivación debe evaluar a la respuesta.
   try {
@@ -261,18 +354,30 @@ function validateNumericInput(
     }
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
-    errors.push({ ...ctx, ruleId: "M-01", message: `Derivación inválida ("${derivation}"): ${detail}` });
+    errors.push({
+      ...ctx,
+      ruleId: "M-01",
+      message: `Derivación inválida ("${derivation}"): ${detail}`,
+    });
   }
   return errors;
 }
 
 /** U-06 sanity KaTeX: número par de '$' y llaves balanceadas dentro de cada span matemático. */
-function checkMathText(ctx: ErrorCtx, ruleId: string, text: string): ValidationError[] {
+function checkMathText(
+  ctx: ErrorCtx,
+  ruleId: string,
+  text: string,
+): ValidationError[] {
   if (!text.includes("$")) return [];
   const errors: ValidationError[] = [];
   const dollarCount = (text.match(/\$/g) ?? []).length;
   if (dollarCount % 2 !== 0) {
-    errors.push({ ...ctx, ruleId, message: `Número impar de "$" en: "${text.slice(0, 60)}..."` });
+    errors.push({
+      ...ctx,
+      ruleId,
+      message: `Número impar de "$" en: "${text.slice(0, 60)}..."`,
+    });
   }
   const spans = text.split("$").filter((_, index) => index % 2 === 1);
   for (const span of spans) {
@@ -283,7 +388,11 @@ function checkMathText(ctx: ErrorCtx, ruleId: string, text: string): ValidationE
       if (depth < 0) break;
     }
     if (depth !== 0) {
-      errors.push({ ...ctx, ruleId, message: `Llaves desbalanceadas en math span: "$${span.slice(0, 40)}"` });
+      errors.push({
+        ...ctx,
+        ruleId,
+        message: `Llaves desbalanceadas en math span: "$${span.slice(0, 40)}"`,
+      });
     }
   }
   return errors;

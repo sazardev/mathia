@@ -19,7 +19,9 @@ function tokenize(input: string): Token[] {
     const match = TOKEN_AT_POS.exec(input.slice(pos));
     const raw = match?.[1];
     if (raw === undefined) {
-      throw new Error(`Símbolo inválido en derivación cerca de: "${input.slice(pos, pos + 12)}"`);
+      throw new Error(
+        `Símbolo inválido en derivación cerca de: "${input.slice(pos, pos + 12)}"`,
+      );
     }
     if (/^\d/.test(raw)) {
       tokens.push({ kind: "num", value: Number(raw) });
@@ -40,7 +42,15 @@ function tokenize(input: string): Token[] {
   return tokens;
 }
 
-const PRECEDENCE: Record<string, number> = { "u-": 4, "u+": 4, "^": 3, "*": 2, "/": 2, "+": 1, "-": 1 };
+const PRECEDENCE: Record<string, number> = {
+  "u-": 4,
+  "u+": 4,
+  "^": 3,
+  "*": 2,
+  "/": 2,
+  "+": 1,
+  "-": 1,
+};
 const RIGHT_ASSOC = new Set(["^", "u-", "u+"]);
 
 function applyOperator(op: string, values: number[]): void {
@@ -52,7 +62,8 @@ function applyOperator(op: string, values: number[]): void {
   }
   const b = values.pop();
   const a = values.pop();
-  if (a === undefined || b === undefined) throw new Error("Operandos faltantes");
+  if (a === undefined || b === undefined)
+    throw new Error("Operandos faltantes");
   switch (op) {
     case "+":
       values.push(a + b);
@@ -96,7 +107,8 @@ export function evaluateArithmetic(expression: string): number {
     } else {
       while (shouldPopTop(operators, token.value)) {
         const popped = operators.pop();
-        if (popped !== undefined && popped !== "(") output.push({ kind: "op", value: popped });
+        if (popped !== undefined && popped !== "(")
+          output.push({ kind: "op", value: popped });
       }
       operators.push(token.value);
     }
@@ -128,7 +140,9 @@ function shouldPopTop(operators: string[], current: string): boolean {
   if (top === undefined || top === "(") return false;
   const topPrec = PRECEDENCE[top] ?? 0;
   const curPrec = PRECEDENCE[current] ?? 0;
-  return topPrec > curPrec || (topPrec === curPrec && !RIGHT_ASSOC.has(current));
+  return (
+    topPrec > curPrec || (topPrec === curPrec && !RIGHT_ASSOC.has(current))
+  );
 }
 
 function popUntilOpen(operators: string[], output: Token[]): void {

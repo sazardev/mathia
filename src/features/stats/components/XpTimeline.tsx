@@ -21,9 +21,7 @@ export function XpTimeline({ points }: XpTimelineProps) {
 
   const linePath = coordinates
     .map((coord, index) =>
-      index === 0
-        ? `M ${coord.x} ${coord.y}`
-        : `L ${coord.x} ${coord.y}`,
+      index === 0 ? `M ${coord.x} ${coord.y}` : `L ${coord.x} ${coord.y}`,
     )
     .join(" ");
 

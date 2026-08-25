@@ -36,10 +36,7 @@ function emit(next: SessionState): void {
   listeners.forEach((listener) => listener());
 }
 
-export function startSession(
-  sessionId: string,
-  exercises: Exercise[],
-): void {
+export function startSession(sessionId: string, exercises: Exercise[]): void {
   emit({
     ...initialState,
     status: exercises.length > 0 ? "active" : "finished",

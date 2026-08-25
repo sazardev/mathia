@@ -34,9 +34,7 @@ export function ExerciseCard({
   };
 
   const canSubmit =
-    exercise.type === "input"
-      ? typedValue.trim() !== ""
-      : selectedId !== null;
+    exercise.type === "input" ? typedValue.trim() !== "" : selectedId !== null;
 
   const handleSubmit = () => {
     if (!answered && !canSubmit) return;

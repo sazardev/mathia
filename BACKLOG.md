@@ -11,13 +11,14 @@ Hito activo según `SPEC.md` §7: **v0.2 Núcleo de aprendizaje**.
 
 | ID | Pri | Tarea | Estado | Notas / criterio de aceptación |
 |---|---|---|---|---|
-| B-01 | P0 | Persistencia Rust: esquema SQLite (perfiles, progreso, SRS) + migraciones versionadas | pendiente | Módulos `db/`; comandos IPC v1 de SPEC §1.4; tests por regla BR-* afectada |
+| B-01 | P0 | Persistencia Rust: esquema SQLite (perfiles, progreso, SRS) + migraciones versionadas | hecho 2026-08-22 | rusqlite bundled; migraciones fuente única en `src/lib/storage/sql/`; comandos IPC perfiles/progreso/settings; 4 tests cargo. Web cubierto por driver sql.js (B-15b) |
 | B-02 | P0 | Pantallas onboarding F1.1–F1.3 (splash, bienvenida, perfil) | pendiente | Atomic design; teclado 100%; estado persiste por paso |
 | B-03 | P0 | Test de nivel adaptativo F1.4 + meta diaria F1.5 + mini-lección F1.6 | pendiente | Usa generadores existentes (`lib/math/generators`); primer ejercicio ≤60 s (HU-01) |
 | B-04 | P0 | LessonPlayer: renderizar lección del currículo embebido con KaTeX lazy | pendiente | Consume `features/content`; presupuestos P-02/P-03 |
 | B-05 | P1 | Home con anillo de meta diaria + racha + acción única «Continuar» | pendiente | BR-M3-1: UNA acción principal |
 | B-06 | P1 | Ciclo de ejercicio: respuesta → validación → feedback por distractor → siguiente | pendiente | Feedback <100 ms (U-07); pistas L1-L3 visibles |
 | B-07 | P2 | Resumen de fin de sesión con XP ganado | pendiente | Guardar ANTES de celebrar (F3.4 crash-safe) |
+| B-15 | P1 | Contenido Unidad 2 «Ecuaciones lineales» (~6 lecciones) vía `/content-lesson` | hecho 2026-08-22 | 6 lecciones/34 ejercicios; 6 conceptos nuevos; 117/117 tests; barrido estructural generalizado a todas las unidades |
 
 ## v0.3 — Progreso y hábito (no empezar hasta cerrar v0.2)
 

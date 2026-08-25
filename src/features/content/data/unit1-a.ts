@@ -33,9 +33,15 @@ export const LESSON_L1: Lesson = {
       difficulty: 1,
       prompt: "¿Cuánto es $-4+9$?",
       hints: [
-        { level: 1, text: "Ubica $-4$ en la recta numérica y avanza 9 pasos hacia la derecha." },
+        {
+          level: 1,
+          text: "Ubica $-4$ en la recta numérica y avanza 9 pasos hacia la derecha.",
+        },
         { level: 2, text: "De 9 restale 4, porque los signos son distintos." },
-        { level: 3, text: "Como el 9 es mayor en valor absoluto y es positivo, el resultado es positivo: $9-4$." },
+        {
+          level: 3,
+          text: "Como el 9 es mayor en valor absoluto y es positivo, el resultado es positivo: $9-4$.",
+        },
       ],
       choices: [
         { id: "a", text: "$5$", isCorrect: true },
@@ -43,19 +49,22 @@ export const LESSON_L1: Lesson = {
           id: "b",
           text: "$-13$",
           isCorrect: false,
-          feedbackIfWrong: "Sumaste valores absolutos como si ambos fueran negativos. Con signos distintos se resta el menor del mayor.",
+          feedbackIfWrong:
+            "Sumaste valores absolutos como si ambos fueran negativos. Con signos distintos se resta el menor del mayor.",
         },
         {
           id: "c",
           text: "$13$",
           isCorrect: false,
-          feedbackIfWrong: "Ignoraste el signo del $-4$. El valor absoluto menor se resta, no se suma.",
+          feedbackIfWrong:
+            "Ignoraste el signo del $-4$. El valor absoluto menor se resta, no se suma.",
         },
         {
           id: "d",
           text: "$-5$",
           isCorrect: false,
-          feedbackIfWrong: "Elegiste el signo del término menor ($-4$). El resultado toma el signo del de mayor valor absoluto (+9).",
+          feedbackIfWrong:
+            "Elegiste el signo del término menor ($-4$). El resultado toma el signo del de mayor valor absoluto (+9).",
         },
       ],
     },
@@ -67,8 +76,14 @@ export const LESSON_L1: Lesson = {
       prompt: "Calcula $8-15$.",
       hints: [
         { level: 1, text: "$8-15$ es lo mismo que $8+(-15)$." },
-        { level: 2, text: "Signos distintos: resta $15-8$ y conserva el signo del mayor." },
-        { level: 3, text: "El mayor en valor absoluto es 15 (negativo), así que el resultado es negativo." },
+        {
+          level: 2,
+          text: "Signos distintos: resta $15-8$ y conserva el signo del mayor.",
+        },
+        {
+          level: 3,
+          text: "El mayor en valor absoluto es 15 (negativo), así que el resultado es negativo.",
+        },
       ],
       answer: -7,
       derivation: "8-(15)",
@@ -78,10 +93,14 @@ export const LESSON_L1: Lesson = {
       id: "u1l1e3",
       conceptsUsed: [intSuma.id],
       difficulty: 2,
-      prompt: "La temperatura es de $-3\\,^\\circ\\mathrm{C}$ y sube $8\\,^\\circ\\mathrm{C}$. ¿Cuál es la temperatura final?",
+      prompt:
+        "La temperatura es de $-3\\,^\\circ\\mathrm{C}$ y sube $8\\,^\\circ\\mathrm{C}$. ¿Cuál es la temperatura final?",
       hints: [
-        { level: 1, text: "\"Subir\" significa sumar: $-3+8$." },
-        { level: 2, text: "Con signos distintos, calcula $8-3$ y usa el signo del mayor." },
+        { level: 1, text: '"Subir" significa sumar: $-3+8$.' },
+        {
+          level: 2,
+          text: "Con signos distintos, calcula $8-3$ y usa el signo del mayor.",
+        },
       ],
       choices: [
         { id: "a", text: "$5\\,^\\circ\\mathrm{C}$", isCorrect: true },
@@ -89,19 +108,22 @@ export const LESSON_L1: Lesson = {
           id: "b",
           text: "$-11\\,^\\circ\\mathrm{C}$",
           isCorrect: false,
-          feedbackIfWrong: "Trataste la subida como bajada: sumar una subida acerca al cero desde negativos, no aleja.",
+          feedbackIfWrong:
+            "Trataste la subida como bajada: sumar una subida acerca al cero desde negativos, no aleja.",
         },
         {
           id: "c",
           text: "$11\\,^\\circ\\mathrm{C}$",
           isCorrect: false,
-          feedbackIfWrong: "Ignoraste que la temperatura inicial era negativa; no puedes sumar valores absolutos aquí.",
+          feedbackIfWrong:
+            "Ignoraste que la temperatura inicial era negativa; no puedes sumar valores absolutos aquí.",
         },
         {
           id: "d",
           text: "$-5\\,^\\circ\\mathrm{C}$",
           isCorrect: false,
-          feedbackIfWrong: "El resultado tomó el signo del número menor. Debe tomar el del de mayor valor absoluto (+8).",
+          feedbackIfWrong:
+            "El resultado tomó el signo del número menor. Debe tomar el del de mayor valor absoluto (+8).",
         },
       ],
     },
@@ -112,10 +134,14 @@ export const LESSON_L1: Lesson = {
       difficulty: 2,
       statement: "Es cierto que $-6-(-10)=4$.",
       answer: true,
-      explanation: "Restar un negativo equivale a sumar su opuesto: $-6+10=4$. Es uno de los errores más comunes creer que queda $-16$ o $-4$.",
+      explanation:
+        "Restar un negativo equivale a sumar su opuesto: $-6+10=4$. Es uno de los errores más comunes creer que queda $-16$ o $-4$.",
       hints: [
         { level: 1, text: "Restar $(-10)$ es lo mismo que sumar $+10$." },
-        { level: 2, text: "$-6+10$: signos distintos, calcula $10-6$ con signo positivo." },
+        {
+          level: 2,
+          text: "$-6+10$: signos distintos, calcula $10-6$ con signo positivo.",
+        },
       ],
     },
     {
@@ -123,7 +149,8 @@ export const LESSON_L1: Lesson = {
       id: "u1l1e5",
       conceptsUsed: [intSuma.id],
       difficulty: 3,
-      prompt: "Un ascensor parte del piso 2, baja 7 pisos y luego sube 4. ¿En qué piso queda?",
+      prompt:
+        "Un ascensor parte del piso 2, baja 7 pisos y luego sube 4. ¿En qué piso queda?",
       hints: [
         { level: 1, text: "Traduce: $2-7+4$." },
         { level: 2, text: "Primero $2-7=-5$; luego súmale 4." },
@@ -138,7 +165,10 @@ export const LESSON_L1: Lesson = {
       difficulty: 3,
       prompt: "Calcula $(-12)-(-20)+(-5)$.",
       hints: [
-        { level: 1, text: "Transforma las restas de negativos: $(-12)+20+(-5)$." },
+        {
+          level: 1,
+          text: "Transforma las restas de negativos: $(-12)+20+(-5)$.",
+        },
         { level: 2, text: "Primero $-12+20=8$; después réstale 5." },
         { level: 3, text: "Resultado parcial 8, luego $8-5=3$." },
       ],
@@ -179,7 +209,10 @@ export const LESSON_L2: Lesson = {
       prompt: "¿Cuánto es $(-3)\\cdot(-6)$?",
       hints: [
         { level: 1, text: "Aplica la regla de signos: mismo signo." },
-        { level: 2, text: "Mismo signo → resultado positivo. Multiplica $3·6$." },
+        {
+          level: 2,
+          text: "Mismo signo → resultado positivo. Multiplica $3·6$.",
+        },
       ],
       choices: [
         { id: "a", text: "$18$", isCorrect: true },
@@ -187,7 +220,8 @@ export const LESSON_L2: Lesson = {
           id: "b",
           text: "$-18$",
           isCorrect: false,
-          feedbackIfWrong: "Invertiste la regla de signos: dos negativos multiplicados dan positivo.",
+          feedbackIfWrong:
+            "Invertiste la regla de signos: dos negativos multiplicados dan positivo.",
         },
         {
           id: "c",
@@ -199,7 +233,8 @@ export const LESSON_L2: Lesson = {
           id: "d",
           text: "$9$",
           isCorrect: false,
-          feedbackIfWrong: "Sumaste valores absolutos. Aquí la operación es multiplicación: $3·6=18$.",
+          feedbackIfWrong:
+            "Sumaste valores absolutos. Aquí la operación es multiplicación: $3·6=18$.",
         },
       ],
     },
@@ -210,7 +245,10 @@ export const LESSON_L2: Lesson = {
       difficulty: 1,
       prompt: "¿Cuánto es $36 \\div (-4)$?",
       hints: [
-        { level: 1, text: "División sigue la misma regla de signos que la multiplicación." },
+        {
+          level: 1,
+          text: "División sigue la misma regla de signos que la multiplicación.",
+        },
         { level: 2, text: "Signos distintos → negativo. Divide $36÷4$." },
       ],
       choices: [
@@ -219,7 +257,8 @@ export const LESSON_L2: Lesson = {
           id: "b",
           text: "$9$",
           isCorrect: false,
-          feedbackIfWrong: "Olvidaste el signo: divisor y dividendo tienen signos distintos, el cociente es negativo.",
+          feedbackIfWrong:
+            "Olvidaste el signo: divisor y dividendo tienen signos distintos, el cociente es negativo.",
         },
         {
           id: "c",
@@ -242,7 +281,10 @@ export const LESSON_L2: Lesson = {
       difficulty: 2,
       prompt: "Calcula $(-5)\\cdot 4 \\cdot (-2)$.",
       hints: [
-        { level: 1, text: "Multiplica de izquierda a derecha aplicando la regla de signos dos veces." },
+        {
+          level: 1,
+          text: "Multiplica de izquierda a derecha aplicando la regla de signos dos veces.",
+        },
         { level: 2, text: "$(−5)·4=−20$; luego $(−20)·(−2)$." },
         { level: 3, text: "Negativo por negativo da positivo: $20·2=40$." },
       ],
@@ -256,8 +298,11 @@ export const LESSON_L2: Lesson = {
       difficulty: 2,
       statement: "El producto de dos enteros negativos siempre es positivo.",
       answer: true,
-      explanation: "Por la regla de signos: mismo signo → producto positivo. Esto vale para cualquier par de negativos.",
-      hints: [{ level: 1, text: "Piensa en $(−2)·(−3)$ y en la regla de signos." }],
+      explanation:
+        "Por la regla de signos: mismo signo → producto positivo. Esto vale para cualquier par de negativos.",
+      hints: [
+        { level: 1, text: "Piensa en $(−2)·(−3)$ y en la regla de signos." },
+      ],
     },
     {
       type: "numeric-input",
@@ -266,7 +311,10 @@ export const LESSON_L2: Lesson = {
       difficulty: 3,
       prompt: "Calcula $((-24)\\div(-3))-(-2)$.",
       hints: [
-        { level: 1, text: "Resuelve primero la división: mismo signo → positivo." },
+        {
+          level: 1,
+          text: "Resuelve primero la división: mismo signo → positivo.",
+        },
         { level: 2, text: "$(−24)÷(−3)=8$; luego $8−(−2)=8+2$." },
       ],
       answer: 10,
@@ -306,7 +354,10 @@ export const LESSON_L3: Lesson = {
       prompt: "¿Cuánto es $2^4$?",
       hints: [
         { level: 1, text: "Desarrolle la multiplicación repetida: $2·2·2·2$." },
-        { level: 2, text: "Ve emparejando: $2·2=4$, otro $2·2=4$, multiplica $4·4$." },
+        {
+          level: 2,
+          text: "Ve emparejando: $2·2=4$, otro $2·2=4$, multiplica $4·4$.",
+        },
       ],
       choices: [
         { id: "a", text: "$16$", isCorrect: true },
@@ -314,13 +365,15 @@ export const LESSON_L3: Lesson = {
           id: "b",
           text: "$8$",
           isCorrect: false,
-          feedbackIfWrong: "Calculaste $2·4$: una potencia NO es el número por el exponente, es multiplicación repetida.",
+          feedbackIfWrong:
+            "Calculaste $2·4$: una potencia NO es el número por el exponente, es multiplicación repetida.",
         },
         {
           id: "c",
           text: "$6$",
           isCorrect: false,
-          feedbackIfWrong: "Sumaste $2+4$. La potencia indica productos, no sumas.",
+          feedbackIfWrong:
+            "Sumaste $2+4$. La potencia indica productos, no sumas.",
         },
         {
           id: "d",
@@ -337,7 +390,10 @@ export const LESSON_L3: Lesson = {
       difficulty: 1,
       prompt: "¿Cuánto es $(-3)^2$?",
       hints: [
-        { level: 1, text: "El paréntesis incluye el signo: multiplica $(−3)·(−3)$." },
+        {
+          level: 1,
+          text: "El paréntesis incluye el signo: multiplica $(−3)·(−3)$.",
+        },
         { level: 2, text: "Negativo por negativo da positivo." },
       ],
       choices: [
@@ -346,19 +402,22 @@ export const LESSON_L3: Lesson = {
           id: "b",
           text: "$-9$",
           isCorrect: false,
-          feedbackIfWrong: "Confundiste $(-3)^2$ con $-(3^2)$. Con paréntesis el signo SÍ se eleva: par da positivo.",
+          feedbackIfWrong:
+            "Confundiste $(-3)^2$ con $-(3^2)$. Con paréntesis el signo SÍ se eleva: par da positivo.",
         },
         {
           id: "c",
           text: "$6$",
           isCorrect: false,
-          feedbackIfWrong: "Multiplicaste $3·2$: la base completa $(−3)$ se multiplica por sí misma, no por el exponente.",
+          feedbackIfWrong:
+            "Multiplicaste $3·2$: la base completa $(−3)$ se multiplica por sí misma, no por el exponente.",
         },
         {
           id: "d",
           text: "$-6$",
           isCorrect: false,
-          feedbackIfWrong: "Mezclaste dos errores: el producto es $3·3$ y el signo par da positivo.",
+          feedbackIfWrong:
+            "Mezclaste dos errores: el producto es $3·3$ y el signo par da positivo.",
         },
       ],
     },
@@ -382,7 +441,10 @@ export const LESSON_L3: Lesson = {
       difficulty: 2,
       prompt: "¿Cuánto es $\\sqrt{81}$?",
       hints: [
-        { level: 1, text: "Busca el número positivo que multiplicado por sí mismo da 81." },
+        {
+          level: 1,
+          text: "Busca el número positivo que multiplicado por sí mismo da 81.",
+        },
         { level: 2, text: "Prueba $9·9$." },
       ],
       choices: [
@@ -391,19 +453,22 @@ export const LESSON_L3: Lesson = {
           id: "b",
           text: "$40{,}5$",
           isCorrect: false,
-          feedbackIfWrong: "Dividiste entre 2: la raíz cuadrada busca un factor repetido, no la mitad.",
+          feedbackIfWrong:
+            "Dividiste entre 2: la raíz cuadrada busca un factor repetido, no la mitad.",
         },
         {
           id: "c",
           text: "$-9$",
           isCorrect: false,
-          feedbackIfWrong: "Aunque $(−9)^2=81$, el símbolo $\\sqrt{\\;}$ representa la raíz principal (positiva).",
+          feedbackIfWrong:
+            "Aunque $(−9)^2=81$, el símbolo $\\sqrt{\\;}$ representa la raíz principal (positiva).",
         },
         {
           id: "d",
           text: "$27$",
           isCorrect: false,
-          feedbackIfWrong: "Eso sería $81÷3$: la raíz cuadrada divide el número en DOS factores iguales, no tres.",
+          feedbackIfWrong:
+            "Eso sería $81÷3$: la raíz cuadrada divide el número en DOS factores iguales, no tres.",
         },
       ],
     },
@@ -414,7 +479,8 @@ export const LESSON_L3: Lesson = {
       difficulty: 3,
       statement: "Es cierto que $(-2)^3=-8$.",
       answer: true,
-      explanation: "Exponente impar sobre base negativa: $(−2)·(−2)·(−2)=4·(−2)=−8$. Impar conserva el signo negativo.",
+      explanation:
+        "Exponente impar sobre base negativa: $(−2)·(−2)·(−2)=4·(−2)=−8$. Impar conserva el signo negativo.",
       hints: [
         { level: 1, text: "Desarrolla $(−2)(−2)(−2)$ paso a paso." },
         { level: 2, text: "Los primeros dos dan $+4$; luego $4·(−2)$." },
@@ -427,7 +493,10 @@ export const LESSON_L3: Lesson = {
       difficulty: 3,
       prompt: "Calcula $\\sqrt{144}+3^2$.",
       hints: [
-        { level: 1, text: "Primero cada potencia/raíz por separado: $\\sqrt{144}$ y $3^2$." },
+        {
+          level: 1,
+          text: "Primero cada potencia/raíz por separado: $\\sqrt{144}$ y $3^2$.",
+        },
         { level: 2, text: "$12+9$." },
       ],
       answer: 21,
@@ -479,7 +548,10 @@ export const LESSON_L4: Lesson = {
       difficulty: 1,
       prompt: "¿Cuánto es $10-2\\cdot 3$?",
       hints: [
-        { level: 1, text: "El producto va primero, aunque esté escrito después." },
+        {
+          level: 1,
+          text: "El producto va primero, aunque esté escrito después.",
+        },
         { level: 2, text: "$2·3=6$; luego $10-6$." },
       ],
       choices: [
@@ -488,7 +560,8 @@ export const LESSON_L4: Lesson = {
           id: "b",
           text: "$24$",
           isCorrect: false,
-          feedbackIfWrong: "Operaste izquierda a derecha: hiciste $(10−2)·3$. La multiplicación tiene prioridad sobre la resta.",
+          feedbackIfWrong:
+            "Operaste izquierda a derecha: hiciste $(10−2)·3$. La multiplicación tiene prioridad sobre la resta.",
         },
         {
           id: "c",
@@ -500,7 +573,8 @@ export const LESSON_L4: Lesson = {
           id: "d",
           text: "$30$",
           isCorrect: false,
-          feedbackIfWrong: "Multiplicaste $10·3$ como si el 10 formara parte del producto; solo el 2 multiplica.",
+          feedbackIfWrong:
+            "Multiplicaste $10·3$ como si el 10 formara parte del producto; solo el 2 multiplica.",
         },
       ],
     },
@@ -511,7 +585,10 @@ export const LESSON_L4: Lesson = {
       difficulty: 2,
       prompt: "Calcula $(2+3)\\cdot 4^2$.",
       hints: [
-        { level: 1, text: "Paréntesis primero; después la potencia; después el producto." },
+        {
+          level: 1,
+          text: "Paréntesis primero; después la potencia; después el producto.",
+        },
         { level: 2, text: "$(2+3)=5$ y $4^2=16$; luego $5·16$." },
       ],
       answer: 80,
@@ -524,7 +601,10 @@ export const LESSON_L4: Lesson = {
       difficulty: 2,
       prompt: "Calcula $100\\div(-5)+2\\cdot(-3)$.",
       hints: [
-        { level: 1, text: "Divisiones y productos primero (con sus reglas de signos)." },
+        {
+          level: 1,
+          text: "Divisiones y productos primero (con sus reglas de signos).",
+        },
         { level: 2, text: "$100÷(−5)=−20$ y $2·(−3)=−6$; luego suma ambos." },
         { level: 3, text: "$−20+(−6)=−26$." },
       ],
@@ -536,9 +616,10 @@ export const LESSON_L4: Lesson = {
       id: "u1l4e5",
       conceptsUsed: [jerarquia.id, potencias.id],
       difficulty: 3,
-      prompt: "¿Qué expresión representa \"al doble de 5, réstale el cubo de 2\"?",
+      prompt:
+        '¿Qué expresión representa "al doble de 5, réstale el cubo de 2"?',
       hints: [
-        { level: 1, text: "\"Doble de 5\" es $2·5$; \"cubo de 2\" es $2^3$." },
+        { level: 1, text: '"Doble de 5" es $2·5$; "cubo de 2" es $2^3$.' },
         { level: 2, text: "«Réstale A a B» se traduce $B-A$." },
         { level: 3, text: "Queda $2·5-2^3$, que vale $10-8$." },
       ],
@@ -548,19 +629,22 @@ export const LESSON_L4: Lesson = {
           id: "b",
           text: "$(2\\cdot 5-2)^3$",
           isCorrect: false,
-          feedbackIfWrong: "Agrupaste todo dentro del cubo: el cubo aplica SOLO al 2, según la frase.",
+          feedbackIfWrong:
+            "Agrupaste todo dentro del cubo: el cubo aplica SOLO al 2, según la frase.",
         },
         {
           id: "c",
           text: "$2\\cdot(5-2)^3$",
           isCorrect: false,
-          feedbackIfWrong: "Agrupaste la resta dentro del paréntesis: la frase no agrupa nada antes del cubo.",
+          feedbackIfWrong:
+            "Agrupaste la resta dentro del paréntesis: la frase no agrupa nada antes del cubo.",
         },
         {
           id: "d",
           text: "$2\\cdot 5+2^3$",
           isCorrect: false,
-          feedbackIfWrong: "Sumaste el cubo en lugar de restarlo: la frase indica una resta ($-$), no una suma.",
+          feedbackIfWrong:
+            "Sumaste el cubo en lugar de restarlo: la frase indica una resta ($-$), no una suma.",
         },
       ],
     },
@@ -569,10 +653,17 @@ export const LESSON_L4: Lesson = {
       id: "u1l4e6",
       conceptsUsed: [jerarquia.id],
       difficulty: 3,
-      statement: "Al resolver $4+6\\div 2$, la división se hace antes que la suma y el resultado es 7.",
+      statement:
+        "Al resolver $4+6\\div 2$, la división se hace antes que la suma y el resultado es 7.",
       answer: true,
-      explanation: "Jerarquía: primero $6÷2=3$, luego $4+3=7$. Hacerlo de izquierda a derecha daría erróneamente 5.",
-      hints: [{ level: 1, text: "División y multiplicación van antes que suma y resta." }],
+      explanation:
+        "Jerarquía: primero $6÷2=3$, luego $4+3=7$. Hacerlo de izquierda a derecha daría erróneamente 5.",
+      hints: [
+        {
+          level: 1,
+          text: "División y multiplicación van antes que suma y resta.",
+        },
+      ],
     },
   ],
 };

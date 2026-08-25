@@ -24,7 +24,9 @@ export function AnswerChoice({
       className={cn(styles["choice"], state !== "idle" && styles[state])}
       aria-pressed={state === "selected"}
     >
-      {indexLabel !== undefined && <span className={styles["index"]}>{indexLabel}</span>}
+      {indexLabel !== undefined && (
+        <span className={styles["index"]}>{indexLabel}</span>
+      )}
       <span className={styles["content"]}>{children}</span>
     </button>
   );

@@ -1,5 +1,4 @@
 import {
-  Outlet,
   createRootRoute,
   createRoute,
   lazyRouteComponent,
@@ -7,26 +6,21 @@ import {
 import { z } from "zod";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { RouteErrorPage } from "@/pages/RouteErrorPage";
+import { RootLayout } from "@/app/RootLayout";
+import { ROUTE_PATHS } from "./paths";
 
-export const ROUTE_PATHS = {
-  home: "/",
-  path: "/ruta",
-  lesson: "/leccion/$lessonId",
-  stats: "/stats",
-  achievements: "/logros",
-  settings: "/ajustes",
-  settingsSection: "/ajustes/$section",
-  onboarding: "/onboarding",
-} as const;
+export { ROUTE_PATHS };
 
-const stepSearch = z.object({ step: z.coerce.number().int().min(1).optional() });
+const stepSearch = z.object({
+  step: z.coerce.number().int().min(1).optional(),
+});
 
 const rangeSearch = z.object({
   range: z.enum(["7d", "30d", "90d"]).optional(),
 });
 
 const rootRoute = createRootRoute({
-  component: () => <Outlet />,
+  component: RootLayout,
   notFoundComponent: NotFoundPage,
   errorComponent: RouteErrorPage,
 });

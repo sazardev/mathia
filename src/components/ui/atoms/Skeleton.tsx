@@ -7,9 +7,6 @@ type SkeletonProps = {
 
 export function Skeleton({ shape = "text" }: SkeletonProps) {
   return (
-    <div
-      className={cn(styles["skeleton"], styles[shape])}
-      aria-hidden="true"
-    />
+    <div className={cn(styles["skeleton"], styles[shape])} aria-hidden="true" />
   );
 }

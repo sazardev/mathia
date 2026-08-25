@@ -62,3 +62,27 @@
   background-color: var(--color-surface-2);
   color: var(--color-text-muted);
 }
+
+.heroFlame {
+  display: inline-flex;
+  color: var(--color-flame-500);
+  animation: flamePulse var(--dur-celebrate) var(--ease-standard);
+}
+
+.goalsGrid {
+  min-width: min(100%, 320px);
+}
+
+@keyframes flamePulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}

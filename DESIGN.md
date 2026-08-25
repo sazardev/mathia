@@ -138,7 +138,9 @@ Reglas:
 
 ### 3.3 Registro de componentes (doc-first)
 
-Todo componente se registra aquí ANTES de escribirse; ampliar su API exige actualizar el registro en el mismo PR. Estado: ✅ implementado · 🟨 parcial · ⬜ planeado. **Realidad actual: scaffold inicial — todo ⬜.**
+Todo componente se registra aquí ANTES de escribirse; ampliar su API exige actualizar el registro en el mismo PR. Estado: ✅ implementado · 🟨 parcial · ⬜ planeado. **Realidad actual (2026-08-24): todo el registro implementado ✅ sobre datos demo locales — pendiente conectar a comandos Rust.**
+
+Extensiones de API ya implementadas sobre las props mínimas listadas: `Button` (+`type`, `block`), `Input` (+`ariaLabel`, `invalid`, `placeholder`, `disabled`), `AnswerChoice` (+`indexLabel`, `disabled`), `ExercisePrompt` (+`tex`), `Numpad` (+`onBackspace`, `onSubmit`, `submitLabel`, `submitDisabled`), `Dialog`/`FormField`/`EmptyState` (slot `children`; +`description`, `icon`), `Toast` (+`duration`, `onDismiss`), `StreakFlame` (`activeToday` opcional), `LessonPlayer` (+`onExit`), `AppShell` (+`items`, `activeId`, `onNavigate`).
 
 Ubicaciones fijas: atoms en `components/ui/atoms/`, molecules en `components/ui/molecules/`, organisms en `features/<dominio>/components/`.
 
@@ -146,40 +148,40 @@ Ubicaciones fijas: atoms en `components/ui/atoms/`, molecules en `components/ui/
 
 | Componente | Responsabilidad única | Props clave | Estado |
 |---|---|---|---|
-| `Button` | acción primaria táctil | `variant`, `size`, `disabled`, `onPress` | ⬜ |
-| `IconButton` | acción icónica accesible | `icon`, `label`, `variant` | ⬜ |
-| `Input` | entrada texto/número | `value`, `onChange`, `inputMode` | ⬜ |
-| `KaTeX` | render matemático | `tex`, `displayMode` | ⬜ |
-| `Icon` | SVG inline tree-shakeable | `name`, `size` | ⬜ |
-| `Text` | tipografía semántica | `as`, `size`, `weight`, `tone` | ⬜ |
-| `ProgressBar` | progreso lineal | `value`, `max` | ⬜ |
-| `ProgressRing` | progreso circular | `value`, `size` | ⬜ |
-| `Spinner` | carga indeterminada | `size` | ⬜ |
-| `Switch` | toggle binario (ajustes) | `checked`, `onChange` | ⬜ |
-| `Skeleton` | placeholder de carga | `shape` | ⬜ |
+| `Button` | acción primaria táctil | `variant`, `size`, `disabled`, `onPress` | ✅ |
+| `IconButton` | acción icónica accesible | `icon`, `label`, `variant` | ✅ |
+| `Input` | entrada texto/número | `value`, `onChange`, `inputMode` | ✅ |
+| `KaTeX` | render matemático | `tex`, `displayMode` | ✅ |
+| `Icon` | SVG inline tree-shakeable | `name`, `size` | ✅ |
+| `Text` | tipografía semántica | `as`, `size`, `weight`, `tone` | ✅ |
+| `ProgressBar` | progreso lineal | `value`, `max` | ✅ |
+| `ProgressRing` | progreso circular | `value`, `size` | ✅ |
+| `Spinner` | carga indeterminada | `size` | ✅ |
+| `Switch` | toggle binario (ajustes) | `checked`, `onChange` | ✅ |
+| `Skeleton` | placeholder de carga | `shape` | ✅ |
 
 #### UI base — Molecules (`components/ui/molecules/`)
 
 | Componente | Responsabilidad única | Props clave | Estado |
 |---|---|---|---|
-| `AnswerChoice` | opción seleccionable de ejercicio | `state: idle/selected/correct/wrong`, `onSelect` | ⬜ |
-| `ExercisePrompt` | enunciado + matemática | `prompt` | ⬜ |
-| `Numpad` | teclado numérico de respuesta | `onDigit`, `onSubmit` | ⬜ |
-| `StatBadge` | métrica compacta | `label`, `value`, `tone` | ⬜ |
-| `StreakFlame` | racha visual | `days`, `activeToday` | ⬜ |
-| `Dialog` | modal propio (nunca `alert` nativo, §4) | `open`, `title`, `onClose` | ⬜ |
-| `Toast` | feedback efímero | `message`, `tone` | ⬜ |
-| `FormField` | label + input + error | `label`, `error` | ⬜ |
-| `EmptyState` | vacío con salida clara | `title`, `action` | ⬜ |
-| `Tabs` | navegación local | `items`, `value`, `onChange` | ⬜ |
+| `AnswerChoice` | opción seleccionable de ejercicio | `state: idle/selected/correct/wrong`, `onSelect` | ✅ |
+| `ExercisePrompt` | enunciado + matemática | `prompt` | ✅ |
+| `Numpad` | teclado numérico de respuesta | `onDigit`, `onSubmit` | ✅ |
+| `StatBadge` | métrica compacta | `label`, `value`, `tone` | ✅ |
+| `StreakFlame` | racha visual | `days`, `activeToday` | ✅ |
+| `Dialog` | modal propio (nunca `alert` nativo, §4) | `open`, `title`, `onClose` | ✅ |
+| `Toast` | feedback efímero | `message`, `tone` | ✅ |
+| `FormField` | label + input + error | `label`, `error` | ✅ |
+| `EmptyState` | vacío con salida clara | `title`, `action` | ✅ |
+| `Tabs` | navegación local | `items`, `value`, `onChange` | ✅ |
 
 #### Organisms — Navegación y app (`features/navigation/components/`)
 
 | Componente | Responsabilidad única | Props clave | Estado |
 |---|---|---|---|
-| `AppShell` | chrome global persistente (header + nav + contenido) | slots | ⬜ |
-| `NavRail` | navegación principal escritorio | `items`, `activeId` | ⬜ |
-| `BottomNav` | navegación principal móvil | `items`, `activeId` | ⬜ |
+| `AppShell` | chrome global persistente (header + nav + contenido) | slots | ✅ |
+| `NavRail` | navegación principal escritorio | `items`, `activeId` | ✅ |
+| `BottomNav` | navegación principal móvil | `items`, `activeId` | ✅ |
 
 #### Organisms — Estadística (`features/stats/components/`)
 
@@ -187,30 +189,30 @@ Charts SIEMPRE SVG propio (§2.6); sin librerías.
 
 | Componente | Responsabilidad única | Props clave | Estado |
 |---|---|---|---|
-| `StatsPeriodPicker` | selector de rango temporal | `range`, `onChangeRange` | ⬜ |
-| `MetricSummary` | fila de métricas clave del periodo | `metrics` | ⬜ |
-| `AccuracyChart` | precisión por día | `series` | ⬜ |
-| `WeeklyHeatmap` | actividad semanal | `weeks` | ⬜ |
-| `MasteryMap` | dominio por tema/lección | `topics` | ⬜ |
-| `XpTimeline` | XP acumulado en el tiempo | `points` | ⬜ |
+| `StatsPeriodPicker` | selector de rango temporal | `range`, `onChangeRange` | ✅ |
+| `MetricSummary` | fila de métricas clave del periodo | `metrics` | ✅ |
+| `AccuracyChart` | precisión por día | `series` | ✅ |
+| `WeeklyHeatmap` | actividad semanal | `weeks` | ✅ |
+| `MasteryMap` | dominio por tema/lección | `topics` | ✅ |
+| `XpTimeline` | XP acumulado en el tiempo | `points` | ✅ |
 
 #### Organisms — Lección y ejercicio (`features/lesson/components/`)
 
 | Componente | Responsabilidad única | Props clave | Estado |
 |---|---|---|---|
-| `LessonPlayer` | orquesta la sesión activa | `sessionId` | ⬜ |
-| `ExerciseCard` | ejercicio activo: prompt + respuesta + check | `exercise` | ⬜ |
-| `HintPanel` | pistas progresivas | `hints`, `revealedCount` | ⬜ |
-| `ReviewSummary` | cierre de sesión: aciertos, XP, siguiente paso | `sessionResult` | ⬜ |
+| `LessonPlayer` | orquesta la sesión activa | `sessionId` | ✅ |
+| `ExerciseCard` | ejercicio activo: prompt + respuesta + check | `exercise` | ✅ |
+| `HintPanel` | pistas progresivas | `hints`, `revealedCount` | ✅ |
+| `ReviewSummary` | cierre de sesión: aciertos, XP, siguiente paso | `sessionResult` | ✅ |
 
 #### Organisms — Gamificación (`features/gamification/components/`)
 
 | Componente | Responsabilidad única | Props clave | Estado |
 |---|---|---|---|
-| `XPHeader` | nivel + barra de XP | `level`, `xp`, `nextLevelXp` | ⬜ |
-| `StreakWidget` | calendario de racha | `streak` | ⬜ |
-| `LeagueBoard` | ranking de liga (virtualizado si > 50, §5) | `entries` | ⬜ |
-| `AchievementGrid` | logros | `achievements` | ⬜ |
+| `XPHeader` | nivel + barra de XP | `level`, `xp`, `nextLevelXp` | ✅ |
+| `StreakWidget` | calendario de racha | `streak` | ✅ |
+| `LeagueBoard` | ranking de liga (virtualizado si > 50, §5) | `entries` | ✅ |
+| `AchievementGrid` | logros | `achievements` | ✅ |
 
 ### 3.4 Layouts (Templates)
 
@@ -446,4 +448,4 @@ Regla dura: una regla BR-* sin test es código incompleto (C-08 RULES.md).
 
 ---
 
-*Última actualización: 2026-08-22 · Mantenedor: equipo Mathia*
+*Última actualización: 2026-08-24 · Mantenedor: equipo Mathia*

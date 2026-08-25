@@ -16,7 +16,7 @@ export function MasteryMap({ topics }: MasteryMapProps) {
     );
   }
   return (
-    <ul  className={styles["list"]}>
+    <ul className={styles["list"]}>
       {topics.map((topic) => (
         <li key={topic.id} className={styles["row"]}>
           <div className={styles["head"]}>

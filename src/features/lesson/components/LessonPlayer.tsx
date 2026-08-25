@@ -28,9 +28,10 @@ export function LessonPlayer({ sessionId, onExit }: LessonPlayerProps) {
 
   useEffect(() => {
     let alive = true;
-    void fetchSessionExercises(sessionId).then((exercises) => {
+    void (async () => {
+      const exercises = await fetchSessionExercises(sessionId);
       if (alive) startSession(sessionId, exercises);
-    });
+    })();
     return () => {
       alive = false;
     };

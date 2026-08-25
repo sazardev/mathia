@@ -64,6 +64,9 @@
 12. ~~Mapear `DifficultyLevel`(1–3) de generadores a rangos de `Difficulty`(1–5) del dominio al montar lecciones (M-04 exige no decreciente).~~ RESUELTO (2026-08-24): bandas canónicas en BR-M2-5 de BUSINESS-RULES.md (generador 1→{1,2} recall · 2→{3,4} apply · 3→5 transfer); el examen usa esas mismas bandas.
 13. Añadir campo `source` a `schema.ts` cuando se importe la primera lección de fuente externa (ver `docs/fuentes-contenido.md`).
 14. **Deep linking nativo** (siguiente iteración routing): añadir `tauri-plugin-deep-link` (Rust + npm), registrar esquema `mathia` en `tauri.conf.json` + capabilities, y alimentar `parseDeepLink()` con el evento del plugin (R-05). Requiere aprobación humana de dependencia.
+15. **Conectar datos demo al backend real** (2026-08-24, sesión UI): `features/{stats,lesson,gamification}/demo.ts` y `lesson/services/sessionService.ts` sirven semilla local; sustituir por comandos Rust (`start_session`, `submit_answer`, stats) y/o generadores reales de `features/content` (Unidad 1-2 ya validadas). LessonPlayer además usa su store propio — migrar a zustand cuando se supere el umbral (>3 stores).
+16. **Persistir tema y ajustes UI**: SettingsPage usa estado local + `data-theme`; cablear a `MathiaStore.set_setting/get_setting` (drivers ya soportan settings) para que sobreviva reload.
+17. **Warnings oxlint `.sort()`** (4 archivos: LeagueBoard, gamification/demo, storage/migrations, math/random.test): migrar a `toSorted()` cuando el target/lib suba a ES2023; hoy ES2020 lo prohíbe.
 
 ## Lecciones aprendidas
 - **Sesiones concurrentes**: antes de «blindar con commit» trabajo propio, hacer `git diff --stat` vs HEAD — la sesión fusionadora pudo ya haber absorbido los cambios; commitear entonces pisaría SU WIP nuevo (caso real: routes.tsx tenía solo el delta ajeno, lo mío ya estaba en `3393e63`).

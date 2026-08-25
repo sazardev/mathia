@@ -55,10 +55,7 @@ export const DEMO_EXERCISES: Exercise[] = [
     prompt: "Despeja x de la ecuación.",
     tex: "x + 9 = 17",
     answer: "8",
-    hints: [
-      "Resta 9 en ambos lados de la igualdad.",
-      "x = 17 − 9.",
-    ],
+    hints: ["Resta 9 en ambos lados de la igualdad.", "x = 17 − 9."],
     xp: 20,
   },
 ];

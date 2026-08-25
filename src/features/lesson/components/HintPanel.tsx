@@ -9,11 +9,7 @@ type HintPanelProps = {
   onReveal: () => void;
 };
 
-export function HintPanel({
-  hints,
-  revealedCount,
-  onReveal,
-}: HintPanelProps) {
+export function HintPanel({ hints, revealedCount, onReveal }: HintPanelProps) {
   if (hints.length === 0) return null;
 
   const remaining = hints.length - revealedCount;

@@ -29,14 +29,30 @@ export function ReviewSummary({
         </span>
       </span>
       <h2 className={styles["title"]}>
-        {sessionResult.correct === sessionResult.total && sessionResult.total > 0
+        {sessionResult.correct === sessionResult.total &&
+        sessionResult.total > 0
           ? "¡Sesión perfecta!"
           : "Sesión completada"}
       </h2>
       <div className={styles["stats"]}>
-        <StatBadge label="Aciertos" value={sessionResult.correct} tone="success" icon="check" />
-        <StatBadge label="Saltados" value={sessionResult.skipped} tone="neutral" icon="chevronRight" />
-        <StatBadge label="XP total" value={sessionResult.xpAwarded} tone="xp" icon="zap" />
+        <StatBadge
+          label="Aciertos"
+          value={sessionResult.correct}
+          tone="success"
+          icon="check"
+        />
+        <StatBadge
+          label="Saltados"
+          value={sessionResult.skipped}
+          tone="neutral"
+          icon="chevronRight"
+        />
+        <StatBadge
+          label="XP total"
+          value={sessionResult.xpAwarded}
+          tone="xp"
+          icon="zap"
+        />
       </div>
       <div className={styles["actions"]}>
         <Button variant="secondary" onPress={onRetry}>

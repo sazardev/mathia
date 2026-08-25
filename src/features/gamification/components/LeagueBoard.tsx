@@ -32,28 +32,26 @@ export function LeagueBoard({ entries }: LeagueBoardProps) {
   }
 
   const virtualized = ranked.length > VIRTUALIZE_THRESHOLD;
-  const visible = virtualized
-    ? ranked.slice(range.start, range.end)
-    : ranked;
+  const visible = virtualized ? ranked.slice(range.start, range.end) : ranked;
 
   return (
     <div
       ref={containerRef}
       onScroll={onScroll}
       className={styles["board"]}
-      style={
-        virtualized
-          ? { height: 480, overflowY: "auto" }
-          : undefined
-      }
+      style={virtualized ? { height: 480, overflowY: "auto" } : undefined}
     >
-      <ul  className={styles["list"]}>
+      <ul className={styles["list"]}>
         {visible.map((entry, offset) => {
           const rank = (virtualized ? range.start : 0) + offset + 1;
           return (
             <li
               key={entry.id}
-              className={entry.isUser ? cn(styles["row"], styles["userRow"]) : styles["row"]}
+              className={
+                entry.isUser
+                  ? cn(styles["row"], styles["userRow"])
+                  : styles["row"]
+              }
               aria-current={entry.isUser ? "true" : undefined}
             >
               <span className={styles["rank"]}>

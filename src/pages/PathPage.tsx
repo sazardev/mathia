@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/atoms/Button";
 import { Icon } from "@/components/ui/atoms/Icon";
 import { ProgressRing } from "@/components/ui/atoms/ProgressRing";
 import { Text } from "@/components/ui/atoms/Text";
-import { navigate, ROUTES } from "@/app/router";
+import { navigate } from "@/app/router";
 import styles from "./shared.module.css";
 
 type PathLesson = {
@@ -96,7 +96,7 @@ export function PathPage() {
                       lesson.status === "current" ? "primary" : "secondary"
                     }
                     size="sm"
-                    onPress={() => navigate(ROUTES.lesson)}
+                    onPress={() => navigate(`/leccion/${lesson.id}`)}
                   >
                     {lesson.status === "done" ? "Repasar" : "Empezar"}
                   </Button>

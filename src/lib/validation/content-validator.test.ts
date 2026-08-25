@@ -7,9 +7,14 @@ import type {
   TrueFalseExercise,
   Unit,
 } from "@/features/content/schema";
-import { validateCurriculum, type ValidationError } from "@/lib/validation/content-validator";
+import {
+  validateCurriculum,
+  type ValidationError,
+} from "@/lib/validation/content-validator";
 
-function mc(overrides: Partial<MultipleChoiceExercise> = {}): MultipleChoiceExercise {
+function mc(
+  overrides: Partial<MultipleChoiceExercise> = {},
+): MultipleChoiceExercise {
   return {
     type: "multiple-choice",
     id: "ex-mc",
@@ -19,14 +24,21 @@ function mc(overrides: Partial<MultipleChoiceExercise> = {}): MultipleChoiceExer
     prompt: "¿Cuánto es $2+2$?",
     choices: [
       { id: "a", text: "$4$", isCorrect: true },
-      { id: "b", text: "$5$", isCorrect: false, feedbackIfWrong: "Sumó uno de más." },
+      {
+        id: "b",
+        text: "$5$",
+        isCorrect: false,
+        feedbackIfWrong: "Sumó uno de más.",
+      },
       { id: "c", text: "$3$", isCorrect: false, feedbackIfWrong: "Restó uno." },
     ],
     ...overrides,
   };
 }
 
-function num(overrides: Partial<NumericInputExercise> = {}): NumericInputExercise {
+function num(
+  overrides: Partial<NumericInputExercise> = {},
+): NumericInputExercise {
   return {
     type: "numeric-input",
     id: "ex-num",
@@ -54,19 +66,30 @@ function tf(overrides: Partial<TrueFalseExercise> = {}): TrueFalseExercise {
   };
 }
 
-function buildLesson(exercises: Exercise[], overrides: Partial<Omit<Lesson, "exercises">> = {}): Lesson {
+function buildLesson(
+  exercises: Exercise[],
+  overrides: Partial<Omit<Lesson, "exercises">> = {},
+): Lesson {
   return {
     id: "l1",
     title: "Lección de prueba",
     conceptIdsTaught: ["c-a"],
-    intro: { hook: "h", intuition: ["i"], definition: "d", workedExamples: ["w"] },
+    intro: {
+      hook: "h",
+      intuition: ["i"],
+      definition: "d",
+      workedExamples: ["w"],
+    },
     commonMistakes: ["error común"],
     exercises,
     ...overrides,
   };
 }
 
-function buildUnit(lessons: Lesson[], overrides: Partial<Omit<Unit, "lessons">> = {}): Unit {
+function buildUnit(
+  lessons: Lesson[],
+  overrides: Partial<Omit<Unit, "lessons">> = {},
+): Unit {
   return {
     id: "u1",
     number: 1,
@@ -94,7 +117,9 @@ function ruleIds(errors: ValidationError[]): string[] {
 
 describe("validateCurriculum — casos válidos", () => {
   it("acepta un currículo bien formado", () => {
-    const result = validateCurriculum([buildUnit([buildLesson(validExercises())])]);
+    const result = validateCurriculum([
+      buildUnit([buildLesson(validExercises())]),
+    ]);
     expect(result.ok).toBe(true);
     expect(result.errors).toEqual([]);
   });
@@ -109,13 +134,17 @@ describe("validateCurriculum — estructura y esquema", () => {
 
   it("rechaza IDs duplicados de lección", () => {
     const lesson = buildLesson(validExercises());
-    const result = validateCurriculum([buildUnit([lesson, { ...lesson, exercises: validExercises() }])]);
+    const result = validateCurriculum([
+      buildUnit([lesson, { ...lesson, exercises: validExercises() }]),
+    ]);
     expect(ruleIds(result.errors)).toContain("SCHEMA");
   });
 
   it("rechaza IDs duplicados de ejercicio", () => {
     const exercises = validExercises();
-    const result = validateCurriculum([buildUnit([buildLesson([...exercises.slice(0, 4), exercises[0]!])])]);
+    const result = validateCurriculum([
+      buildUnit([buildLesson([...exercises.slice(0, 4), exercises[0]!])]),
+    ]);
     expect(ruleIds(result.errors)).toContain("SCHEMA");
   });
 });
@@ -123,7 +152,12 @@ describe("validateCurriculum — estructura y esquema", () => {
 describe("validateCurriculum — reglas pedagógicas", () => {
   it("M-04: rechaza dificultad decreciente", () => {
     const result = validateCurriculum([
-      buildUnit([buildLesson([...validExercises().slice(0, 4), mc({ id: "e5", difficulty: 1 })])]),
+      buildUnit([
+        buildLesson([
+          ...validExercises().slice(0, 4),
+          mc({ id: "e5", difficulty: 1 }),
+        ]),
+      ]),
     ]);
     expect(ruleIds(result.errors)).toContain("M-04");
   });
@@ -142,7 +176,10 @@ describe("validateCurriculum — reglas pedagógicas", () => {
   });
 
   it("M-03: rechaza conceptos aún no enseñados", () => {
-    const exercises = [...validExercises().slice(0, 4), mc({ id: "e5", difficulty: 4, conceptsUsed: ["c-futuro"] })];
+    const exercises = [
+      ...validExercises().slice(0, 4),
+      mc({ id: "e5", difficulty: 4, conceptsUsed: ["c-futuro"] }),
+    ];
     const result = validateCurriculum([buildUnit([buildLesson(exercises)])]);
     expect(ruleIds(result.errors)).toContain("M-03");
   });
@@ -156,7 +193,9 @@ describe("validateCurriculum — reglas pedagógicas", () => {
         { id: "c", text: "$3$", isCorrect: false, feedbackIfWrong: "ok" },
       ],
     });
-    const result = validateCurriculum([buildUnit([buildLesson([badMc, ...validExercises().slice(1)])])]);
+    const result = validateCurriculum([
+      buildUnit([buildLesson([badMc, ...validExercises().slice(1)])]),
+    ]);
     expect(ruleIds(result.errors)).toContain("BR-M4-4");
   });
 
@@ -169,7 +208,9 @@ describe("validateCurriculum — reglas pedagógicas", () => {
         { id: "c", text: "$3$", isCorrect: false, feedbackIfWrong: "ok" },
       ],
     });
-    const result = validateCurriculum([buildUnit([buildLesson([twoCorrect, ...validExercises().slice(1)])])]);
+    const result = validateCurriculum([
+      buildUnit([buildLesson([twoCorrect, ...validExercises().slice(1)])]),
+    ]);
     expect(ruleIds(result.errors)).toContain("BR-M4-4");
   });
 
@@ -178,13 +219,19 @@ describe("validateCurriculum — reglas pedagógicas", () => {
       { level: 2 as const, text: "salta al nivel 2" },
       { level: 1 as const, text: "nivel tarde" },
     ];
-    const exercises = [...validExercises().slice(0, 4), mc({ id: "e5", difficulty: 4, hints: badHints })];
+    const exercises = [
+      ...validExercises().slice(0, 4),
+      mc({ id: "e5", difficulty: 4, hints: badHints }),
+    ];
     const result = validateCurriculum([buildUnit([buildLesson(exercises)])]);
     expect(ruleIds(result.errors)).toContain("BR-M4-1");
   });
 
   it("M-02: rechaza true/false sin explicación", () => {
-    const exercises = [...validExercises().slice(0, 4), tf({ id: "e5", difficulty: 4, explanation: "   " })];
+    const exercises = [
+      ...validExercises().slice(0, 4),
+      tf({ id: "e5", difficulty: 4, explanation: "   " }),
+    ];
     const result = validateCurriculum([buildUnit([buildLesson(exercises)])]);
     expect(ruleIds(result.errors)).toContain("M-02");
   });
@@ -192,19 +239,28 @@ describe("validateCurriculum — reglas pedagógicas", () => {
 
 describe("validateCurriculum — verificación matemática y notación", () => {
   it("M-01: rechaza derivación que no coincide con la respuesta", () => {
-    const exercises = [...validExercises().slice(0, 4), num({ id: "e5", difficulty: 4, answer: 99, derivation: "2+2" })];
+    const exercises = [
+      ...validExercises().slice(0, 4),
+      num({ id: "e5", difficulty: 4, answer: 99, derivation: "2+2" }),
+    ];
     const result = validateCurriculum([buildUnit([buildLesson(exercises)])]);
     expect(ruleIds(result.errors)).toContain("M-01");
   });
 
   it("M-01: rechaza derivación sintácticamente inválida", () => {
-    const exercises = [...validExercises().slice(0, 4), num({ id: "e5", difficulty: 4, derivation: "2+@3" })];
+    const exercises = [
+      ...validExercises().slice(0, 4),
+      num({ id: "e5", difficulty: 4, derivation: "2+@3" }),
+    ];
     const result = validateCurriculum([buildUnit([buildLesson(exercises)])]);
     expect(ruleIds(result.errors)).toContain("M-01");
   });
 
   it("U-06: rechaza número impar de $ en textos matemáticos", () => {
-    const exercises = [...validExercises().slice(0, 4), mc({ id: "e5", difficulty: 4, prompt: "¿Cuánto es $2+2?" })];
+    const exercises = [
+      ...validExercises().slice(0, 4),
+      mc({ id: "e5", difficulty: 4, prompt: "¿Cuánto es $2+2?" }),
+    ];
     const result = validateCurriculum([buildUnit([buildLesson(exercises)])]);
     expect(ruleIds(result.errors)).toContain("U-06");
   });
@@ -212,7 +268,11 @@ describe("validateCurriculum — verificación matemática y notación", () => {
   it("U-06: rechaza llaves desbalanceadas dentro de spans matemáticos", () => {
     const exercises = [
       ...validExercises().slice(0, 4),
-      mc({ id: "e5", difficulty: 4, prompt: "Resuelve $\\frac{2}{4$ usando fracciones." }),
+      mc({
+        id: "e5",
+        difficulty: 4,
+        prompt: "Resuelve $\\frac{2}{4$ usando fracciones.",
+      }),
     ];
     const result = validateCurriculum([buildUnit([buildLesson(exercises)])]);
     expect(ruleIds(result.errors)).toContain("U-06");

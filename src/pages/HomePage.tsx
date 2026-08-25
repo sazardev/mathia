@@ -29,7 +29,10 @@ export function HomePage() {
             <Text size="sm" tone="secondary">
               Lección: Sumas y restas · 4 ejercicios pendientes
             </Text>
-            <Button size="lg" onPress={() => navigate(ROUTES.lesson)}>
+            <Button
+              size="lg"
+              onPress={() => navigate("/leccion/divisiones-exactas")}
+            >
               Continuar lección
             </Button>
           </div>

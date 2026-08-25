@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Text } from "@/components/ui/atoms/Text";
 import {
   AccuracyChart,
@@ -8,6 +8,7 @@ import {
   WeeklyHeatmap,
   XpTimeline,
 } from "@/features/stats";
+import type { StatsRange } from "@/features/stats/types";
 import {
   demoAccuracy,
   demoMetrics,
@@ -15,19 +16,36 @@ import {
   demoWeeks,
   demoXpTimeline,
 } from "@/features/stats/demo";
-import type { StatsRange } from "@/features/stats/types";
 import { StatsTemplate } from "@/templates/StatsTemplate";
 import styles from "./shared.module.css";
 
+const RANGES: StatsRange[] = ["7d", "30d", "90d"];
+
+function parseRange(raw: unknown): StatsRange {
+  return typeof raw === "string" && (RANGES as string[]).includes(raw)
+    ? (raw as StatsRange)
+    : "7d";
+}
+
 export function StatsPage() {
-  const [range, setRange] = useState<StatsRange>("7d");
+  const search = useSearch({ strict: false });
+  const navigate = useNavigate();
+  const range = parseRange(search["range"]);
 
   return (
     <StatsTemplate
       header={
         <>
           <h1 className={styles["pageTitle"]}>Estadísticas</h1>
-          <StatsPeriodPicker range={range} onChangeRange={setRange} />
+          <StatsPeriodPicker
+            range={range}
+            onChangeRange={(next) => {
+              void navigate({
+                to: "/stats",
+                search: { range: next },
+              });
+            }}
+          />
           <MetricSummary metrics={demoMetrics(range)} />
         </>
       }

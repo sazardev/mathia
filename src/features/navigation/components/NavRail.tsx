@@ -12,14 +12,17 @@ type NavRailProps = {
 export function NavRail({ items, activeId, onNavigate }: NavRailProps) {
   return (
     <nav aria-label="Navegación principal">
-      <ul  className={styles["navList"]}>
+      <ul className={styles["navList"]}>
         {items.map((item) => (
           <li key={item.id}>
             <button
               type="button"
               aria-current={item.id === activeId ? "page" : undefined}
               onClick={() => onNavigate(item.path)}
-              className={cn(styles["item"], item.id === activeId && styles["active"])}
+              className={cn(
+                styles["item"],
+                item.id === activeId && styles["active"],
+              )}
             >
               <Icon name={item.icon} size={20} />
               {item.label}

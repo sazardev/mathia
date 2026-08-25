@@ -11,7 +11,7 @@ type AchievementGridProps = {
 
 export function AchievementGrid({ achievements }: AchievementGridProps) {
   return (
-    <ul  className={styles["grid"]}>
+    <ul className={styles["grid"]}>
       {achievements.map((achievement) => (
         <li
           key={achievement.id}
@@ -22,10 +22,7 @@ export function AchievementGrid({ achievements }: AchievementGridProps) {
           }
         >
           <span className={styles["icon"]}>
-            <Icon
-              name={achievement.unlocked ? "star" : "lock"}
-              size={22}
-            />
+            <Icon name={achievement.unlocked ? "star" : "lock"} size={22} />
           </span>
           <Text as="span" size="sm" weight="bold">
             {achievement.title}

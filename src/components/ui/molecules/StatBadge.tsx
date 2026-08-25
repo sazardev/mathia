@@ -5,7 +5,8 @@ import styles from "./StatBadge.module.css";
 export type StatBadgeProps = {
   label: string;
   value: string | number;
-  tone?: "neutral" | "primary" | "success" | "danger" | "xp" | "gold" | undefined;
+  tone?:
+    "neutral" | "primary" | "success" | "danger" | "xp" | "gold" | undefined;
   icon?: IconName | undefined;
 };
 

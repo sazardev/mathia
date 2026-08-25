@@ -33,8 +33,8 @@ export function demoAccuracy(range: StatsRange): DayAccuracy[] {
 }
 
 export function demoWeeks(weeksCount = 8): DayActivity[][] {
-  return Array.from({ length: weeksCount }, (_, week) =>
-    Array.from({ length: 7 }, (_, day) => {
+  return Array.from({ length: weeksCount }, (_unusedWeek, week) =>
+    Array.from({ length: 7 }, (_unusedDay, day) => {
       const globalIndex = week * 7 + day;
       const active = (globalIndex * 13) % 10 > 2;
       return {
@@ -78,6 +78,11 @@ export function demoMetrics(range: StatsRange): StatMetric[] {
       tone: "primary",
       icon: "check",
     },
-    { label: "Racha", value: `${6 + (scale % 3)}`, tone: "gold", icon: "flame" },
+    {
+      label: "Racha",
+      value: `${6 + (scale % 3)}`,
+      tone: "gold",
+      icon: "flame",
+    },
   ];
 }

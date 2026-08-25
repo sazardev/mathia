@@ -1,7 +1,8 @@
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+pub mod commands;
+pub mod db;
+pub mod errors;
+
+use tauri::Manager;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -16,7 +17,25 @@ pub fn run() {
 
     builder
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet])
+        .setup(|app| {
+            let data_dir = app
+                .path()
+                .app_data_dir()
+                .map_err(|e| std::io::Error::other(e.to_string()))?;
+            std::fs::create_dir_all(&data_dir)?;
+            let conn = db::open(&data_dir.join("mathia.sqlite"))?;
+            app.manage(db::Db::new(conn));
+            Ok(())
+        })
+        .invoke_handler(tauri::generate_handler![
+            commands::create_profile,
+            commands::list_profiles,
+            commands::delete_profile,
+            commands::save_progress,
+            commands::get_progress,
+            commands::set_setting,
+            commands::get_setting,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

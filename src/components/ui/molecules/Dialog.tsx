@@ -12,7 +12,13 @@ type DialogProps = {
   footer?: React.ReactNode;
 };
 
-export function Dialog({ open, title, onClose, children, footer }: DialogProps) {
+export function Dialog({
+  open,
+  title,
+  onClose,
+  children,
+  footer,
+}: DialogProps) {
   const panelRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
