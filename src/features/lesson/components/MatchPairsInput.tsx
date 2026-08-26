@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Button } from "@/components/ui/atoms/Button";
 import { Text } from "@/components/ui/atoms/Text";
+import { MathText } from "@/components/ui/molecules/MathText";
 import styles from "./ExerciseCard.module.css";
 
 type MatchPairsInputProps = {
@@ -48,8 +49,9 @@ export function MatchPairsInput({
               onPress={() => onSelectLeft(left)}
             >
               <Text as="span" size="sm">
-                {left}
-                {pairedRight ? ` → ${pairedRight}` : ""}
+                <MathText
+                  text={pairedRight ? `${left} → ${pairedRight}` : left}
+                />
               </Text>
             </Button>
           );
@@ -68,8 +70,7 @@ export function MatchPairsInput({
               onPress={() => onSelectRight(right)}
             >
               <Text as="span" size="sm">
-                {right}
-                {isUsed ? ` ← ${matchedLeft}` : ""}
+                <MathText text={isUsed ? `${right} ← ${matchedLeft}` : right} />
               </Text>
             </Button>
           );

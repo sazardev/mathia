@@ -4,22 +4,27 @@ import { Button } from "@/components/ui/atoms/Button";
 import { Input } from "@/components/ui/atoms/Input";
 import { AnswerChoice } from "@/components/ui/molecules/AnswerChoice";
 import { ExercisePrompt } from "@/components/ui/molecules/ExercisePrompt";
+import { MathText } from "@/components/ui/molecules/MathText";
 import { Numpad } from "@/components/ui/molecules/Numpad";
 import { cn } from "@/lib/cn";
+import { plainText } from "@/lib/mathText";
 import { choiceLetter, getCorrectAnswerText, isAnswerCorrect } from "../engine";
 import type { AnswerFeedback, Exercise } from "../types";
 import { MatchPairsInput } from "./MatchPairsInput";
+import { NumberLineInput } from "./NumberLineInput";
 import { OrderStepsInput } from "./OrderStepsInput";
 import styles from "./ExerciseCard.module.css";
 
 type ExerciseCardProps = {
   exercise: Exercise;
+  xpOnCorrect: number;
   onAnswer: (isCorrect: boolean) => void;
   onContinue: () => void;
 };
 
 export function ExerciseCard({
   exercise,
+  xpOnCorrect,
   onAnswer,
   onContinue,
 }: ExerciseCardProps) {
@@ -36,6 +41,7 @@ export function ExerciseCard({
   });
   const [pairings, setPairings] = useState<Record<string, string>>({});
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
+  const [numberLineValue, setNumberLineValue] = useState<number | null>(null);
 
   const answered = feedback !== null;
 
@@ -68,6 +74,7 @@ export function ExerciseCard({
     if (exercise.type === "order-steps") return orderedIds.length > 0;
     if (exercise.type === "match-pairs")
       return Object.keys(pairings).length === exercise.pairs.length;
+    if (exercise.type === "number-line") return numberLineValue !== null;
     return false;
   })();
 
@@ -76,6 +83,7 @@ export function ExerciseCard({
     if (exercise.type === "choice")
       return exercise.choices.find((c) => c.id === selectedId)?.label ?? "";
     if (exercise.type === "order-steps") return orderedIds;
+    if (exercise.type === "number-line") return String(numberLineValue);
     return pairings;
   };
 
@@ -120,7 +128,7 @@ export function ExerciseCard({
 
   const feedbackText =
     feedback === "correct"
-      ? (exercise.successFeedback ?? `¡Correcto! +${exercise.xp} XP`)
+      ? (exercise.successFeedback ?? `¡Correcto! +${xpOnCorrect} XP`)
       : feedback === "wrong"
         ? `Respuesta correcta: ${getCorrectAnswerText(exercise)}`
         : "";
@@ -139,7 +147,7 @@ export function ExerciseCard({
         <div
           className={styles["choices"]}
           role="radiogroup"
-          aria-label={exercise.prompt}
+          aria-label={plainText(exercise.prompt)}
         >
           {exercise.choices.map((choice, index) => {
             const isSelected = choice.id === selectedId;
@@ -162,7 +170,7 @@ export function ExerciseCard({
                 ariaChecked={isSelected}
                 roleRadio
               >
-                {choice.label}
+                <MathText text={choice.label} />
               </AnswerChoice>
             );
           })}
@@ -214,6 +222,20 @@ export function ExerciseCard({
         />
       )}
 
+      {exercise.type === "number-line" && (
+        <NumberLineInput
+          min={exercise.min}
+          max={exercise.max}
+          step={exercise.step}
+          value={numberLineValue}
+          onChange={(value) => {
+            if (!answered) setNumberLineValue(value);
+          }}
+          disabled={answered}
+          correctValue={answered ? exercise.numericAnswer : undefined}
+        />
+      )}
+
       <output
         className={cn(
           styles["feedback"],
@@ -223,7 +245,7 @@ export function ExerciseCard({
         aria-live="polite"
         aria-atomic="true"
       >
-        {feedbackText}
+        <MathText text={feedbackText} />
       </output>
 
       {answered &&
@@ -234,7 +256,7 @@ export function ExerciseCard({
           const distractorFeedback = chosen?.feedback;
           return distractorFeedback ? (
             <p className={styles["feedback"]} aria-live="polite">
-              {distractorFeedback}
+              <MathText text={distractorFeedback} />
             </p>
           ) : null;
         })()}

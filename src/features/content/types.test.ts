@@ -174,6 +174,16 @@ describe("lessonDataSchema y curriculumFileSchema (integración)", () => {
       definition: "Sumar es combinar dos cantidades en una sola.",
       workedExamples: ["3 + 4 = 7"],
     },
+    guidedPractice: {
+      problem: "$2+3$",
+      steps: [
+        { instruction: "Junta ambos grupos.", result: "5 objetos en total." },
+        { instruction: "Cuenta el total.", result: "$2+3=5$" },
+      ],
+      prompt: "¿Cuánto es $4+5$?",
+      answer: 9,
+      derivation: "4+5",
+    },
     commonMistakes: ["Olvidar llevar al sumar columnas."],
     exercises: [
       generateArithmeticExercise("addition", 1, 1, ["c-sumas"]),

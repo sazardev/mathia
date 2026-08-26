@@ -1,6 +1,13 @@
 import type { Database, SqlJsStatic } from "sql.js";
 import { MIGRATIONS } from "@/lib/storage/migrations";
-import type { MathiaStore, Profile, ProgressRow } from "@/lib/storage/types";
+import type {
+  AchievementRow,
+  DailyLogRow,
+  MathiaStore,
+  Profile,
+  ProgressRow,
+  SrsItemRow,
+} from "@/lib/storage/types";
 
 /** Persistencia binaria intercambiable: IndexedDB en producción, memoria en tests. */
 export interface BinaryPersistence {
@@ -62,6 +69,10 @@ function str(row: SqlJsRow, key: string): string {
 function num(row: SqlJsRow, key: string): number {
   const value = row[key];
   return typeof value === "number" ? value : Number(value ?? 0);
+}
+
+function bool(row: SqlJsRow, key: string): boolean {
+  return num(row, key) !== 0;
 }
 
 async function loadSqlJs(): Promise<SqlJsStatic> {
@@ -220,5 +231,105 @@ export class WebStore implements MathiaStore {
     );
     const row = rows[0];
     return row ? str(row, "value") : null;
+  }
+
+  async addDailyXp(
+    profileId: string,
+    day: string,
+    xpDelta: number,
+    goalActive: number,
+  ): Promise<DailyLogRow> {
+    this.db.run(
+      `INSERT INTO daily_log(profile_id, day, xp, goal_met)
+       VALUES (?1, ?2, ?3, 0)
+       ON CONFLICT(profile_id, day) DO UPDATE SET xp = xp + excluded.xp`,
+      [profileId, day, xpDelta],
+    );
+    this.db.run(
+      `UPDATE daily_log SET goal_met = (xp >= ?3)
+       WHERE profile_id = ?1 AND day = ?2`,
+      [profileId, day, goalActive],
+    );
+    this.scheduleSave();
+    const rows = rowsOf(
+      this.db,
+      "SELECT day, xp, goal_met FROM daily_log WHERE profile_id = ?1 AND day = ?2",
+      [profileId, day],
+    );
+    const row = rows[0];
+    if (!row) throw new Error("No se pudo registrar el XP diario");
+    return {
+      day: str(row, "day"),
+      xp: num(row, "xp"),
+      goalMet: bool(row, "goal_met"),
+    };
+  }
+
+  async getDailyLog(
+    profileId: string,
+    sinceDay: string,
+  ): Promise<DailyLogRow[]> {
+    return rowsOf(
+      this.db,
+      "SELECT day, xp, goal_met FROM daily_log WHERE profile_id = ?1 AND day >= ?2 ORDER BY day",
+      [profileId, sinceDay],
+    ).map((row) => ({
+      day: str(row, "day"),
+      xp: num(row, "xp"),
+      goalMet: bool(row, "goal_met"),
+    }));
+  }
+
+  async unlockAchievement(
+    profileId: string,
+    achievementId: string,
+  ): Promise<boolean> {
+    this.db.run(
+      `INSERT OR IGNORE INTO achievements(profile_id, achievement_id, unlocked_at)
+       VALUES (?1, ?2, ?3)`,
+      [profileId, achievementId, Date.now()],
+    );
+    const changed = this.db.getRowsModified();
+    this.scheduleSave();
+    return changed > 0;
+  }
+
+  async getAchievements(profileId: string): Promise<AchievementRow[]> {
+    return rowsOf(
+      this.db,
+      "SELECT achievement_id, unlocked_at FROM achievements WHERE profile_id = ?1",
+      [profileId],
+    ).map((row) => ({
+      achievementId: str(row, "achievement_id"),
+      unlockedAt: num(row, "unlocked_at"),
+    }));
+  }
+
+  async enqueueSrsItem(
+    profileId: string,
+    exerciseId: string,
+    intervalDays: number,
+    dueAt: number,
+  ): Promise<void> {
+    this.db.run(
+      `INSERT INTO srs_queue(profile_id, exercise_id, interval_days, due_at)
+       VALUES (?1, ?2, ?3, ?4)
+       ON CONFLICT(profile_id, exercise_id)
+       DO UPDATE SET interval_days = excluded.interval_days, due_at = excluded.due_at`,
+      [profileId, exerciseId, intervalDays, dueAt],
+    );
+    this.scheduleSave();
+  }
+
+  async getSrsQueue(profileId: string): Promise<SrsItemRow[]> {
+    return rowsOf(
+      this.db,
+      "SELECT exercise_id, interval_days, due_at FROM srs_queue WHERE profile_id = ?1",
+      [profileId],
+    ).map((row) => ({
+      exerciseId: str(row, "exercise_id"),
+      intervalDays: num(row, "interval_days"),
+      dueAt: num(row, "due_at"),
+    }));
   }
 }

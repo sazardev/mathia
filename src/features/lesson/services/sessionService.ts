@@ -3,13 +3,34 @@ import {
   type Exercise as ContentExercise,
 } from "@/features/content";
 import { MathiaError } from "@/lib/errors";
+import { dueAtFor, nextInterval, selectDueItems } from "@/lib/srs/schedule";
+import { getDefaultProfile, getStore } from "@/lib/storage";
 import { DEMO_EXERCISES } from "../demo";
-import { xpFromDifficulty } from "../engine";
-import type { Exercise } from "../types";
+import type { Exercise, LessonContent } from "../types";
 
-function mapContentExercise(content: ContentExercise): Exercise {
+const INITIAL_SRS_INTERVAL_DAYS = 1;
+
+/** BR-M4-7: el fallo alimenta SRS (F5). Best-effort: nunca bloquea la sesión activa. */
+export async function enqueueFailureForReview(
+  exerciseId: string,
+): Promise<void> {
+  try {
+    const store = await getStore();
+    const profile = await getDefaultProfile();
+    await store.enqueueSrsItem(
+      profile.id,
+      exerciseId,
+      INITIAL_SRS_INTERVAL_DAYS,
+      dueAtFor(Date.now(), INITIAL_SRS_INTERVAL_DAYS),
+    );
+    await store.flush();
+  } catch {
+    // Persistencia best-effort, igual que useSaveLessonProgress.
+  }
+}
+
+export function mapContentExercise(content: ContentExercise): Exercise {
   const hints = content.hints.map((hint) => hint.text);
-  const xp = xpFromDifficulty(content.difficulty);
   const successFeedback = content.successFeedback;
 
   switch (content.type) {
@@ -26,7 +47,6 @@ function mapContentExercise(content: ContentExercise): Exercise {
         type: "choice",
         prompt: content.prompt,
         hints,
-        xp,
         successFeedback,
         choices: content.choices.map((choice) => ({
           id: choice.id,
@@ -43,7 +63,6 @@ function mapContentExercise(content: ContentExercise): Exercise {
         type: "choice",
         prompt: content.statement,
         hints,
-        xp,
         successFeedback,
         choices: [
           { id: "true", label: "Verdadero" },
@@ -58,7 +77,6 @@ function mapContentExercise(content: ContentExercise): Exercise {
         type: "input",
         prompt: content.prompt,
         hints,
-        xp,
         successFeedback,
         answer: String(content.answer),
         numericAnswer: content.answer,
@@ -72,7 +90,6 @@ function mapContentExercise(content: ContentExercise): Exercise {
         type: "input",
         prompt: content.prompt,
         hints,
-        xp,
         successFeedback,
         answer: content.canonicalAnswer,
         acceptedAnswers: content.acceptedAnswers,
@@ -88,7 +105,6 @@ function mapContentExercise(content: ContentExercise): Exercise {
         type: "order-steps",
         prompt: content.prompt,
         hints,
-        xp,
         successFeedback,
         steps: content.steps,
         correctOrder: content.correctOrder,
@@ -104,31 +120,123 @@ function mapContentExercise(content: ContentExercise): Exercise {
         type: "match-pairs",
         prompt: content.prompt,
         hints,
-        xp,
         successFeedback,
         pairs: content.pairs,
         answer,
       };
     }
+    case "number-line": {
+      return {
+        id: content.id,
+        type: "number-line",
+        prompt: content.prompt,
+        hints,
+        successFeedback,
+        min: content.min,
+        max: content.max,
+        step: content.step,
+        answer: String(content.answer),
+        numericAnswer: content.answer,
+        tolerance: content.tolerance,
+      };
+    }
   }
 }
 
-export async function fetchSessionExercises(
+export async function fetchLessonContent(
   sessionId: string,
-): Promise<Exercise[]> {
+): Promise<LessonContent> {
   for (const unit of CURRICULUM) {
     const lesson = unit.lessons.find((entry) => entry.id === sessionId);
     if (lesson !== undefined) {
-      return lesson.exercises.map((exercise) =>
-        mapContentExercise(exercise as ContentExercise),
-      );
+      return {
+        title: lesson.title,
+        intro: lesson.intro,
+        guidedPractice: lesson.guidedPractice,
+        commonMistakes: lesson.commonMistakes,
+        exercises: lesson.exercises.map((exercise) =>
+          mapContentExercise(exercise as ContentExercise),
+        ),
+      };
     }
   }
   if (sessionId === "leccion-demo" || sessionId.startsWith("demo-")) {
-    return DEMO_EXERCISES;
+    return {
+      title: "Práctica rápida",
+      intro: null,
+      guidedPractice: null,
+      commonMistakes: [],
+      exercises: DEMO_EXERCISES,
+    };
   }
   throw new MathiaError(
     "INVALID_LESSON",
     `Lección no encontrada: "${sessionId}"`,
   );
+}
+
+function findContentExerciseById(exerciseId: string): ContentExercise | null {
+  for (const unit of CURRICULUM) {
+    for (const lesson of unit.lessons) {
+      const found = lesson.exercises.find((ex) => ex.id === exerciseId);
+      if (found !== undefined) return found as ContentExercise;
+    }
+  }
+  return null;
+}
+
+/** Cuántos ítems de repaso están vencidos hoy (BR-M6-1: cap ya aplicado). */
+export async function countDueReviews(): Promise<number> {
+  const store = await getStore();
+  const profile = await getDefaultProfile();
+  const queue = await store.getSrsQueue(profile.id);
+  return selectDueItems(queue, Date.now()).length;
+}
+
+/**
+ * Construye la sesión de repaso (F5): ítems vencidos, orden BR-M6-2, cap BR-M6-1.
+ * Ítems huérfanos (ejercicio ya no existe en el currículo tras migración de
+ * contenido, BR-M9-7) se omiten en vez de romper la sesión — la purga formal
+ * queda diferida.
+ */
+export async function fetchReviewSession(): Promise<LessonContent> {
+  const store = await getStore();
+  const profile = await getDefaultProfile();
+  const queue = await store.getSrsQueue(profile.id);
+  const due = selectDueItems(queue, Date.now());
+  const exercises = due
+    .map((item) => findContentExerciseById(item.exerciseId))
+    .filter((exercise): exercise is ContentExercise => exercise !== null)
+    .map((exercise) => mapContentExercise(exercise));
+
+  return {
+    title: "Repaso",
+    intro: null,
+    guidedPractice: null,
+    commonMistakes: [],
+    exercises,
+  };
+}
+
+/** Avanza (acierto) o reinicia (fallo) el intervalo de un ítem tras repasarlo. */
+export async function resolveReviewAnswer(
+  exerciseId: string,
+  isCorrect: boolean,
+): Promise<void> {
+  try {
+    const store = await getStore();
+    const profile = await getDefaultProfile();
+    const queue = await store.getSrsQueue(profile.id);
+    const current = queue.find((item) => item.exerciseId === exerciseId);
+    const interval = nextInterval(current?.intervalDays ?? 1, isCorrect);
+    await store.enqueueSrsItem(
+      profile.id,
+      exerciseId,
+      interval,
+      dueAtFor(Date.now(), interval),
+    );
+    await store.flush();
+  } catch {
+    // Persistencia best-effort, igual que useSaveLessonProgress.
+  }
 }

@@ -13,9 +13,9 @@ describe("Currículo Unidad 1 — integridad", () => {
 
 describe("Currículo Unidad 2 — integridad", () => {
   const unit2 = CURRICULUM[1];
-  it("existe y contiene las 6 lecciones planificadas", () => {
+  it("existe y contiene las 8 lecciones planificadas", () => {
     expect(unit2).toBeDefined();
-    expect(unit2?.lessons).toHaveLength(6);
+    expect(unit2?.lessons).toHaveLength(8);
   });
 
   it("la unidad 2 solo usa conceptos enseñados hasta ella (M-03 acumulativo)", () => {

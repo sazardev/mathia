@@ -17,6 +17,18 @@
 .unlocked {
   box-shadow: inset 0 0 0 2px var(--color-gold-500);
   background-color: var(--color-amber-bg);
+  animation: unlockPop var(--dur-celebrate) var(--ease-juicy);
+}
+
+@keyframes unlockPop {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .icon {

@@ -56,6 +56,13 @@ export function isAnswerCorrect(
     if (Object.keys(response).length !== pairs.length) return false;
     return pairs.every((pair) => response[pair.left] === pair.right);
   }
+  if (exercise.type === "number-line") {
+    if (typeof response !== "string") return false;
+    const parsed = Number(response);
+    if (!Number.isFinite(parsed)) return false;
+    const tol = exercise.tolerance ?? exercise.step / 2;
+    return Math.abs(parsed - exercise.numericAnswer) <= tol;
+  }
   return false;
 }
 
@@ -69,9 +76,4 @@ export function getCorrectAnswerText(exercise: Exercise): string {
 export function computeAccuracy(correct: number, answered: number): number {
   if (answered <= 0) return 1;
   return correct / answered;
-}
-
-export function xpFromDifficulty(difficulty: number): number {
-  const clamped = Math.min(Math.max(Math.round(difficulty), 1), 5);
-  return 5 + clamped * 5;
 }

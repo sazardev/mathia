@@ -1,3 +1,5 @@
+import type { GuidedPractice, LessonIntro } from "@/features/content";
+
 export type ExerciseChoice = {
   id: string;
   label: string;
@@ -9,7 +11,6 @@ export type BaseExercise = {
   prompt: string;
   tex?: string | undefined;
   hints: string[];
-  xp: number;
   successFeedback?: string | undefined;
 };
 
@@ -43,8 +44,31 @@ export type MatchPairsExercise = BaseExercise & {
   answer: string;
 };
 
+export type NumberLineExercise = BaseExercise & {
+  type: "number-line";
+  min: number;
+  max: number;
+  step: number;
+  answer: string;
+  numericAnswer: number;
+  tolerance?: number | undefined;
+};
+
 export type Exercise =
-  ChoiceExercise | InputExercise | OrderStepsExercise | MatchPairsExercise;
+  | ChoiceExercise
+  | InputExercise
+  | OrderStepsExercise
+  | MatchPairsExercise
+  | NumberLineExercise;
+
+export type LessonContent = {
+  title: string;
+  /** null en modo demo: no hay lección de currículo asociada, sin pantalla de intro. */
+  intro: LessonIntro | null;
+  guidedPractice: GuidedPractice | null;
+  commonMistakes: string[];
+  exercises: Exercise[];
+};
 
 export type AnswerFeedback = "correct" | "wrong";
 

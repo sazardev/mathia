@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/atoms/Button";
 import { Icon } from "@/components/ui/atoms/Icon";
 import { Text } from "@/components/ui/atoms/Text";
+import { MathText } from "@/components/ui/molecules/MathText";
 import styles from "./ExerciseCard.module.css";
 
 type OrderStepsInputProps = {
@@ -29,7 +30,7 @@ export function OrderStepsInput({
             weight="semibold"
             className={styles["stepText"]}
           >
-            {textById.get(id) ?? id}
+            <MathText text={textById.get(id) ?? id} />
           </Text>
           <span className={styles["stepActions"]}>
             <Button

@@ -4,6 +4,16 @@ export type Rng = () => number;
 
 export type Seed = number;
 
+/** Hash FNV-1a de una cadena a un entero de 32 bits — base determinista para semillas. */
+export function hashSeed(text: string): number {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return hash >>> 0;
+}
+
 export function createRng(seed: Seed): Rng {
   let state = seed >>> 0;
   return () => {

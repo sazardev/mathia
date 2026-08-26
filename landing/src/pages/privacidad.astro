@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "Privacidad — Mathia";
+const description =
+  "Mathia no tiene cuentas, no envía telemetría y no recopila datos. Todo tu progreso vive en tu computadora.";
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  <main class="content">
+    <h1>Privacidad</h1>
+    <p>
+      Mathia se construyó con un principio simple: <strong
+        >tus datos son tuyos</strong
+      >.
+    </p>
+    <ul>
+      <li>No hay cuentas ni inicio de sesión.</li>
+      <li>No enviamos telemetría ni analítica de uso desde la app.</li>
+      <li>
+        No hay ningún servidor de Mathia recibiendo información sobre cómo
+        usas la aplicación.
+      </li>
+      <li>
+        Tu progreso, estadísticas y configuración se guardan únicamente en
+        una base de datos local en tu computadora.
+      </li>
+      <li>
+        La app funciona sin conexión a internet; la red nunca es necesaria
+        para usarla.
+      </li>
+    </ul>
+    <p>
+      El código fuente es público bajo licencia Apache-2.0 en <a
+        href="https://github.com/sazardev/mathia"
+        target="_blank"
+        rel="noopener">GitHub</a
+      > — puedes revisar exactamente qué hace la app.
+    </p>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .content {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: var(--space-10) var(--space-6);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  h1 {
+    color: var(--color-text-primary);
+    font-size: var(--text-2xl);
+  }
+
+  li {
+    margin-bottom: var(--space-2);
+  }
+</style>

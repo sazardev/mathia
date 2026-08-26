@@ -36,6 +36,12 @@ pub fn run() {
             commands::get_progress,
             commands::set_setting,
             commands::get_setting,
+            commands::add_daily_xp,
+            commands::get_daily_log,
+            commands::unlock_achievement,
+            commands::get_achievements,
+            commands::enqueue_srs_item,
+            commands::get_srs_queue,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

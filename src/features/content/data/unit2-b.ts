@@ -19,22 +19,38 @@ export const LESSON_U2L4: Lesson = {
   title: "Ecuaciones con denominadores",
   conceptIdsTaught: [ecFracciones.id],
   intro: {
-    hook: "Repartes 18 caramelos entre un grupo y cada uno recibe 3: $x/2=3$... ¿cuántos son? Los denominadores desaparecen multiplicando por ellos.",
+    hook: "Ya abres paréntesis en ecuaciones. Ahora la x aparece dividida: $\\frac{x}{2}=7$. Los denominadores se eliminan multiplicando por ellos — como deshacer una repartición.",
     intuition: [
       "Una división se deshace multiplicando: si ves $x/5$, multiplica ambos lados por 5.",
-      "Con coeficiente delante ($2x/3$), primero elimina el denominador (×3) y luego el coeficiente (÷2): de afuera hacia adentro.",
-      "Si el numerador es una suma como $(x+1)/3$, multiplicar por 3 libera TODO el numerador de golpe.",
+      "Con coeficiente delante, como $\\frac{2x}{3}$: primero elimina el denominador (×3) y luego el coeficiente (÷2) — de afuera hacia adentro.",
+      "Si el numerador es una suma, como $\\frac{x+1}{3}$, multiplicar por 3 libera TODO el numerador de golpe.",
     ],
     definition:
-      "En $\\frac{a x}{b}=c$: multiplica ambos miembros por $b$ → $ax=bc$, luego divide entre $a$. En $\\frac{x+b}{c}=d$: multiplica por $c$ → $x+b=cd$, después resta $b$.",
+      "En $\\frac{ax}{b}=c$: multiplica ambos lados por $b$ → $ax=bc$, luego divide entre $a$. En $\\frac{x+b}{c}=d$: multiplica por $c$ → $x+b=cd$, luego resta $b$.",
     workedExamples: [
       "$\\frac{x}{2}=7$: multiplico por 2 → $x=14$.",
       "$\\frac{2x}{3}=6$: multiplico por 3 → $2x=18$; divido entre 2 → $x=9$.",
     ],
   },
+  guidedPractice: {
+    problem: "$\\frac{x}{4}=3$",
+    steps: [
+      {
+        instruction: "Multiplica ambos lados por 4.",
+        result: "$x=3\\cdot4$",
+      },
+      {
+        instruction: "Calcula.",
+        result: "$x=12$",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: resuelve $\\frac{x}{6}=2$.",
+    answer: 12,
+    derivation: "2*6",
+  },
   commonMistakes: [
-    "Multiplicar solo un lado por el denominador, rompiendo el equilibrio.",
-    "Operar antes de eliminar el denominador: en $\\frac{2x}{3}=6$ restar/multiplicar mal orden deja caminos larguísimos.",
+    "Multiplicar solo un lado por el denominador: rompe el equilibrio de la ecuación.",
+    "Operar antes de eliminar el denominador — siempre libera primero la x del denominador.",
   ],
   exercises: [
     {
@@ -195,22 +211,39 @@ export const LESSON_U2L5: Lesson = {
   title: "Plantear ecuaciones desde problemas",
   conceptIdsTaught: [plantear.id],
   intro: {
-    hook: '"Pensé un número, le sumé 5 y me dio 17". Traducir frases a ecuaciones es el superpoder que convierte palabras en matemáticas resolubles.',
+    hook: "Ya resuelves cualquier ecuación lineal. El último paso es el más poderoso: convertir un problema contado con palabras en una ecuación que tú mismo planteas.",
     intuition: [
-      "Define la incógnita PRIMERO: «sea n el número que busco».",
-      "Traduce palabra por palabra: «la suma de» → +, «el doble/triple de» → ×2/×3, «es/da/resultado» → =.",
-      "El orden importa: «5 menos que n» es $n-5$, pero «n menos 5» es $n-5$... cuidado: siempre pregúntate ¿a quién le hacen algo?",
+      "Primero nombra la incógnita: «sea n el número que busco».",
+      "Traduce frase por frase: «la suma de» → +, «el doble/triple de» → ×2/×3, «es» o «da» → =.",
+      "El orden importa en las restas: pregúntate siempre «¿a quién le hacen algo?» — eso va primero.",
     ],
     definition:
-      "Para plantear: 1) identifica la incógnita y nómbrala; 2) traduce cada frase a símbolos respetando el orden de la acción; 3) iguala a lo indicado; 4) resuelve con las técnicas ya dominadas; 5) responde LA PREGUNTA hecha (no siempre es x).",
+      "Para plantear un problema: 1) nombra la incógnita; 2) traduce cada frase a símbolos respetando el orden de la acción; 3) iguala a lo indicado; 4) resuelve; 5) responde exactamente lo que preguntaron (no siempre es directamente x).",
     workedExamples: [
       '"El triple de un número disminuido en 4 da 20": $3n-4=20$ → $3n=24$ → $n=8$.',
-      '"Tres números consecutivos suman 24»: sean $n$, $n+1$, $n+2$ → $3n+3=24$ → $n=7$ (el menor).',
+      '"Tres números consecutivos suman 24": sean $n$, $n+1$, $n+2$ → $3n+3=24$ → $n=7$ (el menor de los tres).',
     ],
   },
+  guidedPractice: {
+    problem: '"Un número aumentado en 3 da 10"',
+    steps: [
+      {
+        instruction: "Plantea la ecuación.",
+        result: "$n+3=10$",
+      },
+      {
+        instruction: "Resta 3 en ambos lados.",
+        result: "$n=7$",
+      },
+    ],
+    prompt:
+      'Ahora resuélvelo tú: "el doble de un número es 16". ¿Cuál es el número?',
+    answer: 8,
+    derivation: "16/2",
+  },
   commonMistakes: [
-    "Resolver x y responder otra cosa: si piden «el mayor» y hallaste el menor, falta el último paso.",
-    "Traducir «menos que» en el orden escrito: «7 menos que el doble de n» es $2n-7$, no $7-2n$.",
+    "Resolver x y responder otra cosa: si piden «el mayor» y hallaste el menor, falta un paso.",
+    "Traducir «menos que» fuera de orden: «7 menos que el doble de n» es $2n-7$, no $7-2n$.",
   ],
   exercises: [
     {
@@ -369,22 +402,39 @@ export const LESSON_U2L6: Lesson = {
   title: "Desigualdades de un paso",
   conceptIdsTaught: [desig1p.id],
   intro: {
-    hook: "El ascensor admite máximo 8 personas: la carga debe ser MENOR O IGUAL que el límite. La vida está llena de desigualdades.",
+    hook: "Ya planteas y resuelves ecuaciones. Un ascensor admite máximo 8 personas: la carga debe ser MENOR O IGUAL que el límite, no exactamente igual. Así nacen las desigualdades.",
     intuition: [
-      "Se resuelven igual que las ecuaciones (suma/resta libre)... con UNA excepción crítica.",
-      "Al multiplicar o dividir por un NEGATIVO, la desigualdad SE VOLTEA: $<$ pasa a $>$.",
-      "Piensa por qué: $3<5$, multiplico por −1: $−3$ y $−5$... ahora $−3>−5$. El orden se invierte.",
+      "Se resuelven casi igual que las ecuaciones — sumar y restar libremente, sin sorpresas.",
+      "Pero hay una excepción crítica: al multiplicar o dividir por un número NEGATIVO, el sentido de la desigualdad se voltea.",
+      "Compruébalo tú mismo: $3<5$; multiplica ambos por $-1$: $-3$ y $-5$... ahora $-3>-5$. El orden se invirtió.",
     ],
     definition:
-      "Suma/resta en ambos lados NO cambia el sentido. Multiplicar/dividir por positivo lo conserva; por negativo lo INVIERTE. Solución: intervalo, no punto único.",
+      "Sumar o restar en ambos lados nunca cambia el sentido. Multiplicar o dividir por positivo lo conserva; por negativo, lo INVIERTE. La solución es un intervalo, no un solo número.",
     workedExamples: [
-      "$x+3>7$: resto 3 → $x>4$ (sin voltear: resté, no multipliqué).",
-      "$-2x<8$: divido entre $-2$ → VOLTEO → $x>-4$. Verifica con $0$: $0<8$ ✓ y $0>-4$ ✓.",
+      "$x+3>7$: resto 3 → $x>4$ (sin voltear, porque resté).",
+      "$-2x<8$: divido entre $-2$ → volteo el sentido → $x>-4$.",
     ],
   },
+  guidedPractice: {
+    problem: "$x-2>5$",
+    steps: [
+      {
+        instruction: "Sumar en ambos lados nunca voltea la desigualdad.",
+        result: "$x>5+2$",
+      },
+      {
+        instruction: "Calcula el límite.",
+        result: "$x>7$",
+      },
+    ],
+    prompt:
+      "Ahora resuélvelo tú: al resolver $-3x>12$, ¿cuál es el valor límite de x (el número, sin el símbolo de desigualdad)?",
+    answer: -4,
+    derivation: "12/(-3)",
+  },
   commonMistakes: [
-    "No voltear al dividir/multiplicar por negativo: $-2x<8$ NO es $x<-4$.",
-    "VoltEAR cuando no toca: sumar/restar nunca voltea la desigualdad.",
+    "No voltear al dividir o multiplicar por negativo: $-2x<8$ no es $x<-4$.",
+    "Voltear cuando no toca: sumar o restar nunca cambia el sentido de la desigualdad.",
   ],
   exercises: [
     {

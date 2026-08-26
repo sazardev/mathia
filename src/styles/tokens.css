@@ -1,3 +1,29 @@
+/**
+ * Breakpoints canónicos (DESIGN.md §3.4). CSS custom properties no funcionan
+ * dentro de @media — se documentan aquí como fuente única y se usan estos
+ * valores EXACTOS en cualquier @media nuevo/tocado:
+ *   640  — móvil grande
+ *   768  — tablet (rail compacto solo-íconos)
+ *   1024 — desktop (rail completo con etiquetas)
+ *   1440 — desktop ancho
+ */
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("/fonts/Fredoka-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("/fonts/Fredoka-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --color-primary-100: #dcf5e9;
   --color-primary-300: #7ddcb0;
@@ -14,6 +40,11 @@
   --color-flame-500: #ff7a1a;
   --color-xp-500: #8b5cf6;
   --color-gold-500: #ffc94d;
+  /* Acentos de categoría/unidad — rotan visualmente el contenido sin tocar
+     el ancla de marca (verde primario); "vivo, no infantil" (SPEC.md público). */
+  --color-accent-blue: #2f8ff0;
+  --color-accent-pink: #ef4d8f;
+  --color-accent-teal: #14b8a6;
 
   --color-surface-0: #ffffff;
   --color-surface-1: #f5f8f6;
@@ -35,11 +66,14 @@
   --space-8: 32px;
   --space-9: 36px;
   --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
 
   --font-ui:
     "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
     sans-serif;
   --font-math: "KaTeX_Math", "Times New Roman", serif;
+  --font-display: "Fredoka", var(--font-ui);
 
   --text-xs: 12px;
   --lh-xs: 16px;
@@ -53,9 +87,12 @@
   --lh-xl: 30px;
   --text-2xl: 28px;
   --lh-2xl: 36px;
+  --text-3xl: 40px;
+  --lh-3xl: 48px;
 
   --radius-sm: 8px;
   --radius-md: 12px;
+  --radius-lg: 20px;
   --radius-full: 999px;
 
   --shadow-1: 0 1px 3px rgb(23 32 28 / 0.08), 0 1px 2px rgb(23 32 28 / 0.04);
@@ -67,6 +104,8 @@
   --dur-celebrate: 400ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  /* Curva con rebote/overshoot para momentos de celebración (acierto, fin de sesión). */
+  --ease-juicy: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 :root[data-theme="dark"] {

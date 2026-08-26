@@ -1,0 +1,128 @@
+.fab {
+  position: fixed;
+  right: var(--space-6);
+  bottom: var(--space-6);
+  z-index: 1000;
+  box-shadow: var(--shadow-2);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+}
+
+.paper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 31px,
+    color-mix(in srgb, var(--color-text-muted) 40%, transparent) 31px,
+    color-mix(in srgb, var(--color-text-muted) 40%, transparent) 32px
+  );
+  background-position: 0 8px;
+  opacity: 0.5;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.toolbar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-2);
+  max-width: calc(100vw - var(--space-6));
+  background: var(--color-surface-0);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-2);
+}
+
+.group {
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
+  padding-inline: var(--space-1);
+  border-inline-start: 1px solid var(--color-border);
+}
+
+.group:first-of-type {
+  border-inline-start: none;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+}
+
+.swatchActive {
+  border-color: var(--color-text-primary);
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 1px;
+}
+
+.sizeToggle {
+  height: 44px;
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-1);
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sizeToggleActive {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-100);
+  color: var(--color-primary-600);
+}
+
+.sizePanel {
+  display: flex;
+  align-items: center;
+  padding-inline: var(--space-2);
+  border-inline-start: 1px solid var(--color-border);
+}
+
+.sliderLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.sliderLabel input[type="range"] {
+  width: 140px;
+  accent-color: var(--color-primary-500);
+  cursor: pointer;
+}
+
+.sliderValue {
+  min-width: 22px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}

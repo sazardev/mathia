@@ -1,0 +1,86 @@
+---
+---
+
+<section class="hero">
+  <img src="/favicon.svg" alt="Mathia" width="72" height="72" class="mark" />
+  <h1>Las matemáticas, a tu ritmo.</h1>
+  <p class="subtitle">Álgebra de verdad, sin conexión.</p>
+  <p class="lead">
+    Aprende álgebra desde cero con la app de escritorio offline, privada y
+    gratuita. Sin cuentas, sin anuncios, sin vidas que comprar — el «Duolingo
+    del álgebra», pero sin internet.
+  </p>
+  <div class="actions">
+    <a
+      class="primary"
+      href="https://github.com/sazardev/mathia/releases"
+      target="_blank"
+      rel="noopener"
+    >
+      Descargar gratis
+    </a>
+    <a class="secondary" href="#faq">Ver preguntas frecuentes</a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: var(--space-16) var(--space-6) var(--space-10);
+    text-align: center;
+  }
+
+  .mark {
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-4);
+  }
+
+  h1 {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    margin: 0 0 var(--space-2);
+    color: var(--color-text-primary);
+  }
+
+  .subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-primary-600);
+    font-weight: 700;
+    margin: 0 0 var(--space-6);
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0 0 var(--space-8);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+  }
+
+  .primary,
+  .secondary {
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    text-decoration: none;
+    font-size: var(--text-base);
+  }
+
+  .primary {
+    background-color: var(--color-primary-500);
+    color: var(--color-text-on-primary);
+  }
+
+  .secondary {
+    background-color: var(--color-surface-1);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+  }
+</style>

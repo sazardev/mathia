@@ -1,6 +1,5 @@
 /* oxlint-disable */
 import { useEffect, useState } from "react";
-import { Spinner } from "./Spinner";
 import styles from "./KaTeX.module.css";
 
 type KaTeXProps = {
@@ -9,6 +8,7 @@ type KaTeXProps = {
 };
 
 let katexModule: Promise<typeof import("katex")> | null = null;
+let katexResolved: typeof import("katex") | null = null;
 let katexFailed = false;
 
 function loadKatex() {
@@ -17,7 +17,10 @@ function loadKatex() {
     import("katex"),
     import("katex/dist/katex.min.css"),
   ])
-    .then(([mod]) => mod)
+    .then(([mod]) => {
+      katexResolved = mod;
+      return mod;
+    })
     .catch((error) => {
       katexFailed = true;
       katexModule = null;
@@ -26,11 +29,27 @@ function loadKatex() {
   return katexModule;
 }
 
+function renderTex(tex: string, displayMode: boolean): string | null {
+  if (katexResolved === null) return null;
+  return katexResolved.renderToString(tex, {
+    throwOnError: false,
+    displayMode,
+  });
+}
+
 export function KaTeX({ tex, displayMode = false }: KaTeXProps) {
-  const [html, setHtml] = useState<string | null>(null);
+  const [html, setHtml] = useState<string | null>(() =>
+    renderTex(tex, displayMode),
+  );
   const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
+    const rendered = renderTex(tex, displayMode);
+    if (rendered !== null) {
+      setHtml(rendered);
+      setLoadError(false);
+      return;
+    }
     let alive = true;
     setHtml(null);
     setLoadError(false);
@@ -49,6 +68,16 @@ export function KaTeX({ tex, displayMode = false }: KaTeXProps) {
     };
   }, [tex, displayMode]);
 
+  if (html !== null) {
+    return (
+      <span
+        className={styles["math"]}
+        aria-label={tex}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  }
+
   if (loadError) {
     return (
       <span className={styles["loading"]} aria-label={tex}>
@@ -57,22 +86,9 @@ export function KaTeX({ tex, displayMode = false }: KaTeXProps) {
     );
   }
 
-  if (html === null) {
-    return (
-      <span
-        className={styles["loading"]}
-        aria-busy="true"
-        aria-label={`Cargando fórmula ${tex}`}
-      >
-        <Spinner size={16} />
-      </span>
-    );
-  }
   return (
-    <span
-      className={styles["math"]}
-      aria-label={tex}
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    <span className={styles["loading"]} aria-busy="true" aria-label={tex}>
+      {tex}
+    </span>
   );
 }

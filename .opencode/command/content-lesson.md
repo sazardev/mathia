@@ -15,6 +15,7 @@ Protocolo:
    - Pistas escalera [1] | [1,2] | [1,2,3] (BR-M4-1)
    - `numeric-input`: SIEMPRE con `derivation` en aritmética pura evaluable (+ - * / ^ paréntesis); el validador recomputa la respuesta (M-01)
    - KaTeX balanceado ($ pares, llaves cerradas) (U-06)
+   - El símbolo `$` es SOLO delimitador matemático: dinero con palabras («50 pesos»), NUNCA «$50» (el validador rechaza prosa dentro de spans U-06)
 3. **Ubica** el contenido en `src/features/content/data/unit<N>.ts` siguiendo el patrón de `unit1-a.ts`/`unit1-b.ts`; registra conceptos nuevos en `concepts.ts`; ensambla la unidad en `data/unit<N>.ts` y añádela a `CURRICULUM` en `index.ts`.
 4. **Valida**: `npm test` (el suite del currículo valida TODO automáticamente y fallará si algo incumple) + `npm run typecheck`.
 5. **Auto-revisa pedagógicamente**: ¿cada lección enseña UN concepto? ¿hook concreto antes de definición? ¿verificaste cada solución manualmente además del evaluador?

@@ -1,72 +1,53 @@
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/atoms/Button";
-import { ProgressBar } from "@/components/ui/atoms/ProgressBar";
 import { Spinner } from "@/components/ui/atoms/Spinner";
 import { EmptyState } from "@/components/ui/molecules/EmptyState";
 import { navigate, ROUTES } from "@/app/router";
-import { getDefaultProfile, getStore } from "@/lib/storage";
-import { fetchSessionExercises } from "../services/sessionService";
+import { useLessonContentLoader } from "../hooks/useLessonContentLoader";
+import { useSaveLessonProgress } from "../hooks/useSaveLessonProgress";
+import { enqueueFailureForReview } from "../services/sessionService";
 import {
-  continueSession,
+  dismissRescue,
+  endSessionNow,
   getSessionState,
-  gradeCurrent,
-  revealHint,
-  skipExercise,
   startSession,
   useSessionState,
 } from "../stores/sessionStore";
 import type { SessionResult } from "../types";
-import { ExerciseCard } from "./ExerciseCard";
-import { HintPanel } from "./HintPanel";
+import { LessonExerciseView } from "./LessonExerciseView";
+import { LessonIntroScreen } from "./LessonIntroScreen";
+import { RescueScreen } from "./RescueScreen";
 import { ReviewSummary } from "./ReviewSummary";
 import styles from "./LessonPlayer.module.css";
 
 type LessonPlayerProps = {
   sessionId: string;
+  step: 1 | 2;
+  onStepChange: (next: 1 | 2) => void;
   onExit: () => void;
 };
 
-export function LessonPlayer({ sessionId, onExit }: LessonPlayerProps) {
+export function LessonPlayer({
+  sessionId,
+  step,
+  onStepChange,
+  onExit,
+}: LessonPlayerProps) {
   const session = useSessionState();
-  const [loadError, setLoadError] = useState<string | null>(null);
+  const { content, loadError } = useLessonContentLoader(sessionId);
 
-  useEffect(() => {
-    let alive = true;
-    void (async () => {
-      setLoadError(null);
-      try {
-        const exercises = await fetchSessionExercises(sessionId);
-        if (alive) startSession(sessionId, exercises);
-      } catch (cause) {
-        if (alive)
-          setLoadError(cause instanceof Error ? cause.message : String(cause));
-      }
-    })();
-    return () => {
-      alive = false;
-    };
-  }, [sessionId]);
+  const allCorrectNoHints =
+    session.queue.length > 0 &&
+    session.correctCount === session.queue.length &&
+    session.skippedCount === 0 &&
+    Object.values(session.revealedHints).every((count) => count === 0);
 
-  useEffect(() => {
-    if (session.status !== "finished") return;
-    void (async () => {
-      try {
-        const store = await getStore();
-        const profile = await getDefaultProfile();
-        const total = session.queue.length;
-        const accuracy = total === 0 ? 1 : session.correctCount / total;
-        const mastery = Math.round(accuracy * 100);
-        await store.saveProgress(profile.id, {
-          lessonId: sessionId,
-          mastery,
-          state: "completed",
-        });
-        await store.flush();
-      } catch {
-        // Persistencia best-effort
-      }
-    })();
-  }, [session.status, session.queue.length, session.correctCount, sessionId]);
+  const { newlyUnlocked } = useSaveLessonProgress({
+    sessionId,
+    status: session.status,
+    queueLength: session.queue.length,
+    correctCount: session.correctCount,
+    earnedXp: session.earnedXp,
+    allCorrectNoHints,
+  });
 
   if (loadError !== null) {
     return (
@@ -91,6 +72,39 @@ export function LessonPlayer({ sessionId, onExit }: LessonPlayerProps) {
     );
   }
 
+  if (
+    content !== null &&
+    content.intro !== null &&
+    content.guidedPractice !== null &&
+    step === 1
+  ) {
+    return (
+      <LessonIntroScreen
+        title={content.title}
+        intro={content.intro}
+        guidedPractice={content.guidedPractice}
+        commonMistakes={content.commonMistakes}
+        onStart={() => onStepChange(2)}
+      />
+    );
+  }
+
+  if (session.status === "active" && session.rescueActive) {
+    return (
+      <RescueScreen
+        onReviewConcept={
+          content?.intro !== null && content?.intro !== undefined
+            ? () => {
+                dismissRescue();
+                onStepChange(1);
+              }
+            : undefined
+        }
+        onFinishNow={endSessionNow}
+      />
+    );
+  }
+
   const active = getSessionState().queue[session.index];
 
   if (session.status === "finished" || active === undefined) {
@@ -105,6 +119,7 @@ export function LessonPlayer({ sessionId, onExit }: LessonPlayerProps) {
     return (
       <ReviewSummary
         sessionResult={result}
+        newlyUnlocked={newlyUnlocked}
         onRetry={() => startSession(sessionId, session.queue)}
         onFinish={onExit}
       />
@@ -117,36 +132,16 @@ export function LessonPlayer({ sessionId, onExit }: LessonPlayerProps) {
     100;
 
   return (
-    <div className={styles["player"]}>
-      <header className={styles["topbar"]}>
-        <Button variant="ghost" size="sm" onPress={onExit}>
-          Salir
-        </Button>
-        <ProgressBar
-          value={progress}
-          label={`Progreso: ${session.index + 1} de ${session.queue.length}`}
-        />
-      </header>
-
-      <ExerciseCard
-        key={active.id}
-        exercise={active}
-        onAnswer={(isCorrect) =>
-          gradeCurrent(active.id, isCorrect, isCorrect ? active.xp : 0)
-        }
-        onContinue={continueSession}
-      />
-
-      <footer className={styles["footer"]}>
-        <HintPanel
-          hints={active.hints}
-          revealedCount={session.revealedHints[active.id] ?? 0}
-          onReveal={() => revealHint(active.id)}
-        />
-        <Button variant="ghost" size="sm" onPress={skipExercise}>
-          Saltar ejercicio
-        </Button>
-      </footer>
-    </div>
+    <LessonExerciseView
+      active={active}
+      progress={progress}
+      index={session.index}
+      total={session.queue.length}
+      revealedCount={session.revealedHints[active.id] ?? 0}
+      onExit={onExit}
+      onAnswered={(exerciseId, isCorrect) => {
+        if (!isCorrect) void enqueueFailureForReview(exerciseId);
+      }}
+    />
   );
 }

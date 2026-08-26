@@ -327,6 +327,95 @@ export function generateLinearMultipleChoiceExercise(
   });
 }
 
+export type UnitFractionDenominator = 2 | 3 | 4 | 5;
+
+/**
+ * Ecuación (1/n)x+b=c con solución entera garantizada: se construye hacia
+ * atrás desde el término ya aislado (x/n), no desde x directamente, para que
+ * c nunca quede decimal.
+ */
+export interface FractionLinearEquation {
+  readonly denominator: UnitFractionDenominator;
+  readonly b: number;
+  readonly c: number;
+  readonly solution: number;
+}
+
+export function drawFractionLinearEquation(
+  rng: Rng,
+  difficulty: DifficultyLevel,
+): FractionLinearEquation {
+  const denominator = [2, 3, 4, 5][
+    randomInt(rng, 0, 3)
+  ] as UnitFractionDenominator;
+  const bounds: Record<DifficultyLevel, readonly [number, number]> = {
+    1: [-6, 6],
+    2: [-9, 9],
+    3: [-12, 12],
+  };
+  const range = bounds[difficulty];
+  let isolated = randomInt(rng, range[0], range[1]);
+  if (isolated === 0) {
+    isolated = 1;
+  }
+  const b = randomInt(rng, -9, 9);
+  const c = isolated + b;
+  return { denominator, b, c, solution: isolated * denominator };
+}
+
+export function formatFractionEquation(
+  equation: FractionLinearEquation,
+): string {
+  const term = `(1/${equation.denominator})x`;
+  const left =
+    equation.b === 0
+      ? term
+      : equation.b < 0
+        ? `${term} − ${Math.abs(equation.b)}`
+        : `${term} + ${equation.b}`;
+  return `${left} = ${equation.c}`;
+}
+
+/** Derivación aritmética pura que evalúa a la solución (M-01). */
+export function formatFractionSolutionDerivation(
+  equation: FractionLinearEquation,
+): string {
+  return `((${equation.c})-(${equation.b}))*${equation.denominator}`;
+}
+
+/** Ejercicio numérico con coeficiente fraccionario unitario ($1/2$, $1/3$, $1/4$ o $1/5$). */
+export function generateFractionCoefficientExercise(
+  input: GenerationInput,
+): Exercise {
+  const difficulty = resolveDifficulty(input.difficulty);
+  const rng = createRng(input.seed);
+  const equation = drawFractionLinearEquation(rng, difficulty);
+
+  return parseExercise({
+    id: `alg-frac-numeric-d${difficulty}-${input.seed}`,
+    prompt: `Resuelve ${formatFractionEquation(equation)}. ¿Cuál es el valor de x?`,
+    conceptsUsed: [...(input.conceptsUsed ?? [])],
+    difficulty,
+    hints: [
+      {
+        level: 1,
+        text: `El coeficiente es 1/${equation.denominator}: multiplica ambos lados por su recíproco, ${equation.denominator}.`,
+      },
+      {
+        level: 2,
+        text:
+          equation.b === 0
+            ? `x = ${equation.c} × ${equation.denominator}.`
+            : "Primero aísla el término con x, luego multiplica por el recíproco.",
+      },
+    ],
+    type: "numeric-input",
+    answer: equation.solution,
+    derivation: formatFractionSolutionDerivation(equation),
+    tolerance: NUMERIC_TOLERANCE,
+  });
+}
+
 /** Verdadero/falso sobre si el valor propuesto es solución de la ecuación (M-02 exige explicación). */
 export function generateLinearTrueFalseExercise(
   input: GenerationInput,

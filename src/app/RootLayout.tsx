@@ -4,6 +4,7 @@ import { ROUTE_PATHS as ROUTES } from "@/app/router/paths";
 import { AppShell } from "@/features/navigation";
 import type { NavItem } from "@/features/navigation";
 import { applyTheme, loadSettings } from "@/features/settings";
+import { Scratchpad } from "@/features/lesson/components/Scratchpad";
 import { ErrorBoundary } from "./ErrorBoundary";
 import styles from "./RootLayout.module.css";
 
@@ -53,7 +54,12 @@ export function RootLayout() {
       .catch(() => applyTheme("light"));
   }, []);
 
-  if (pathname.startsWith("/leccion") || pathname.startsWith("/onboarding")) {
+  if (
+    pathname.startsWith("/leccion") ||
+    pathname.startsWith("/practica") ||
+    pathname.startsWith("/repaso") ||
+    pathname.startsWith("/onboarding")
+  ) {
     return (
       <>
         <a href="#main-content" className={styles["skipLink"]}>
@@ -62,6 +68,7 @@ export function RootLayout() {
         <ErrorBoundary>
           <Outlet />
         </ErrorBoundary>
+        <Scratchpad />
       </>
     );
   }
@@ -82,6 +89,7 @@ export function RootLayout() {
           </ErrorBoundary>
         </div>
       </AppShell>
+      <Scratchpad />
     </>
   );
 }

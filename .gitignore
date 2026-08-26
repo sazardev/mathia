@@ -55,6 +55,7 @@ coverage/
 .turbo/
 .cache/
 *.tsbuildinfo
+landing/.astro/
 
 # ─── Editores e IDEs ─────────────────────────────────────────
 .vscode/*

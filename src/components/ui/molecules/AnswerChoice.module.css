@@ -41,7 +41,7 @@
 }
 
 .correct {
-  animation: pop var(--dur-celebrate) var(--ease-standard);
+  animation: pop var(--dur-celebrate) var(--ease-juicy);
   box-shadow:
     inset 0 0 0 2px var(--color-success-500),
     0 3px 0 rgba(47, 179, 68, 0.4);

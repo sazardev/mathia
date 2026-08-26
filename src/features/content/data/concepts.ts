@@ -20,4 +20,24 @@ export const CONCEPTS = {
   ecFracciones: { id: "c-ec-fracciones", name: "Ecuaciones con denominadores" },
   plantear: { id: "c-plantear", name: "Plantear ecuaciones desde problemas" },
   desig1p: { id: "c-desig1p", name: "Desigualdades de un paso" },
+  ecFracDecimales: {
+    id: "c-ec-frac-decimales",
+    name: "Ecuaciones con coeficientes fraccionarios y decimales",
+  },
+  metodosResolucion: {
+    id: "c-metodos-resolucion",
+    name: "Métodos de resolución: balanza y despeje directo",
+  },
+  cuadIntro: {
+    id: "c-cuad-intro",
+    name: "Introducción a las ecuaciones cuadráticas",
+  },
+  cuadFactorizacion: {
+    id: "c-cuad-factorizacion",
+    name: "Resolver cuadráticas por factorización",
+  },
+  cuadFormula: {
+    id: "c-cuad-formula",
+    name: "Fórmula general y discriminante",
+  },
 } satisfies Record<string, Concept>;

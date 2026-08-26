@@ -101,6 +101,18 @@ const matchPairsDataSchema = z.object({
     .min(2),
 });
 
+const numberLineDataSchema = z.object({
+  ...exerciseBaseSchema,
+  type: z.literal("number-line"),
+  prompt: z.string().min(1),
+  min: z.number(),
+  max: z.number(),
+  step: z.number().positive(),
+  answer: z.number(),
+  derivation: z.string().min(1),
+  tolerance: z.number().positive().optional(),
+});
+
 function checkHintLadder(hints: { level: number }[]): string | null {
   if (hints.length < 1 || hints.length > 3) {
     return `BR-M4-1: debe tener entre 1 y 3 pistas; tiene ${hints.length}`;
@@ -121,6 +133,7 @@ const rawExerciseDataSchema = z.discriminatedUnion("type", [
   orderStepsDataSchema,
   trueFalseDataSchema,
   matchPairsDataSchema,
+  numberLineDataSchema,
 ]);
 
 type RawExerciseData = z.infer<typeof rawExerciseDataSchema>;
@@ -173,6 +186,15 @@ function checkExercise(value: Exercise | RawExerciseData): string | null {
         ? null
         : "Los lados izquierdos de match-pairs no pueden repetirse";
     }
+    case "number-line": {
+      if (value.min >= value.max) {
+        return "number-line: min debe ser menor que max";
+      }
+      if (value.answer < value.min || value.answer > value.max) {
+        return "number-line: answer debe estar dentro de [min, max]";
+      }
+      return null;
+    }
   }
 }
 
@@ -185,6 +207,21 @@ export const exerciseDataSchema = rawExerciseDataSchema.superRefine(
   },
 );
 
+const guidedPracticeSchema = z.object({
+  problem: z.string().min(1),
+  steps: z
+    .array(
+      z.object({
+        instruction: z.string().min(1),
+        result: z.string().min(1),
+      }),
+    )
+    .min(2),
+  prompt: z.string().min(1),
+  answer: z.number(),
+  derivation: z.string().min(1),
+});
+
 export const lessonDataSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1),
@@ -195,6 +232,7 @@ export const lessonDataSchema = z.object({
     definition: z.string().min(1),
     workedExamples: z.array(z.string().min(1)),
   }),
+  guidedPractice: guidedPracticeSchema,
   commonMistakes: z.array(z.string().min(1)),
   exercises: z.array(exerciseDataSchema).min(1),
 });

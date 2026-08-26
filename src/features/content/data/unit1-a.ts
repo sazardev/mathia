@@ -8,24 +8,64 @@ export const LESSON_L1: Lesson = {
   title: "Sumar y restar enteros",
   conceptIdsTaught: [intSuma.id],
   intro: {
-    hook: "Un ascensor está en el piso −2 (subterráneo 2). Si sube 9 pisos, ¿en qué piso queda? Así funciona sumar enteros.",
+    hook: "Vives en el piso −2 de un edificio (dos plantas bajo tierra) y subes 9 pisos en el ascensor. ¿En qué piso quedas? Sumar números con signo es justo eso: contar pasos en una recta.",
     intuition: [
-      "Imagina una recta numérica: los negativos a la izquierda del 0, los positivos a la derecha.",
-      "Sumar un positivo te mueve a la derecha; sumar un negativo, a la izquierda.",
-      "$-4+9$: partes de $-4$ y avanzas 9 pasos a la derecha → llegas al $5$.",
+      "Dibuja una recta: los negativos a la izquierda del 0, los positivos a la derecha. Sumar te mueve a la derecha; restar, a la izquierda.",
+      "Atajo sin dibujar nada: si los signos son distintos, resta los valores absolutos y quédate con el signo del número más grande. $-4+9$: $9-4=5$, y como el $9$ manda, el resultado es $+5$.",
+      "Restar un negativo es como cancelar una deuda: te la quitan de encima, así que en realidad suma. $6-(-3)=6+3=9$.",
     ],
     definition:
-      "Para sumar enteros con distinto signo: réstale al mayor valor absoluto el menor, y conserva el signo del que tiene mayor valor absoluto. Restar un entero equivale a sumar su opuesto: $a-b=a+(-b)$.",
+      'Signos iguales: suma los valores absolutos y conserva el signo. Signos distintos: resta el menor del mayor y usa el signo del que "pesa" más. Restar equivale a sumar el opuesto: $a-b=a+(-b)$.',
     workedExamples: [
-      "$-7+12$: |12|>|−7|, el signo es +. Calculo 12−7=5. Resultado: 5.",
-      "$6-(-3)=6+3=9$. Restar un negativo es sumarlo.",
+      "$-7+12$: signos distintos, así que $12-7=5$; como el $12$ es mayor y positivo, el resultado es $5$.",
+      "$6-(-3)$: restar un negativo es sumar → $6+3=9$.",
     ],
   },
+  guidedPractice: {
+    problem: "$-5+8$",
+    steps: [
+      {
+        instruction:
+          "Los signos son distintos (−5 negativo, 8 positivo): resta los valores absolutos.",
+        result: "$8-5=3$",
+      },
+      {
+        instruction:
+          "El resultado toma el signo del número con mayor valor absoluto (el 8, positivo).",
+        result: "Resultado: $+3$",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: ¿cuánto es $-6+10$?",
+    answer: 4,
+    derivation: "(-6)+10",
+  },
   commonMistakes: [
-    "Aplicar la regla de los signos de la multiplicación a una suma: $-4+9$ no es $-13$ ni depende de signos iguales.",
-    "Creer que $a-b$ siempre da negativo cuando $b>a$, olvidando que puede haber negativos en $a$ también.",
+    "Pensar que signos distintos siempre dan negativo: $-4+9=5$, no $-13$ — depende de cuál valor absoluto es mayor.",
+    "Olvidar que restar un negativo se convierte en suma: $-6-(-10)$ es $-6+10=4$, no $-16$.",
   ],
   exercises: [
+    {
+      type: "number-line",
+      id: "u1l1e0",
+      conceptsUsed: [intSuma.id],
+      difficulty: 1,
+      prompt: "Ubica en la recta numérica el resultado de $-4+9$.",
+      min: -10,
+      max: 10,
+      step: 1,
+      answer: 5,
+      derivation: "(-4)+9",
+      hints: [
+        {
+          level: 1,
+          text: "Ubica $-4$ en la recta y cuenta 9 pasos hacia la derecha.",
+        },
+        {
+          level: 2,
+          text: "Signos distintos: resta $9-4$ y usa el signo del mayor (positivo).",
+        },
+      ],
+    },
     {
       type: "multiple-choice",
       id: "u1l1e1",
@@ -183,22 +223,39 @@ export const LESSON_L2: Lesson = {
   title: "Multiplicar y dividir enteros",
   conceptIdsTaught: [intMult.id],
   intro: {
-    hook: "Si cada mes ahorras $-50$ (gastas 50), ¿qué pasa con tu cuenta después de 3 meses? Multiplicar negativos responde eso.",
+    hook: "Ya sabes sumar y restar números con signo. Multiplicarlos y dividirlos es incluso más simple: solo cuentas cuántos signos negativos hay.",
     intuition: [
-      "Mismo signo → producto positivo. Distinto signo → producto negativo.",
-      "Piensa en $(−3)·(−6)$ como «quitar 3 deudas de 6»: quitarte deudas te beneficia → positivo.",
-      "La división sigue exactamente la misma regla de signos.",
+      "Cuenta los negativos en la operación: si son un número par (0, 2, 4...), el resultado es positivo; si son impares, negativo.",
+      "Piensa en deudas: quitarte 3 deudas de 6 —es decir, $(-3)\\cdot(-6)$— te hace ganar, por eso da positivo: $18$.",
+      "La división obedece exactamente la misma regla de signos que la multiplicación.",
     ],
     definition:
-      "Regla de signos para multiplicación y división: mismo signo da $+$, distinto signo da $-$. El valor absoluto se multiplica o divide normalmente.",
+      "Mismo signo → producto (o cociente) positivo. Distinto signo → negativo. El valor absoluto se multiplica o divide normalmente.",
     workedExamples: [
-      "$(−5)·4$: signos distintos → negativo. $5·4=20$. Resultado: $-20$.",
-      "$(−24)÷(−3)$: mismo signo → positivo. $24÷3=8$. Resultado: $8$.",
+      "$(-5)\\cdot4$: signos distintos → negativo. $5\\cdot4=20$, resultado $-20$.",
+      "$(-24)\\div(-3)$: mismo signo → positivo. $24\\div3=8$.",
     ],
   },
+  guidedPractice: {
+    problem: "$(-4)\\cdot5$",
+    steps: [
+      {
+        instruction:
+          "Cuenta los signos negativos: hay uno solo (impar) → el resultado será negativo.",
+        result: "Signo: negativo.",
+      },
+      {
+        instruction: "Multiplica los valores absolutos.",
+        result: "$4\\cdot5=20$, así que $(-4)\\cdot5=-20$.",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: ¿cuánto es $(-6)\\cdot(-3)$?",
+    answer: 18,
+    derivation: "(-6)*(-3)",
+  },
   commonMistakes: [
-    "Aplicar la regla de signos al revés: pensar que $(−3)·(−6)$ es negativo.",
-    "Multiplicar en lugar de sumar términos parecidos más adelante: confundir $x+x$ con $x·x$.",
+    "Invertir la regla: pensar que $(-3)\\cdot(-6)$ da negativo — dos negativos se cancelan y dan positivo.",
+    "Mezclar suma con multiplicación: $x+x$ es $2x$ (se suman), pero $x\\cdot x$ es $x^2$ (se multiplican) — son operaciones distintas.",
   ],
   exercises: [
     {
@@ -320,6 +377,71 @@ export const LESSON_L2: Lesson = {
       answer: 10,
       derivation: "((-24)/(-3))-(-2)",
     },
+    {
+      type: "order-steps",
+      id: "u1l2e6",
+      conceptsUsed: [intMult.id],
+      difficulty: 3,
+      prompt: "Ordena los pasos para calcular $(-2)\\cdot(-3)\\cdot(-4)$.",
+      steps: [
+        {
+          id: "s1",
+          text: "Cuenta los signos negativos: hay tres (impar) → el resultado final será negativo.",
+        },
+        {
+          id: "s2",
+          text: "Multiplica los valores absolutos: $2\\cdot3\\cdot4=24$.",
+        },
+        { id: "s3", text: "Aplica el signo: el resultado es $-24$." },
+      ],
+      correctOrder: ["s1", "s2", "s3"],
+      hints: [
+        {
+          level: 1,
+          text: "Primero decide el signo del resultado, después calcula el valor.",
+        },
+        {
+          level: 2,
+          text: "Con tres negativos (impar), el resultado final es negativo.",
+        },
+      ],
+    },
+    {
+      type: "match-pairs",
+      id: "u1l2e7",
+      conceptsUsed: [intMult.id],
+      difficulty: 3,
+      prompt: "Relaciona cada operación con el signo de su resultado.",
+      pairs: [
+        { left: "$(-3)\\cdot(-5)$", right: "Positivo" },
+        { left: "$(-8)\\div 2$", right: "Negativo" },
+        { left: "$4\\cdot(-7)$", right: "Negativo" },
+        { left: "$(-15)\\div(-3)$", right: "Positivo" },
+      ],
+      hints: [
+        {
+          level: 1,
+          text: "Mismo signo en ambos factores → positivo. Signos distintos → negativo.",
+        },
+      ],
+    },
+    {
+      type: "numeric-input",
+      id: "u1l2e8",
+      conceptsUsed: [intMult.id],
+      difficulty: 3,
+      prompt: "Calcula $(-6)\\cdot(-2)\\cdot(-1)\\cdot 3$.",
+      hints: [
+        {
+          level: 1,
+          text: "Multiplica de izquierda a derecha, dos factores a la vez.",
+        },
+        { level: 2, text: "$(-6)\\cdot(-2)=12$; luego $12\\cdot(-1)=-12$." },
+        { level: 3, text: "Finalmente $-12\\cdot3$." },
+      ],
+      answer: -36,
+      derivation: "(((-6)*(-2))*(-1))*3",
+    },
   ],
 };
 
@@ -328,21 +450,37 @@ export const LESSON_L3: Lesson = {
   title: "Potencias y raíces cuadradas perfectas",
   conceptIdsTaught: [potencias.id],
   intro: {
-    hook: "Un virus duplica su cantidad cada hora: 1, 2, 4, 8… Eso es una potencia de 2. Las potencias son multiplicaciones repetidas comprimidas.",
+    hook: "Ya dominas multiplicar. Las potencias son multiplicaciones del mismo número, repetidas: un virus que se duplica cada hora (1, 2, 4, 8…) crece como $2$ elevado a algo.",
     intuition: [
-      "$2^4$ significa $2·2·2·2$ (el 2 se repite 4 veces), NO $2·4$.",
-      "Elevar un negativo a exponente par da positivo; a exponente impar, negativo.",
-      "$\\sqrt{81}$ pregunta: ¿qué número positivo multiplicado por sí mismo da 81? Respuesta: 9.",
+      '$2^4$ significa "2 multiplicado por sí mismo 4 veces": $2\\cdot2\\cdot2\\cdot2=16$. NO es $2\\times4$.',
+      "El paréntesis decide si el signo se eleva: $(-3)^2=(-3)(-3)=9$ (exponente par, dos negativos se cancelan), pero $-3^2=-(3^2)=-9$ (el signo queda fuera).",
+      "La raíz cuadrada pregunta al revés: ¿qué número multiplicado por sí mismo da esto? $\\sqrt{81}=9$ porque $9\\cdot9=81$. Truco: memoriza los cuadrados perfectos (1, 4, 9, 16, 25…) para reconocerlos al vuelo.",
     ],
     definition:
-      "$a^n$ = producto de $n$ factores iguales a $a$. Si $b^2=a$ con $b\\geq 0$, entonces $\\sqrt{a}=b$ (raíz principal). Ojo: $-3^2=-(3^2)=-9$, pero $(-3)^2=9$: el paréntesis decide si el signo se eleva.",
+      "$a^n$ = producto de $n$ factores iguales a $a$. Si $b^2=a$ con $b\\geq 0$, entonces $\\sqrt{a}=b$ (raíz principal). Sin paréntesis, el signo negativo NO se eleva: $-a^2=-(a^2)$.",
     workedExamples: [
-      "$(-4)^2=(-4)·(-4)=16$: exponente par, signo sobrevive positivo.",
-      "$\\sqrt{144}=12$ porque $12·12=144$.",
+      "$(-4)^2=(-4)\\cdot(-4)=16$: exponente par, el signo desaparece.",
+      "$\\sqrt{144}=12$ porque $12\\cdot12=144$.",
     ],
   },
+  guidedPractice: {
+    problem: "$2^5$",
+    steps: [
+      {
+        instruction: "Escribe la multiplicación repetida de 2, cinco veces.",
+        result: "$2\\cdot2\\cdot2\\cdot2\\cdot2$",
+      },
+      {
+        instruction: "Multiplica paso a paso: 2, 4, 8, 16, 32.",
+        result: "$2^5=32$",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: ¿cuánto es $4^3$?",
+    answer: 64,
+    derivation: "4^3",
+  },
   commonMistakes: [
-    "Calcular $2^4$ como $2·4=8$: la potencia es multiplicación repetida, no producto por el exponente.",
+    "Calcular $2^4$ como $2\\times4=8$: una potencia es multiplicación repetida, no el número por el exponente.",
     "Confundir $(-3)^2=9$ con $-3^2=-9$: sin paréntesis el signo NO participa de la potencia.",
   ],
   exercises: [
@@ -502,6 +640,68 @@ export const LESSON_L3: Lesson = {
       answer: 21,
       derivation: "(144^(1/2))+(3^2)",
     },
+    {
+      type: "order-steps",
+      id: "u1l3e7",
+      conceptsUsed: [potencias.id],
+      difficulty: 3,
+      prompt: "Ordena los pasos para calcular $(-2)^4$.",
+      steps: [
+        {
+          id: "s1",
+          text: "Identifica que el exponente es par: el signo negativo desaparecerá.",
+        },
+        {
+          id: "s2",
+          text: "Multiplica los valores absolutos cuatro veces: $2\\cdot2\\cdot2\\cdot2=16$.",
+        },
+        {
+          id: "s3",
+          text: "Como el exponente es par, el resultado es positivo: $16$.",
+        },
+      ],
+      correctOrder: ["s1", "s2", "s3"],
+      hints: [
+        {
+          level: 1,
+          text: "Primero decide el signo según si el exponente es par o impar.",
+        },
+        { level: 2, text: "Exponente par → el resultado siempre es positivo." },
+      ],
+    },
+    {
+      type: "match-pairs",
+      id: "u1l3e8",
+      conceptsUsed: [potencias.id],
+      difficulty: 3,
+      prompt: "Relaciona cada potencia o raíz con su valor.",
+      pairs: [
+        { left: "$3^2$", right: "$9$" },
+        { left: "$\\sqrt{49}$", right: "$7$" },
+        { left: "$(-2)^3$", right: "$-8$" },
+        { left: "$\\sqrt{100}$", right: "$10$" },
+      ],
+      hints: [
+        {
+          level: 1,
+          text: "Recuerda los cuadrados perfectos y que exponente impar conserva el signo.",
+        },
+      ],
+    },
+    {
+      type: "numeric-input",
+      id: "u1l3e9",
+      conceptsUsed: [potencias.id],
+      difficulty: 3,
+      prompt: "Calcula $\\sqrt{25}\\cdot(-2)^3$.",
+      hints: [
+        { level: 1, text: "Resuelve la raíz y la potencia por separado." },
+        { level: 2, text: "$\\sqrt{25}=5$; $(-2)^3=-8$." },
+        { level: 3, text: "Multiplica $5\\cdot(-8)$." },
+      ],
+      answer: -40,
+      derivation: "(25^(1/2))*((-2)^3)",
+    },
   ],
 };
 
@@ -510,22 +710,39 @@ export const LESSON_L4: Lesson = {
   title: "Jerarquía de operaciones",
   conceptIdsTaught: [jerarquia.id],
   intro: {
-    hook: "Dos personas calculan 2+3·4 y obtienen 14 y 20. Solo una respeta el acuerdo mundial sobre el orden: la jerarquía.",
+    hook: "Ya sabes sumar, multiplicar y elevar potencias. Pero si los mezclas en una sola expresión, ¿por dónde empiezas? Todo el mundo usa el mismo orden — sin él, cada quien obtendría una respuesta distinta.",
     intuition: [
-      "El orden es: 1º paréntesis, 2º potencias y raíces, 3º multiplicaciones/divisiones (izq→der), 4º sumas/restas (izq→der).",
-      "La multiplicación NO va «antes» porque sea más fuerte en la vida real: es un convenio para que todos leamos igual.",
-      "Una fracción o barra actúa como paréntesis invisible: el numerador completo se resuelve junto.",
+      "El orden es siempre igual: 1º paréntesis, 2º potencias y raíces, 3º multiplicaciones y divisiones (izq→der), 4º sumas y restas (izq→der).",
+      'No es que la multiplicación sea "más fuerte" en la vida real — es un acuerdo para que todos leamos las expresiones igual.',
+      "Una fracción actúa como un paréntesis invisible: todo el numerador se calcula junto antes de dividir.",
     ],
     definition:
-      "Jerarquía (PEMDAS/PAPOMUDAS): Paréntesis → Potencias → Productos y cocientes (de izquierda a derecha) → Sumas y restas (de izquierda a derecha).",
+      "Jerarquía de operaciones: paréntesis → potencias/raíces → productos y cocientes (izquierda a derecha) → sumas y restas (izquierda a derecha).",
     workedExamples: [
-      "$10-2·3=10-6=4$ (primero el producto).",
-      "$(2+3)·4^2=5·16=80$ (paréntesis, luego potencia, luego producto).",
+      "$10-2\\cdot3$: primero el producto → $10-6=4$.",
+      "$(2+3)\\cdot4^2$: paréntesis primero ($5$), luego potencia ($16$), luego producto → $5\\cdot16=80$.",
     ],
   },
+  guidedPractice: {
+    problem: "$3+4\\cdot2$",
+    steps: [
+      {
+        instruction:
+          "Identifica qué va primero: el producto tiene prioridad sobre la suma.",
+        result: "Calcula $4\\cdot2=8$ primero.",
+      },
+      {
+        instruction: "Ahora suma el resultado.",
+        result: "$3+8=11$",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: ¿cuánto es $20-3\\cdot4$?",
+    answer: 8,
+    derivation: "20-(3*4)",
+  },
   commonMistakes: [
-    "Resolver estrictamente de izquierda a derecha ignorando jerarquía: $2+3·4$ NO es $(2+3)·4$.",
-    "Olvidar que la división tiene la misma prioridad que la multiplicación: en $100÷(−5)·2$ se resuelve izquierda a derecha.",
+    "Resolver de izquierda a derecha sin jerarquía: $2+3\\cdot4$ NO es $(2+3)\\cdot4=20$; el producto va primero: $2+12=14$.",
+    "Olvidar que multiplicación y división tienen la MISMA prioridad y se resuelven en el orden en que aparecen, de izquierda a derecha.",
   ],
   exercises: [
     {

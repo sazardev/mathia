@@ -1,4 +1,10 @@
-import type { Choice, Exercise, Lesson, Unit } from "@/features/content/schema";
+import type {
+  Choice,
+  Exercise,
+  GuidedPractice,
+  Lesson,
+  Unit,
+} from "@/features/content/schema";
 import { evaluateArithmetic } from "./math-eval";
 
 export interface ValidationError {
@@ -97,6 +103,8 @@ function validateLesson(
       message: `La lección tiene ${lesson.exercises.length} ejercicios; se exigen ${MIN_EXERCISES}-${MAX_EXERCISES}`,
     });
   }
+
+  errors.push(...validateGuidedPractice(ctx, lesson.guidedPractice));
 
   // M-04: escalera de dificultad no decreciente.
   for (let i = 1; i < lesson.exercises.length; i += 1) {
@@ -245,6 +253,9 @@ function validateExercise(
           message: "correctOrder no corresponde exactamente a los pasos",
         });
       }
+      for (const step of exercise.steps) {
+        errors.push(...checkMathText(base, "U-06", step.text));
+      }
       break;
     }
     case "match-pairs": {
@@ -267,8 +278,26 @@ function validateExercise(
           message: "Lados izquierdos duplicados en match-pairs",
         });
       }
+      for (const pair of exercise.pairs) {
+        errors.push(...checkMathText(base, "U-06", pair.left));
+        errors.push(...checkMathText(base, "U-06", pair.right));
+      }
       break;
     }
+    case "number-line":
+      errors.push(
+        ...validateNumberLine(
+          base,
+          exercise.prompt,
+          exercise.answer,
+          exercise.derivation,
+          exercise.min,
+          exercise.max,
+          exercise.step,
+          exercise.tolerance,
+        ),
+      );
+      break;
   }
   return errors;
 }
@@ -363,7 +392,135 @@ function validateNumericInput(
   return errors;
 }
 
-/** U-06 sanity KaTeX: número par de '$' y llaves balanceadas dentro de cada span matemático. */
+function validateNumberLine(
+  ctx: ErrorCtx,
+  prompt: string,
+  answer: number,
+  derivation: string,
+  min: number,
+  max: number,
+  step: number,
+  tolerance?: number,
+): ValidationError[] {
+  const errors: ValidationError[] = [];
+  if (min >= max) {
+    errors.push({
+      ...ctx,
+      ruleId: "SCHEMA",
+      message: `number-line: min (${min}) debe ser menor que max (${max})`,
+    });
+  }
+  if (step <= 0) {
+    errors.push({
+      ...ctx,
+      ruleId: "SCHEMA",
+      message: "number-line: step debe ser > 0",
+    });
+  }
+  if (answer < min || answer > max) {
+    errors.push({
+      ...ctx,
+      ruleId: "CONTENT",
+      message: `number-line: answer (${answer}) fuera de [${min}, ${max}]`,
+    });
+  }
+  errors.push(
+    ...validateNumericInput(ctx, prompt, answer, derivation, tolerance),
+  );
+  return errors;
+}
+
+function validateGuidedPractice(
+  ctx: ErrorCtx,
+  gp: GuidedPractice,
+): ValidationError[] {
+  const errors: ValidationError[] = [];
+  if (gp.problem.trim() === "") {
+    errors.push({
+      ...ctx,
+      ruleId: "CONTENT",
+      message: "Práctica guiada: problema vacío",
+    });
+  }
+  errors.push(...checkMathText(ctx, "U-06", gp.problem));
+  errors.push(...checkMathText(ctx, "U-06", gp.prompt));
+
+  if (gp.steps.length < 2) {
+    errors.push({
+      ...ctx,
+      ruleId: "CONTENT",
+      message: `Práctica guiada: requiere al menos 2 pasos; tiene ${gp.steps.length}`,
+    });
+  }
+  for (const step of gp.steps) {
+    errors.push(...checkMathText(ctx, "U-06", step.instruction));
+    errors.push(...checkMathText(ctx, "U-06", step.result));
+  }
+
+  if (!Number.isFinite(gp.answer)) {
+    errors.push({
+      ...ctx,
+      ruleId: "CONTENT",
+      message: "Práctica guiada: respuesta no finita",
+    });
+    return errors;
+  }
+  try {
+    const computed = evaluateArithmetic(gp.derivation);
+    if (Math.abs(computed - gp.answer) > DEFAULT_TOLERANCE) {
+      errors.push({
+        ...ctx,
+        ruleId: "M-01",
+        message: `Práctica guiada: derivación "${gp.derivation}" = ${computed}, pero la respuesta declarada es ${gp.answer}`,
+      });
+    }
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    errors.push({
+      ...ctx,
+      ruleId: "M-01",
+      message: `Práctica guiada: derivación inválida ("${gp.derivation}"): ${detail}`,
+    });
+  }
+  return errors;
+}
+
+/**
+ * U-06 sanity KaTeX: número par de '$', llaves balanceadas dentro de cada span
+ * matemático y cero prosa en los spans.
+ *
+ * Convención: el símbolo `$` es SOLO delimitador de matemática KaTeX. El dinero
+ * se escribe con palabras («50 pesos»), nunca «$50» — un span con texto corriente
+ * (p. ej. el de "tiene $50 y paga $3") es casi siempre moneda malparseada.
+ */
+const MATH_FUNCTION_WORDS = new Set([
+  "sin",
+  "cos",
+  "tan",
+  "cot",
+  "sec",
+  "csc",
+  "log",
+  "ln",
+  "lim",
+  "max",
+  "min",
+  "exp",
+  "mod",
+  "gcd",
+  "lcm",
+]);
+
+function containsProse(span: string): boolean {
+  const withoutTextSpans = span.replace(
+    /\\(?:text|mathrm|mathit)\{[^{}]*\}/g,
+    " ",
+  );
+  const words =
+    withoutTextSpans.replace(/\\[a-zA-Z]+/g, " ").match(/[a-zA-Z]{3,}/g) ?? [];
+  return words.some((word) => !MATH_FUNCTION_WORDS.has(word.toLowerCase()));
+}
+
 function checkMathText(
   ctx: ErrorCtx,
   ruleId: string,
@@ -392,6 +549,13 @@ function checkMathText(
         ...ctx,
         ruleId,
         message: `Llaves desbalanceadas en math span: "$${span.slice(0, 40)}"`,
+      });
+    }
+    if (containsProse(span)) {
+      errors.push({
+        ...ctx,
+        ruleId,
+        message: `Texto corriente dentro del span "$${span.slice(0, 40)}": "$" es SOLO matemática KaTeX; el dinero escríbelo con palabras (p. ej. "50 pesos"), nunca "$50"`,
       });
     }
   }

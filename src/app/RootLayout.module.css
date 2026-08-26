@@ -19,7 +19,7 @@
 }
 
 .content {
+  /* El ancho responsive real vive en AppShell.module.css (.content, <main>);
+     este div solo es el blanco de foco de "Saltar al contenido" (a11y). */
   width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
 }

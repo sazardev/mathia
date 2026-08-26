@@ -6,7 +6,8 @@ export type ExerciseType =
   | "expression-input"
   | "order-steps"
   | "true-false"
-  | "match-pairs";
+  | "match-pairs"
+  | "number-line";
 
 export type Difficulty = 1 | 2 | 3 | 4 | 5;
 export type HintLevel = 1 | 2 | 3;
@@ -88,13 +89,28 @@ export interface MatchPairsExercise extends ExerciseBase {
   pairs: MatchPair[];
 }
 
+export interface NumberLineExercise extends ExerciseBase {
+  type: "number-line";
+  prompt: string;
+  /** Rango visible de la recta (inclusive). */
+  min: number;
+  max: number;
+  /** Paso de graduación/snap al elegir un valor. */
+  step: number;
+  answer: number;
+  /** Derivación en aritmética pura ("(-4)+9"). El validador la evalúa y debe coincidir con answer. */
+  derivation: string;
+  tolerance?: number;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | NumericInputExercise
   | ExpressionInputExercise
   | OrderStepsExercise
   | TrueFalseExercise
-  | MatchPairsExercise;
+  | MatchPairsExercise
+  | NumberLineExercise;
 
 export interface LessonIntro {
   /** Gancho del mundo real que el concepto responde (CPA: concreto). */
@@ -107,11 +123,30 @@ export interface LessonIntro {
   workedExamples: string[];
 }
 
+export interface GuidedPracticeStep {
+  /** Instrucción de la acción a realizar en este paso. */
+  instruction: string;
+  /** Cómo queda la expresión tras aplicar la instrucción (con KaTeX). */
+  result: string;
+}
+
+export interface GuidedPractice {
+  /** Problema que se resuelve en conjunto, ej. "$x+5=12$". */
+  problem: string;
+  steps: GuidedPracticeStep[];
+  /** Pregunta final que el alumno responde por su cuenta. */
+  prompt: string;
+  answer: number;
+  /** Derivación en aritmética pura que el validador evalúa y debe coincidir con `answer`. */
+  derivation: string;
+}
+
 export interface Lesson {
   id: string;
   title: string;
   conceptIdsTaught: string[];
   intro: LessonIntro;
+  guidedPractice: GuidedPractice;
   commonMistakes: string[];
   exercises: Exercise[];
 }

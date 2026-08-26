@@ -37,6 +37,18 @@ const pathRoute = createRoute({
   component: lazyRouteComponent(() => import("@/pages/PathPage")),
 });
 
+const practiceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "practica",
+  component: lazyRouteComponent(() => import("@/pages/PracticePage")),
+});
+
+const reviewRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "repaso",
+  component: lazyRouteComponent(() => import("@/pages/ReviewPage")),
+});
+
 const lessonRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "leccion/$lessonId",
@@ -79,6 +91,8 @@ const onboardingRoute = createRoute({
 export const routeTree = rootRoute.addChildren([
   homeRoute,
   pathRoute,
+  practiceRoute,
+  reviewRoute,
   lessonRoute,
   statsRoute,
   achievementsRoute,

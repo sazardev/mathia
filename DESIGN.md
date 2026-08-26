@@ -166,6 +166,7 @@ Ubicaciones fijas: atoms en `components/ui/atoms/`, molecules en `components/ui/
 |---|---|---|---|
 | `AnswerChoice` | opción seleccionable de ejercicio | `state: idle/selected/correct/wrong`, `onSelect` | ✅ |
 | `ExercisePrompt` | enunciado + matemática | `prompt` | ✅ |
+| `MathText` | texto mixto con matemática inline (`$...$` → KaTeX) | `text` | ✅ |
 | `Numpad` | teclado numérico de respuesta | `onDigit`, `onSubmit` | ✅ |
 | `StatBadge` | métrica compacta | `label`, `value`, `tone` | ✅ |
 | `StreakFlame` | racha visual | `days`, `activeToday` | ✅ |
@@ -180,7 +181,7 @@ Ubicaciones fijas: atoms en `components/ui/atoms/`, molecules en `components/ui/
 | Componente | Responsabilidad única | Props clave | Estado |
 |---|---|---|---|
 | `AppShell` | chrome global persistente (header + nav + contenido) | slots | ✅ |
-| `NavRail` | navegación principal escritorio | `items`, `activeId` | ✅ |
+| `NavRail` | navegación principal tablet/escritorio (compacta o completa según breakpoint) | `items`, `activeId` | ✅ |
 | `BottomNav` | navegación principal móvil | `items`, `activeId` | ✅ |
 
 #### Organisms — Estadística (`features/stats/components/`)
@@ -216,7 +217,14 @@ Charts SIEMPRE SVG propio (§2.6); sin librerías.
 
 ### 3.4 Layouts (Templates)
 
-Viven en `src/templates/`. Un template define estructura y slots; jamás importa datos ni organismos concretos. Breakpoints definidos como tokens en `styles/tokens.css`.
+Viven en `src/templates/`. Un template define estructura y slots; jamás importa datos ni organismos concretos. Breakpoints canónicos documentados como comentario en `styles/tokens.css` (CSS custom properties no funcionan dentro de `@media`, así que se documentan ahí y se reutiliza el valor exacto en cada `@media`):
+
+| Breakpoint | Valor | Uso |
+|---|---|---|
+| Móvil | `<768px` | `BottomNav` fijo, sin rail lateral |
+| Tablet | `768–1023px` | `NavRail` compacto (solo íconos) |
+| Desktop | `1024–1439px` | `NavRail` completo con etiquetas |
+| Desktop ancho | `≥1440px` | Más ancho de contenido (`AppShell`/`StatsTemplate`) |
 
 | Template | Pantalla | Slots |
 |---|---|---|
@@ -395,16 +403,24 @@ Obligatorio antes de cada release y tras cambios de UI:
   --color-text-primary|secondary|muted;
 
   /* Espaciado — escala 4px */
-  --space-1..10  (4·n px);
+  --space-1..10, --space-12, --space-16  (4·n px; 12/16 para respiración en desktop);
 
   /* Tipografía */
   --font-ui; --font-math;                       /* KaTeX hereda su propia fuente */
-  --text-xs|sm|base|lg|xl|2xl con line-height emparejado;
+  --font-display;                       /* Fredoka self-hosted, h1/h2/h3 (reset.css) — identidad visual */
+  --text-xs|sm|base|lg|xl|2xl|3xl con line-height emparejado;
 
-  --radius-sm|md|full;
+  --radius-sm|md|lg|full;
   --shadow-1|2;
+
+  /* Motion */
+  --dur-instant|fast|normal|celebrate;
+  --ease-standard; --ease-exit;
+  --ease-juicy;   /* rebote/overshoot — SOLO en animaciones de celebración/acierto */
 }
 ```
+
+Breakpoints canónicos (no son custom property por limitación de CSS — ver §3.4): `640` móvil grande · `768` tablet · `1024` desktop · `1440` desktop ancho.
 
 Reglas: los componentes NUNCA hardcodean hex/px fuera de tokens; tema oscuro = segundo bloque `:root[data-theme="dark"]` que reasigna los mismos tokens; añadir un token nuevo exige usarlo ≥2 veces o no entra.
 

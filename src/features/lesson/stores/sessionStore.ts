@@ -13,6 +13,8 @@ type SessionState = {
   earnedXp: number;
   lastFeedback: AnswerFeedback | null;
   revealedHints: Record<string, number>;
+  consecutiveWrong: number;
+  rescueActive: boolean;
 };
 
 const initialState: SessionState = {
@@ -25,6 +27,8 @@ const initialState: SessionState = {
   earnedXp: 0,
   lastFeedback: null,
   revealedHints: {},
+  consecutiveWrong: 0,
+  rescueActive: false,
 };
 
 let state: SessionState = initialState;
@@ -54,12 +58,25 @@ export function gradeCurrent(
   const active = state.queue[state.index];
   if (active === undefined || active.id !== exerciseId) return;
   if (state.lastFeedback !== null) return;
+  const consecutiveWrong = isCorrect ? 0 : state.consecutiveWrong + 1;
   emit({
     ...state,
     correctCount: state.correctCount + (isCorrect ? 1 : 0),
     earnedXp: state.earnedXp + xpEarned,
     lastFeedback: isCorrect ? "correct" : "wrong",
+    consecutiveWrong,
+    rescueActive: consecutiveWrong >= 3,
   });
+}
+
+export function dismissRescue(): void {
+  if (!state.rescueActive) return;
+  emit({ ...state, rescueActive: false });
+}
+
+export function endSessionNow(): void {
+  if (state.status !== "active") return;
+  emit({ ...state, status: "finished", rescueActive: false });
 }
 
 function advanced(current: SessionState): SessionState {

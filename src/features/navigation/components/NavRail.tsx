@@ -18,6 +18,7 @@ export function NavRail({ items, activeId, onNavigate }: NavRailProps) {
             <button
               type="button"
               aria-current={item.id === activeId ? "page" : undefined}
+              aria-label={item.label}
               onClick={() => onNavigate(item.path)}
               className={cn(
                 styles["item"],
@@ -25,7 +26,7 @@ export function NavRail({ items, activeId, onNavigate }: NavRailProps) {
               )}
             >
               <Icon name={item.icon} size={20} />
-              {item.label}
+              <span className={styles["label"]}>{item.label}</span>
             </button>
           </li>
         ))}

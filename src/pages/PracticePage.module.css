@@ -1,0 +1,27 @@
+.topicGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-3);
+}
+
+.topicChip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-1);
+  color: var(--color-accent-blue);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: center;
+  transition:
+    background-color var(--dur-fast) var(--ease-standard),
+    transform var(--dur-instant) var(--ease-standard);
+}
+
+.topicChip:hover {
+  background-color: var(--color-surface-2);
+  transform: translateY(-2px);
+}

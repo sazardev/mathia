@@ -1,5 +1,12 @@
 import { invoke } from "@tauri-apps/api/core";
-import type { MathiaStore, Profile, ProgressRow } from "@/lib/storage/types";
+import type {
+  AchievementRow,
+  DailyLogRow,
+  MathiaStore,
+  Profile,
+  ProgressRow,
+  SrsItemRow,
+} from "@/lib/storage/types";
 
 /**
  * Driver nativo: delega en los comandos Rust (rusqlite).
@@ -48,6 +55,46 @@ export function createTauriStore(): MathiaStore {
         key,
       });
       return value ?? null;
+    },
+
+    async addDailyXp(profileId, day, xpDelta, goalActive) {
+      return invoke<DailyLogRow>("add_daily_xp", {
+        profileId,
+        day,
+        xpDelta,
+        goalActive,
+      });
+    },
+
+    async getDailyLog(profileId, sinceDay) {
+      return invoke<DailyLogRow[]>("get_daily_log", {
+        profileId,
+        sinceDay,
+      });
+    },
+
+    async unlockAchievement(profileId, achievementId) {
+      return invoke<boolean>("unlock_achievement", {
+        profileId,
+        achievementId,
+      });
+    },
+
+    async getAchievements(profileId) {
+      return invoke<AchievementRow[]>("get_achievements", { profileId });
+    },
+
+    async enqueueSrsItem(profileId, exerciseId, intervalDays, dueAt) {
+      await invoke("enqueue_srs_item", {
+        profileId,
+        exerciseId,
+        intervalDays,
+        dueAt,
+      });
+    },
+
+    async getSrsQueue(profileId) {
+      return invoke<SrsItemRow[]>("get_srs_queue", { profileId });
     },
 
     async flush() {
