@@ -40,4 +40,8 @@ export const CONCEPTS = {
     id: "c-cuad-formula",
     name: "Fórmula general y discriminante",
   },
+  cuadAplicaciones: {
+    id: "c-cuad-aplicaciones",
+    name: "Plantear y resolver problemas con ecuaciones cuadráticas",
+  },
 } satisfies Record<string, Concept>;
