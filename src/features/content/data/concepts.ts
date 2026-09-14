@@ -44,4 +44,28 @@ export const CONCEPTS = {
     id: "c-cuad-aplicaciones",
     name: "Plantear y resolver problemas con ecuaciones cuadráticas",
   },
+  multPolinomios: {
+    id: "c-mult-polinomios",
+    name: "Multiplicar polinomios (FOIL)",
+  },
+  productosNotables: {
+    id: "c-productos-notables",
+    name: "Productos notables (cuadrado de un binomio, diferencia de cuadrados)",
+  },
+  factorEspecial: {
+    id: "c-factor-especial",
+    name: "Factorizar diferencia de cuadrados y trinomios cuadrados perfectos",
+  },
+  factorAgrupacion: {
+    id: "c-factor-agrupacion",
+    name: "Factorizar por agrupación",
+  },
+  factorACnoUno: {
+    id: "c-factor-ac-no-uno",
+    name: "Factorizar trinomios con coeficiente principal distinto de 1",
+  },
+  divisionPolinomios: {
+    id: "c-division-polinomios",
+    name: "División de polinomios y teorema del residuo/factor",
+  },
 } satisfies Record<string, Concept>;
