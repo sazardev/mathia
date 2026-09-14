@@ -8,7 +8,7 @@ describe("fetchLessonContent", () => {
     expect(content.intro).not.toBeNull();
     expect(content.intro?.hook).toContain("ascensor");
     expect(content.commonMistakes.length).toBeGreaterThan(0);
-    expect(content.exercises).toHaveLength(7);
+    expect(content.exercises).toHaveLength(8);
     expect(content.exercises[0]?.id).toBe("u1l1e0");
   });
 
