@@ -158,6 +158,25 @@ export const LESSON_U10L3: Lesson = {
       answer: 5,
       derivation: "3+2",
     },
+    {
+      type: "true-false",
+      id: "u10l3e8",
+      conceptsUsed: [teoremaFundamentalAlgebra.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: el teorema fundamental del álgebra garantiza que SIEMPRE se puede encontrar una fórmula EXPLÍCITA (con radicales) para las raíces de cualquier polinomio.",
+      answer: false,
+      explanation:
+        "NO: el teorema solo garantiza que las raíces EXISTEN (son $n$ números complejos), no que haya una manera de escribirlas con una fórmula de radicales. Existencia y fórmula explícita son cosas distintas — para grado 5 o más, existen las raíces pero (en general) no una fórmula general para expresarlas.",
+      successFeedback:
+        "¡Exacto! Separaste dos ideas que se confunden fácilmente: que algo exista y que exista una fórmula para calcularlo. Esa distinción es la puerta de entrada a la siguiente lección.",
+      hints: [
+        {
+          level: 1,
+          text: "¿'Tiene solución' es lo mismo que 'hay una fórmula para escribir esa solución'?",
+        },
+      ],
+    },
   ],
 };
 
@@ -325,6 +344,25 @@ export const LESSON_U10L4: Lesson = {
         {
           level: 1,
           text: "¿Qué teoría conecta grupos con la resolubilidad de ecuaciones?",
+        },
+      ],
+    },
+    {
+      type: "true-false",
+      id: "u10l4e8",
+      conceptsUsed: [historiaCubicasCuarticas.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: si Abel-Ruffini demuestra que no hay fórmula general por radicales para grado 5, entonces NINGUNA ecuación específica de grado 5 se puede resolver por radicales.",
+      answer: false,
+      explanation:
+        "NO: Abel-Ruffini dice que no existe UNA fórmula que sirva para TODAS las quínticas. Pero muchas ecuaciones de grado 5 particulares SÍ se resuelven por radicales (por ejemplo, si factorizan con un método que ya conoces). La teoría de Galois es exactamente la herramienta que determina, ecuación por ecuación, cuáles quínticas son resolubles por radicales y cuáles no.",
+      successFeedback:
+        "¡Así es como piensa un matemático! No confundiste 'no hay receta universal' con 'es imposible en cada caso particular' — esa es la pregunta exacta que abre la teoría de Galois en tu roadmap.",
+      hints: [
+        {
+          level: 1,
+          text: "¿'No existe una fórmula que sirva para TODOS los casos' es lo mismo que 'ningún caso individual se puede resolver'?",
         },
       ],
     },

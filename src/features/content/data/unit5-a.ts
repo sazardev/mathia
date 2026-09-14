@@ -163,6 +163,46 @@ export const LESSON_U5L1: Lesson = {
       answer: -1,
       derivation: "(5-12)/7",
     },
+    {
+      type: "multiple-choice",
+      id: "u5l1e8",
+      conceptsUsed: [sistemasSustitucion.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: si $y=mx+k$ y $y=nx+j$ (con $m\\neq n$) para CUALQUIER número $m,n,k,j$, ¿cuál es la fórmula general para $x$ al igualar ambas expresiones?",
+      hints: [
+        {
+          level: 1,
+          text: "Iguala $mx+k=nx+j$ y agrupa las x, con letras en vez de números.",
+        },
+      ],
+      successFeedback:
+        "¡Esa fórmula resuelve por sustitución CUALQUIER par de rectas con pendientes distintas, de un solo golpe!",
+      choices: [
+        { id: "a", text: "$x=\\dfrac{j-k}{m-n}$", isCorrect: true },
+        {
+          id: "b",
+          text: "$x=\\dfrac{k-j}{m-n}$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Invertiste el orden en el numerador: al agrupar $mx-nx=j-k$, el numerador es $j-k$.",
+        },
+        {
+          id: "c",
+          text: "$x=\\dfrac{j-k}{n-m}$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Invertiste el orden en el denominador: es $m-n$, no $n-m$.",
+        },
+        {
+          id: "d",
+          text: "Depende de los valores específicos de $m,n,k,j$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "No depende: la fórmula funciona para cualquier $m,n,k,j$ mientras $m\\neq n$.",
+        },
+      ],
+    },
   ],
 };
 
@@ -321,6 +361,25 @@ export const LESSON_U5L2: Lesson = {
       ],
       answer: 3,
       derivation: "(18-12)/2",
+    },
+    {
+      type: "true-false",
+      id: "u5l2e8",
+      conceptsUsed: [sistemasEliminacion.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER sistema $ax+by=e$ y $cx+dy=f$, siempre existe una forma de multiplicar una o ambas ecuaciones para eliminar una variable por suma o resta.",
+      answer: true,
+      explanation:
+        "Sí (mientras el sistema no sea degenerado): multiplicando la primera por $d$ y la segunda por $b$ (o combinaciones similares) siempre puedes igualar los coeficientes de una variable — es la base de por qué el método de eliminación funciona para CUALQUIER sistema lineal 2x2.",
+      successFeedback:
+        "¡Correcto! Esa es la garantía que hace del método de eliminación una herramienta universal, no un truco de casos particulares.",
+      hints: [
+        {
+          level: 1,
+          text: "Piensa en multiplicar la primera ecuación por $d$ y la segunda por $b$: ¿qué pasa con los coeficientes de $y$?",
+        },
+      ],
     },
   ],
 };

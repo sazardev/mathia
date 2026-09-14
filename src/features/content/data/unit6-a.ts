@@ -139,5 +139,24 @@ export const LESSON_U6L1: Lesson = {
       answer: 4,
       derivation: "10-6",
     },
+    {
+      type: "true-false",
+      id: "u6l1e8",
+      conceptsUsed: [ecRacionales.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER ecuación racional, multiplicar ambos lados por el mínimo común denominador SIEMPRE produce una ecuación equivalente (mismas soluciones).",
+      answer: false,
+      explanation:
+        "NO siempre: multiplicar por una expresión que contiene la variable puede introducir soluciones EXTRAÑAS (las que anulan un denominador original) — por eso siempre hay que verificar las restricciones al final, no asumir que el resultado es automáticamente equivalente.",
+      successFeedback:
+        "¡Correcto! Reconocer cuándo una transformación algebraica puede cambiar el conjunto de soluciones es una habilidad clave.",
+      hints: [
+        {
+          level: 1,
+          text: "Piensa en el ejemplo de esta lección donde $x=4$ resultaba una solución extraña.",
+        },
+      ],
+    },
   ],
 };

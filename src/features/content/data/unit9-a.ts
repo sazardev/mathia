@@ -162,6 +162,25 @@ export const LESSON_U9L1: Lesson = {
       answer: 3,
       derivation: "3",
     },
+    {
+      type: "true-false",
+      id: "u9l1e8",
+      conceptsUsed: [jerarquiaNumeros.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: TODO número complejo $a+bi$ con $b\\neq0$ es también un número real.",
+      answer: false,
+      explanation:
+        "NO: un número complejo con parte imaginaria distinta de cero ($b\\neq0$) NO es real — los reales son exactamente los complejos con $b=0$. La jerarquía $\\mathbb{N}\\subset\\mathbb{Z}\\subset\\mathbb{Q}\\subset\\mathbb{R}\\subset\\mathbb{C}$ dice que TODO real es complejo, pero no al revés.",
+      successFeedback:
+        "¡Correcto! Entender la dirección exacta de esa inclusión (⊂) es clave para no confundir los conjuntos.",
+      hints: [
+        {
+          level: 1,
+          text: "¿En qué caso particular un número complejo SÍ es real?",
+        },
+      ],
+    },
   ],
 };
 
@@ -301,6 +320,25 @@ export const LESSON_U9L2: Lesson = {
       hints: [{ level: 1, text: "Parte real $=2\\times$ parte imaginaria." }],
       answer: 10,
       derivation: "2*5",
+    },
+    {
+      type: "true-false",
+      id: "u9l2e8",
+      conceptsUsed: [complejosIntro.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número complejo $a+bi$, si $a=0$ y $b\\neq0$, el número se llama 'puramente imaginario'.",
+      answer: true,
+      explanation:
+        "Sí, por definición: un número complejo con parte real 0 y parte imaginaria distinta de cero se llama 'puramente imaginario', sin importar cuál sea el valor específico de $b$.",
+      successFeedback:
+        "¡Correcto! Esa definición aplica a cualquier valor de $b$ (menos 0), no solo a los ejemplos que viste.",
+      hints: [
+        {
+          level: 1,
+          text: "Revisa la definición de 'puramente imaginario' vista en esta lección.",
+        },
+      ],
     },
   ],
 };

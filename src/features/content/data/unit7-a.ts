@@ -141,6 +141,25 @@ export const LESSON_U7L1: Lesson = {
       answer: 2,
       derivation: "(3+1)/2",
     },
+    {
+      type: "true-false",
+      id: "u7l1e8",
+      conceptsUsed: [ecExponencialesBase.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER base $b>0$ con $b\\neq1$, si $b^x=b^y$ entonces $x=y$.",
+      answer: true,
+      explanation:
+        "Sí, es la propiedad fundamental que usa todo el método de esta lección: para cualquier base válida, potencias iguales con la misma base implican exponentes iguales, sin excepción.",
+      successFeedback:
+        "¡Correcto! Esa propiedad, válida para toda base $b>0,b\\neq1$, es la que hace funcionar cada ejercicio que resolviste en esta lección.",
+      hints: [
+        {
+          level: 1,
+          text: "¿Cambiaría la conclusión si la base fuera 2, 3, 10 o cualquier otra?",
+        },
+      ],
+    },
   ],
 };
 
@@ -286,6 +305,25 @@ export const LESSON_U7L2: Lesson = {
       hints: [{ level: 1, text: "$6^1=6$." }],
       answer: 1,
       derivation: "1",
+    },
+    {
+      type: "true-false",
+      id: "u7l2e8",
+      conceptsUsed: [logaritmoIntro.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER base $b>0$ con $b\\neq1$, se cumple $\\log_b(b^x)=x$ para TODO número real $x$.",
+      answer: true,
+      explanation:
+        "Sí: el logaritmo y la potencia son operaciones inversas entre sí — aplicar una después de la otra siempre 'deshace' la operación, sin importar la base (mientras sea válida) ni el valor de $x$.",
+      successFeedback:
+        "¡Exacto! Que dos operaciones se 'deshagan' mutuamente para CUALQUIER entrada es la esencia de ser funciones inversas.",
+      hints: [
+        {
+          level: 1,
+          text: "Prueba con un par de valores concretos de $b$ y $x$: ¿siempre se cancela?",
+        },
+      ],
     },
   ],
 };

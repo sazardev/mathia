@@ -195,6 +195,7 @@ export const LESSON_U3L4: Lesson = {
         },
       ],
       answer: 4,
+      unit: "s",
       derivation: "(64+4096^0.5)/32",
     },
     {
@@ -214,6 +215,25 @@ export const LESSON_U3L4: Lesson = {
       ],
       answer: 15,
       derivation: "(-1+841^0.5)/2+1",
+    },
+    {
+      type: "true-false",
+      id: "u3l4e8",
+      conceptsUsed: [cuadAplicaciones.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: al resolver un problema de aplicación con una ecuación cuadrática, SIEMPRE debes descartar exactamente una de las dos soluciones.",
+      answer: false,
+      explanation:
+        "NO siempre: depende del contexto del problema. A veces ambas soluciones tienen sentido, a veces se descartan las dos, y a veces solo una — no hay una regla fija de 'exactamente una'; hay que evaluar caso por caso lo que el contexto permite.",
+      successFeedback:
+        "¡Correcto! Reconocer que una regla que parecía 'siempre así' en realidad depende del contexto es pensar como matemático.",
+      hints: [
+        {
+          level: 1,
+          text: "Piensa si podrías inventar un problema donde ambas soluciones sean válidas.",
+        },
+      ],
     },
   ],
 };

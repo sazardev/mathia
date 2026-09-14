@@ -151,6 +151,45 @@ export const LESSON_U10L1: Lesson = {
       answer: 2,
       derivation: "6-3-1",
     },
+    {
+      type: "multiple-choice",
+      id: "u10l1e8",
+      conceptsUsed: [polinomiosVocabulario.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: para CUALQUIER polinomio $P(x)=(x-r)^k\\cdot Q(x)$ donde $Q(r)\\neq0$, ¿qué representa exactamente el número $k$?",
+      hints: [
+        {
+          level: 1,
+          text: "Piensa en qué mide $k$ respecto a la raíz $r$ en particular.",
+        },
+      ],
+      successFeedback:
+        "¡Correcto! Esa definición de multiplicidad funciona para cualquier polinomio y cualquier raíz, no solo en los ejemplos que viste.",
+      choices: [
+        { id: "a", text: "La multiplicidad de la raíz $r$", isCorrect: true },
+        {
+          id: "b",
+          text: "El grado total del polinomio",
+          isCorrect: false,
+          feedbackIfWrong:
+            "El grado total es la suma de TODOS los exponentes de TODAS las raíces, no solo el de esta.",
+        },
+        {
+          id: "c",
+          text: "El valor de la raíz",
+          isCorrect: false,
+          feedbackIfWrong: "El valor de la raíz es $r$, no $k$.",
+        },
+        {
+          id: "d",
+          text: "El número de raíces distintas",
+          isCorrect: false,
+          feedbackIfWrong:
+            "$k$ mide cuántas veces se repite ESTA raíz en particular, no cuántas raíces distintas tiene el polinomio.",
+        },
+      ],
+    },
   ],
 };
 
@@ -294,6 +333,25 @@ export const LESSON_U10L2: Lesson = {
       hints: [{ level: 1, text: "$3\\times(-8)$." }],
       answer: -24,
       derivation: "3*(-8)",
+    },
+    {
+      type: "true-false",
+      id: "u10l2e8",
+      conceptsUsed: [formulasVieta.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: las fórmulas de Viète ($r_1+r_2=-b/a$, $r_1r_2=c/a$) siguen siendo válidas incluso si las raíces son números COMPLEJOS (no reales).",
+      answer: true,
+      explanation:
+        "Sí: las fórmulas de Viète se derivan puramente de la relación algebraica entre coeficientes y factores, sin asumir que las raíces sean reales. Funcionan igual con raíces complejas, gracias a que el teorema fundamental del álgebra garantiza que esas raíces siempre existen.",
+      successFeedback:
+        "¡Exacto! Acabas de conectar dos ideas de esta unidad: las fórmulas de Viète y el teorema fundamental del álgebra funcionan juntas, sin excepciones.",
+      hints: [
+        {
+          level: 1,
+          text: "¿La deducción de estas fórmulas (expandir $(x-r_1)(x-r_2)$) usa en algún momento que $r_1,r_2$ sean reales?",
+        },
+      ],
     },
   ],
 };

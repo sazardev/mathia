@@ -167,6 +167,40 @@ export const LESSON_U4L1: Lesson = {
       answer: 11,
       derivation: "3*5+(-2)*2",
     },
+    {
+      type: "multiple-choice",
+      id: "u4l1e8",
+      conceptsUsed: [multPolinomios.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: para CUALQUIER par de binomios $(x+a)(x+b)$, ¿cuál es la fórmula general del resultado expandido?",
+      hints: [{ level: 1, text: "Aplica FOIL con letras en vez de números." }],
+      successFeedback:
+        "¡Esa fórmula general funciona para cualquier a y b — de ahí sale el 'busca dos números que sumen b y multipliquen c' que usarás al factorizar!",
+      choices: [
+        { id: "a", text: "$x^2+(a+b)x+ab$", isCorrect: true },
+        {
+          id: "b",
+          text: "$x^2+ab\\cdot x+(a+b)$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Invertiste los roles: el coeficiente de x es $(a+b)$ (suma), y el término independiente es $ab$ (producto).",
+        },
+        {
+          id: "c",
+          text: "$x^2+(a-b)x+ab$",
+          isCorrect: false,
+          feedbackIfWrong: "El coeficiente de x es la SUMA $a+b$, no la resta.",
+        },
+        {
+          id: "d",
+          text: "$x^2+a^2+b^2$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Eso ignora los términos cruzados (Outer e Inner) de FOIL, que faltan por completo.",
+        },
+      ],
+    },
   ],
 };
 
@@ -340,6 +374,25 @@ export const LESSON_U4L2: Lesson = {
       answer: 11,
       derivation: "22/2",
     },
+    {
+      type: "true-false",
+      id: "u4l2e8",
+      conceptsUsed: [productosNotables.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número $a$ y $b$, se cumple que $(a+b)^2=a^2+b^2$.",
+      answer: false,
+      explanation:
+        "NO: falta el término del medio. $(a+b)^2=a^2+2ab+b^2$. Contraejemplo con $a=1,b=1$: $(1+1)^2=4$, pero $1^2+1^2=2$ — distintos.",
+      successFeedback:
+        "¡Un contraejemplo sencillo con números pequeños basta para refutar una regla falsa!",
+      hints: [
+        {
+          level: 1,
+          text: "Prueba con $a=1,b=1$ y compara ambos lados.",
+        },
+      ],
+    },
   ],
 };
 
@@ -503,6 +556,25 @@ export const LESSON_U4L3: Lesson = {
       ],
       answer: 5,
       derivation: "25^0.5",
+    },
+    {
+      type: "true-false",
+      id: "u4l3e8",
+      conceptsUsed: [factorEspecial.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número $a$ y $b$, la suma de cuadrados $a^2+b^2$ se puede factorizar como $(a+b)(a-b)$.",
+      answer: false,
+      explanation:
+        "$(a+b)(a-b)=a^2-b^2$ (una DIFERENCIA), no $a^2+b^2$ (una suma). La suma de cuadrados no se factoriza con números reales — es precisamente el motivo por el que $x^2+1=0$ no tiene solución real (solo compleja).",
+      successFeedback:
+        "¡Exacto! Esa limitación es justo la que resuelven los números complejos más adelante en tu roadmap.",
+      hints: [
+        {
+          level: 1,
+          text: "Expande $(a+b)(a-b)$: ¿da una suma o una resta de cuadrados?",
+        },
+      ],
     },
   ],
 };
