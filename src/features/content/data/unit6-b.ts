@@ -153,5 +153,24 @@ export const LESSON_U6L2: Lesson = {
       answer: 9,
       derivation: "9",
     },
+    {
+      type: "true-false",
+      id: "u6l2e8",
+      conceptsUsed: [ecRadicales.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER ecuación de la forma $\\sqrt{f(x)}=g(x)$, elevar al cuadrado ambos lados SIEMPRE produce una ecuación equivalente (mismas soluciones).",
+      answer: false,
+      explanation:
+        "NO: elevar al cuadrado puede introducir soluciones EXTRAÑAS, porque $(-a)^2=a^2$ pierde la información del signo. Por eso siempre hay que verificar cada solución en la ecuación ORIGINAL antes de aceptarla.",
+      successFeedback:
+        "¡Exacto! El mismo tipo de cuidado que tuviste con las ecuaciones racionales aplica aquí: transformar una ecuación puede cambiar su conjunto de soluciones.",
+      hints: [
+        {
+          level: 1,
+          text: "Recuerda el ejemplo de esta lección donde $x=-1$ resultaba extraña.",
+        },
+      ],
+    },
   ],
 };
