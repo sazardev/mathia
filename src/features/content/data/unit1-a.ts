@@ -215,6 +215,49 @@ export const LESSON_L1: Lesson = {
       answer: 3,
       derivation: "((-12)-(-20))+(-5)",
     },
+    {
+      type: "multiple-choice",
+      id: "u1l1e7",
+      conceptsUsed: [intSuma.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: para CUALQUIER par de enteros $a$ y $b$ con signos distintos, ¿qué determina el signo del resultado de $a+b$?",
+      hints: [
+        {
+          level: 1,
+          text: "Piensa en un contraejemplo para cada opción incorrecta.",
+        },
+      ],
+      successFeedback:
+        "¡Así se piensa en álgebra: no memorizaste un ejemplo, entendiste la regla para SIEMPRE!",
+      choices: [
+        {
+          id: "a",
+          text: "El signo del que tenga mayor valor absoluto",
+          isCorrect: true,
+        },
+        {
+          id: "b",
+          text: "Siempre es positivo",
+          isCorrect: false,
+          feedbackIfWrong: "Falso: contraejemplo $(-9)+4=-5$, negativo.",
+        },
+        {
+          id: "c",
+          text: "Siempre toma el signo de $a$ (el primer número)",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Falso: en $4+(-9)=-5$, $a=4$ es positivo pero el resultado es negativo.",
+        },
+        {
+          id: "d",
+          text: "Depende únicamente de cuál se escribió primero",
+          isCorrect: false,
+          feedbackIfWrong:
+            "La suma es conmutativa ($a+b=b+a$): el orden en que se escriben no cambia el resultado.",
+        },
+      ],
+    },
   ],
 };
 
@@ -441,6 +484,46 @@ export const LESSON_L2: Lesson = {
       ],
       answer: -36,
       derivation: "(((-6)*(-2))*(-1))*3",
+    },
+    {
+      type: "multiple-choice",
+      id: "u1l2e9",
+      conceptsUsed: [intMult.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: si multiplicas TRES números enteros negativos entre sí, ¿qué signo tendrá el resultado, sin importar cuáles sean los números?",
+      hints: [
+        {
+          level: 1,
+          text: "Cuenta cuántos factores negativos hay: ¿par o impar?",
+        },
+      ],
+      successFeedback:
+        "¡Generalizaste la regla de signos más allá de un solo ejemplo — eso es pensar en abstracto!",
+      choices: [
+        { id: "a", text: "Negativo, siempre", isCorrect: true },
+        {
+          id: "b",
+          text: "Positivo, siempre",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Con un número IMPAR de factores negativos el resultado es negativo — prueba $(-1)(-1)(-1)=-1$.",
+        },
+        {
+          id: "c",
+          text: "Depende de los valores específicos",
+          isCorrect: false,
+          feedbackIfWrong:
+            "No depende de los valores, solo de CUÁNTOS son negativos: con 3 (impar), siempre negativo.",
+        },
+        {
+          id: "d",
+          text: "Positivo, si los tres números son iguales entre sí",
+          isCorrect: false,
+          feedbackIfWrong:
+            "El signo depende de la CANTIDAD de negativos (par o impar), no de si son iguales entre sí.",
+        },
+      ],
     },
   ],
 };
@@ -702,6 +785,25 @@ export const LESSON_L3: Lesson = {
       answer: -40,
       derivation: "(25^(1/2))*((-2)^3)",
     },
+    {
+      type: "true-false",
+      id: "u1l3e10",
+      conceptsUsed: [potencias.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número real $a$, se cumple que $a^2\\geq0$ (nunca es negativo).",
+      answer: true,
+      explanation:
+        "El cuadrado de cualquier número real (positivo, negativo o cero) siempre es mayor o igual a cero: no existe un número real cuyo cuadrado sea negativo. Este hecho es la base de por qué $x^2=-1$ no tiene solución real (lo retomarás con los números complejos).",
+      successFeedback:
+        "¡Justo esta idea es la que abre la puerta a los números complejos más adelante!",
+      hints: [
+        {
+          level: 1,
+          text: "Prueba con un número positivo, uno negativo y el cero: ¿alguno da negativo al cuadrado?",
+        },
+      ],
+    },
   ],
 };
 
@@ -879,6 +981,25 @@ export const LESSON_L4: Lesson = {
         {
           level: 1,
           text: "División y multiplicación van antes que suma y resta.",
+        },
+      ],
+    },
+    {
+      type: "true-false",
+      id: "u1l4e7",
+      conceptsUsed: [jerarquia.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número $a$, $b$ y $c$, la expresión $a+b\\cdot c$ es siempre igual a $(a+b)\\cdot c$.",
+      answer: false,
+      explanation:
+        "NO son iguales en general: la jerarquía dice que $b\\cdot c$ se calcula primero en $a+b\\cdot c$. Contraejemplo con $a=1,b=2,c=3$: $1+2\\cdot3=7$, pero $(1+2)\\cdot3=9$ — distintos.",
+      successFeedback:
+        "¡Exacto! Un solo contraejemplo basta para demostrar que dos expresiones NO son siempre iguales — así razona el álgebra.",
+      hints: [
+        {
+          level: 1,
+          text: "Prueba con números concretos, por ejemplo $a=1,b=2,c=3$, y compara ambos lados.",
         },
       ],
     },

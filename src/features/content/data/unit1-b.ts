@@ -229,6 +229,25 @@ export const LESSON_L5: Lesson = {
         },
       ],
     },
+    {
+      type: "true-false",
+      id: "u1l5e7",
+      conceptsUsed: [variable.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER par de números $a$ y $b$, se cumple que $a+b=b+a$.",
+      answer: true,
+      explanation:
+        "Es la propiedad conmutativa de la suma: vale para CUALQUIER par de números reales, sin excepción — por eso 'la suma de a y b' se escribe indistintamente $a+b$ o $b+a$.",
+      successFeedback:
+        "¡Esa propiedad la vas a usar cientos de veces sin pensarlo — ahora sabes por qué siempre funciona!",
+      hints: [
+        {
+          level: 1,
+          text: "Prueba con varios pares de números: ¿cambia el resultado si inviertes el orden?",
+        },
+      ],
+    },
   ],
 };
 
@@ -401,6 +420,25 @@ export const LESSON_L6: Lesson = {
       ],
       answer: 11,
       derivation: "5-(2*(-3))",
+    },
+    {
+      type: "true-false",
+      id: "u1l6e7",
+      conceptsUsed: [evaluar.id, potencias.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número $a$, se cumple que $2a^2=(2a)^2$.",
+      answer: false,
+      explanation:
+        "NO son iguales en general: $2a^2$ eleva solo $a$ y multiplica por 2, mientras $(2a)^2=4a^2$ eleva TAMBIÉN al coeficiente. Contraejemplo con $a=3$: $2(3)^2=18$, pero $(2\\cdot3)^2=36$.",
+      successFeedback:
+        "¡Exacto! El paréntesis cambia qué se eleva — un solo contraejemplo numérico basta para probar que no son iguales.",
+      hints: [
+        {
+          level: 1,
+          text: "Sustituye un valor concreto, por ejemplo $a=3$, en ambos lados y compara.",
+        },
+      ],
     },
   ],
 };
@@ -595,6 +633,25 @@ export const LESSON_L7: Lesson = {
       ],
       answer: -2,
       derivation: "(-2)*(((3*(2)))-(5))",
+    },
+    {
+      type: "true-false",
+      id: "u1l7e7",
+      conceptsUsed: [distributiva.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número $a$, $b$ y $c$, se cumple que $a(b+c)=ab+ac$.",
+      answer: true,
+      explanation:
+        "Es la propiedad distributiva: vale para TODOS los números reales $a,b,c$, sin excepción alguna — es uno de los pilares que vas a usar en cientos de contextos distintos de aquí en adelante.",
+      successFeedback:
+        "¡Esta es una de las propiedades más usadas de todo el álgebra — y ahora la entiendes como regla general, no como truco!",
+      hints: [
+        {
+          level: 1,
+          text: "Prueba con números concretos y compara ambos lados de la igualdad.",
+        },
+      ],
     },
   ],
 };
@@ -814,6 +871,46 @@ export const LESSON_L8: Lesson = {
       ],
       answer: -7,
       derivation: "((-42))/6",
+    },
+    {
+      type: "multiple-choice",
+      id: "u1l8e7",
+      conceptsUsed: [ec1p.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: si $x+a=b$ para CUALQUIER número $a$ y $b$, ¿cuál es la fórmula general para despejar $x$?",
+      hints: [
+        {
+          level: 1,
+          text: "Aplica a la fórmula general la misma operación inversa que usarías con números concretos.",
+        },
+      ],
+      successFeedback:
+        "¡Encontraste una fórmula que funciona para CUALQUIER a y b — así se construyen las fórmulas generales del álgebra!",
+      choices: [
+        { id: "a", text: "$x=b-a$", isCorrect: true },
+        {
+          id: "b",
+          text: "$x=a-b$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Invertiste el orden: al restar $a$ de ambos lados queda $x=b-a$, no $a-b$.",
+        },
+        {
+          id: "c",
+          text: "$x=a+b$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Sumar no deshace una suma: para despejar de $x+a=b$ hay que RESTAR $a$, no sumarlo de nuevo.",
+        },
+        {
+          id: "d",
+          text: "Depende de los valores específicos de $a$ y $b$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "No depende: la fórmula $x=b-a$ funciona para CUALQUIER valor de $a$ y $b$ — esa es la idea de una fórmula general.",
+        },
+      ],
     },
   ],
 };
