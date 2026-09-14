@@ -120,4 +120,36 @@ export const CONCEPTS = {
     id: "c-teorema-raiz-racional",
     name: "Teorema de la raíz racional",
   },
+  jerarquiaNumeros: {
+    id: "c-jerarquia-numeros",
+    name: "La jerarquía de conjuntos numéricos (N, Z, Q, R, C)",
+  },
+  complejosIntro: {
+    id: "c-complejos-intro",
+    name: "Introducción a los números complejos",
+  },
+  complejosSumaResta: {
+    id: "c-complejos-suma-resta",
+    name: "Sumar y restar números complejos",
+  },
+  complejosMultiplicacion: {
+    id: "c-complejos-multiplicacion",
+    name: "Multiplicar números complejos",
+  },
+  polinomiosVocabulario: {
+    id: "c-polinomios-vocabulario",
+    name: "Vocabulario de polinomios: grado, raíces y multiplicidad",
+  },
+  formulasVieta: {
+    id: "c-formulas-vieta",
+    name: "Fórmulas de Viète",
+  },
+  teoremaFundamentalAlgebra: {
+    id: "c-teorema-fundamental-algebra",
+    name: "El teorema fundamental del álgebra",
+  },
+  historiaCubicasCuarticas: {
+    id: "c-historia-cubicas-cuarticas",
+    name: "Ecuaciones cúbicas y cuárticas: una mirada histórica",
+  },
 } satisfies Record<string, Concept>;
