@@ -6,7 +6,8 @@ export type MathiaErrorCode =
   | "ZERO_DENOMINATOR"
   | "DIVISION_BY_ZERO"
   | "INVALID_DIFFICULTY"
-  | "INVALID_DEEP_LINK";
+  | "INVALID_DEEP_LINK"
+  | "INVALID_LESSON";
 
 export class MathiaError extends Error {
   readonly code: MathiaErrorCode;

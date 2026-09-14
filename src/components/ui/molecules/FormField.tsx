@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { cloneElement, isValidElement, useId } from "react";
 import styles from "./FormField.module.css";
 
 type FormFieldProps = {
@@ -9,17 +9,30 @@ type FormFieldProps = {
 
 export function FormField({ label, error, children }: FormFieldProps) {
   const id = useId();
+  const errorId = `${id}-error`;
+  const hasError = error !== undefined;
+
+  const enhancedChildren = isValidElement<{
+    id?: string;
+    ariaDescribedBy?: string;
+  }>(children)
+    ? cloneElement(
+        children,
+        hasError ? { id, ariaDescribedBy: errorId } : { id },
+      )
+    : children;
+
   return (
-    <label className={styles["field"]} htmlFor={id}>
-      <span className={styles["labelText"]}>{label}</span>
-      <span id={id} className={styles["slot"]}>
-        {children}
-      </span>
-      {error !== undefined && (
-        <span role="alert" className={styles["errorText"]}>
+    <div className={styles["field"]}>
+      <label className={styles["labelText"]} htmlFor={id}>
+        {label}
+      </label>
+      <span className={styles["slot"]}>{enhancedChildren}</span>
+      {hasError && (
+        <span id={errorId} role="alert" className={styles["errorText"]}>
           {error}
         </span>
       )}
-    </label>
+    </div>
   );
 }

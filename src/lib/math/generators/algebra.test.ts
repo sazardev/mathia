@@ -6,8 +6,12 @@ import { createRng } from "@/lib/math/random";
 import { evaluateArithmetic } from "@/lib/validation/math-eval";
 import {
   buildLinearEquation,
+  drawFractionLinearEquation,
   formatEquation,
+  formatFractionEquation,
+  formatFractionSolutionDerivation,
   formatSolutionDerivation,
+  generateFractionCoefficientExercise,
   generateLinearMultipleChoiceExercise,
   generateLinearNumericExercise,
   generateLinearTrueFalseExercise,
@@ -143,6 +147,66 @@ describe("generateLinearTrueFalseExercise", () => {
         expect(exercise.explanation.trim().length).toBeGreaterThan(0);
       }
     }
+  });
+});
+
+describe("drawFractionLinearEquation", () => {
+  it("siempre satisface la ecuación con solución entera múltiplo del denominador", () => {
+    for (const level of LEVELS) {
+      for (let seed = 1; seed <= 100; seed += 1) {
+        const equation = drawFractionLinearEquation(createRng(seed), level);
+        expect(equation.solution / equation.denominator + equation.b).toBe(
+          equation.c,
+        );
+        expect(Number.isInteger(equation.solution)).toBe(true);
+        expect(Math.abs(equation.solution % equation.denominator)).toBe(0);
+      }
+    }
+  });
+
+  it("la derivación evalúa a la solución (M-01)", () => {
+    for (const level of LEVELS) {
+      for (let seed = 1; seed <= 100; seed += 1) {
+        const equation = drawFractionLinearEquation(createRng(seed), level);
+        expect(
+          evaluateArithmetic(formatFractionSolutionDerivation(equation)),
+        ).toBe(equation.solution);
+      }
+    }
+  });
+});
+
+describe("generateFractionCoefficientExercise", () => {
+  it("valida contra el contrato y su respuesta resuelve la ecuación", () => {
+    for (const level of LEVELS) {
+      for (const seed of SEEDS) {
+        const exercise = generateFractionCoefficientExercise({
+          seed,
+          difficulty: level,
+        });
+        expect(exerciseDataSchema.safeParse(exercise).success).toBe(true);
+        if (exercise.type !== "numeric-input") {
+          throw new Error("Debe producir numeric-input");
+        }
+        const equation = drawFractionLinearEquation(createRng(seed), level);
+        expect(exercise.answer).toBe(equation.solution);
+        expect(exercise.prompt).toContain(formatFractionEquation(equation));
+        expect(evaluateArithmetic(exercise.derivation)).toBe(equation.solution);
+        expect(exercise.hints.map((hint) => hint.level)).toEqual([1, 2]);
+      }
+    }
+  });
+
+  it("es determinista por semilla", () => {
+    const first = generateFractionCoefficientExercise({
+      seed: 42,
+      difficulty: 2,
+    });
+    const second = generateFractionCoefficientExercise({
+      seed: 42,
+      difficulty: 2,
+    });
+    expect(first).toEqual(second);
   });
 });
 

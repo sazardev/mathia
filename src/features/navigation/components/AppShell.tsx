@@ -1,4 +1,3 @@
-import { Icon } from "@/components/ui/atoms/Icon";
 import type { NavItem } from "../types";
 import { BottomNav } from "./BottomNav";
 import { NavRail } from "./NavRail";
@@ -21,14 +20,26 @@ export function AppShell({
     <div className={styles["shell"]}>
       <aside className={styles["sidebar"]}>
         <span className={styles["brand"]}>
-          <Icon name="flame" size={26} />
+          <img
+            src="/favicon.svg"
+            alt=""
+            width={28}
+            height={28}
+            className={styles["logo"]}
+          />
           <span className={styles["brandName"]}>Mathia</span>
         </span>
         <NavRail items={items} activeId={activeId} onNavigate={onNavigate} />
       </aside>
       <header className={styles["mobileHeader"]}>
         <span className={styles["brand"]}>
-          <Icon name="flame" size={22} />
+          <img
+            src="/favicon.svg"
+            alt=""
+            width={24}
+            height={24}
+            className={styles["logo"]}
+          />
           <span className={styles["brandName"]}>Mathia</span>
         </span>
       </header>

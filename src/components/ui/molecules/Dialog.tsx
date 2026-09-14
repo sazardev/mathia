@@ -20,16 +20,52 @@ export function Dialog({
   footer,
 }: DialogProps) {
   const panelRef = useRef<HTMLDialogElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const titleId = `dialog-${title.replace(/\s+/g, "-").toLowerCase()}`;
 
   useEffect(() => {
     if (!open) return;
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+      if (event.key === "Tab") {
+        const panel = panelRef.current;
+        if (panel === null) return;
+        const focusable = panel.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (first === undefined || last === undefined) return;
+        if (event.shiftKey) {
+          if (document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          }
+        } else if (document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
+
     document.addEventListener("keydown", handleKeyDown);
-    panelRef.current?.focus();
+    const frame = requestAnimationFrame(() => panelRef.current?.focus());
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      cancelAnimationFrame(frame);
+      document.body.style.overflow = previousOverflow;
+      previousFocusRef.current?.focus();
     };
   }, [open, onClose]);
 
@@ -42,20 +78,17 @@ export function Dialog({
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
-      onKeyDown={(event) => {
-        if (event.key === "Escape") onClose();
-      }}
     >
       <dialog
         ref={panelRef}
         open
         aria-modal="true"
-        aria-label={title}
+        aria-labelledby={titleId}
         tabIndex={-1}
         className={styles["panel"]}
       >
         <div className={styles["header"]}>
-          <Text as="h2" size="lg" weight="bold">
+          <Text as="h2" size="lg" weight="bold" id={titleId}>
             {title}
           </Text>
           <IconButton icon="x" label="Cerrar" size="sm" onPress={onClose} />

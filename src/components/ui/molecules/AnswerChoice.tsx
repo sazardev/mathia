@@ -7,6 +7,8 @@ type AnswerChoiceProps = {
   disabled?: boolean;
   onSelect?: () => void;
   children: React.ReactNode;
+  ariaChecked?: boolean;
+  roleRadio?: boolean;
 };
 
 export function AnswerChoice({
@@ -15,6 +17,8 @@ export function AnswerChoice({
   disabled = false,
   onSelect,
   children,
+  ariaChecked,
+  roleRadio = false,
 }: AnswerChoiceProps) {
   return (
     <button
@@ -22,7 +26,9 @@ export function AnswerChoice({
       disabled={disabled}
       onClick={onSelect}
       className={cn(styles["choice"], state !== "idle" && styles[state])}
-      aria-pressed={state === "selected"}
+      aria-pressed={roleRadio ? undefined : state === "selected"}
+      role={roleRadio ? "radio" : undefined}
+      aria-checked={roleRadio ? (ariaChecked ?? false) : undefined}
     >
       {indexLabel !== undefined && (
         <span className={styles["index"]}>{indexLabel}</span>

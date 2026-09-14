@@ -4,6 +4,8 @@ import { ROUTE_PATHS as ROUTES } from "@/app/router/paths";
 import { AppShell } from "@/features/navigation";
 import type { NavItem } from "@/features/navigation";
 import { applyTheme, loadSettings } from "@/features/settings";
+import { Scratchpad } from "@/features/lesson/components/Scratchpad";
+import { ErrorBoundary } from "./ErrorBoundary";
 import styles from "./RootLayout.module.css";
 
 const NAV_ITEMS: NavItem[] = [
@@ -52,19 +54,42 @@ export function RootLayout() {
       .catch(() => applyTheme("light"));
   }, []);
 
-  if (pathname.startsWith("/leccion") || pathname.startsWith("/onboarding")) {
-    return <Outlet />;
+  if (
+    pathname.startsWith("/leccion") ||
+    pathname.startsWith("/practica") ||
+    pathname.startsWith("/repaso") ||
+    pathname.startsWith("/onboarding")
+  ) {
+    return (
+      <>
+        <a href="#main-content" className={styles["skipLink"]}>
+          Saltar al contenido
+        </a>
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
+        <Scratchpad />
+      </>
+    );
   }
 
   return (
-    <AppShell
-      items={NAV_ITEMS}
-      activeId={activeNavId(pathname)}
-      onNavigate={(path) => void navigate({ to: path })}
-    >
-      <div className={styles["content"]}>
-        <Outlet />
-      </div>
-    </AppShell>
+    <>
+      <a href="#main-content" className={styles["skipLink"]}>
+        Saltar al contenido
+      </a>
+      <AppShell
+        items={NAV_ITEMS}
+        activeId={activeNavId(pathname)}
+        onNavigate={(path) => void navigate({ to: path })}
+      >
+        <div id="main-content" tabIndex={-1} className={styles["content"]}>
+          <ErrorBoundary>
+            <Outlet />
+          </ErrorBoundary>
+        </div>
+      </AppShell>
+      <Scratchpad />
+    </>
   );
 }

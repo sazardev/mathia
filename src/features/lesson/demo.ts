@@ -17,7 +17,6 @@ export const DEMO_EXERCISES: Exercise[] = [
       "Puedes descomponerlo: 7 × 8 = 7 × 4 + 7 × 4.",
       "7 × 4 = 28, y 28 + 28 = 56.",
     ],
-    xp: 10,
   },
   {
     id: "ex-2",
@@ -29,7 +28,6 @@ export const DEMO_EXERCISES: Exercise[] = [
       "Suma las decenas primero: 10 + 20 = 30.",
       "Luego las unidades: 5 + 7 = 12. Junta ambos resultados.",
     ],
-    xp: 10,
   },
   {
     id: "ex-3",
@@ -47,7 +45,6 @@ export const DEMO_EXERCISES: Exercise[] = [
       "Multiplica numerador y denominador por el mismo número.",
       "1 × 3 = 3 y 2 × 3 = 6, así que 3/6 equivale a 1/2.",
     ],
-    xp: 15,
   },
   {
     id: "ex-4",
@@ -56,6 +53,5 @@ export const DEMO_EXERCISES: Exercise[] = [
     tex: "x + 9 = 17",
     answer: "8",
     hints: ["Resta 9 en ambos lados de la igualdad.", "x = 17 − 9."],
-    xp: 20,
   },
 ];

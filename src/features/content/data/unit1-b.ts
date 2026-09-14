@@ -18,22 +18,38 @@ export const LESSON_L5: Lesson = {
   title: "Variables y expresiones algebraicas",
   conceptIdsTaught: [variable.id],
   intro: {
-    hook: "¿Cuánto cobrar por 7 horas de trabajo si cada hora vale 10? La respuesta «10·horas» sirve para cualquier número de horas: eso es una expresión algebraica.",
+    hook: "Ya sabes calcular con números. ¿Y si el número aún no lo conoces? Ahí entra la variable: una letra que guarda un valor mientras lo descubres.",
     intuition: [
-      "Una variable es una caja con etiqueta: guarda un valor que aún no conoces o que puede cambiar.",
-      "La notación comprime: «el triple de n» se escribe $3n$, sin signo de multiplicar.",
-      "El orden de las palabras manda: «5 menos que x» es $x-5$ (a x le quitas 5), no $5-x$.",
+      'Piensa en la variable como una caja cerrada con etiqueta "x": adentro hay un número, pero el símbolo funciona igual sin importar cuál sea.',
+      'La notación se abrevia: "el triple de n" se escribe $3n$ (sin signo de multiplicar); "a por b" se escribe $ab$.',
+      'El orden de las palabras manda en las restas: "5 menos que x" es $x-5$ — a x le quitan 5. Pero "restar x de 5" es al revés: $5-x$.',
     ],
     definition:
-      "Una expresión algebraica combina números, variables y operaciones. Convención: $3n=3\\cdot n$, $ab=a\\cdot b$. Traducir frases exige respetar el orden de la acción descrita.",
+      "Una expresión algebraica combina números, variables y operaciones. Convención: $3n=3\\cdot n$, $ab=a\\cdot b$. Para traducir frases, identifica primero quién recibe la acción.",
     workedExamples: [
-      "«El doble de un número m, aumentado en 3» → $2m+3$.",
-      "«El cociente de p entre 4» → $p/4$: el dividendo aparece primero en la frase.",
+      '"El doble de un número m, aumentado en 3" → $2m+3$.',
+      '"El cociente de p entre 4" → $\\frac{p}{4}$: quien se menciona primero va en el numerador.',
     ],
   },
+  guidedPractice: {
+    problem: 'Traduce: "el triple de un número $n$, aumentado en 2"',
+    steps: [
+      {
+        instruction: '"El triple de n" se escribe sin signo de multiplicar.',
+        result: "$3n$",
+      },
+      {
+        instruction: '"Aumentado en 2" suma 2 al final.',
+        result: "$3n+2$",
+      },
+    ],
+    prompt: "Si $n=4$, ¿cuánto vale $3n+2$? (Resuélvelo tú)",
+    answer: 14,
+    derivation: "(3*4)+2",
+  },
   commonMistakes: [
-    "Invertir el orden en frases tipo «menos que»: «5 menos que x» es $x-5$, no $5-x$.",
-    "Leer $n^3$ como «el triple de n»: el triple es $3n$; el cubo es $n^3$.",
+    "Invertir «menos que»: «5 menos que x» es $x-5$, no $5-x$.",
+    "Confundir $n^3$ (el cubo de n) con $3n$ (el triple de n) — son operaciones distintas.",
   ],
   exercises: [
     {
@@ -221,22 +237,38 @@ export const LESSON_L6: Lesson = {
   title: "Evaluar expresiones por sustitución",
   conceptIdsTaught: [evaluar.id],
   intro: {
-    hook: "Una tarifa cobra 3 por viaje más 2 fijo: $3v+2$. Con v=4 viajes pagas $3·4+2=14$. Evaluar una expresión es responderla para valores concretos.",
+    hook: "Ya escribes expresiones con variables. Evaluarlas es responder: ¿cuánto valen si ya sabes el número? Un taxi cobra $3v+2$; si viajaste $v=4$ veces, pagas $3\\cdot4+2=14$.",
     intuition: [
-      "Sustituir = reemplazar cada variable por su valor ENTRE PARÉNTESIS si es negativo o complejo.",
-      "Después de sustituir, aplica la jerarquía de operaciones que ya dominas.",
-      "Con potencias, primero se eleva y luego se multiplica por los coeficientes: en $2a^2$, el cuadrado afecta solo a $a$.",
+      "Sustituir es reemplazar cada letra por su valor, SIEMPRE entre paréntesis si es negativo: evita errores de signo.",
+      "Después de sustituir, aplica la jerarquía que ya conoces — nada cambia.",
+      "Cuidado con los exponentes: en $2a^2$, el cuadrado eleva solo a la letra, no al coeficiente que la acompaña.",
     ],
     definition:
-      "Evaluar $E(x)$ en $x=k$ consiste en sustituir cada aparición de $x$ por $k$ (usando paréntesis) y simplificar respetando la jerarquía.",
+      "Evaluar una expresión en $x=k$ es sustituir cada $x$ por $k$ (usando paréntesis) y simplificar con la jerarquía habitual.",
     workedExamples: [
-      "$3x+2$ con $x=4$: $(3·4)+2=14$.",
-      "$2a^2$ con $a=3$: $2·(3^2)=2·9=18$.",
+      "$3x+2$ con $x=4$: $(3\\cdot4)+2=14$.",
+      "$2a^2$ con $a=3$: $2\\cdot(3^2)=2\\cdot9=18$ — el 3 se eleva antes de multiplicar por 2.",
     ],
   },
+  guidedPractice: {
+    problem: "Evalúa $2x+1$ cuando $x=5$.",
+    steps: [
+      {
+        instruction: "Sustituye x por 5, entre paréntesis.",
+        result: "$(2\\cdot5)+1$",
+      },
+      {
+        instruction: "Multiplica primero, luego suma.",
+        result: "$10+1=11$",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: evalúa $4y-3$ cuando $y=2$.",
+    answer: 5,
+    derivation: "(4*2)-3",
+  },
   commonMistakes: [
-    "Elevar el coeficiente junto con la variable: $2a^2$ con $a=3$ NO es $(2·3)^2$.",
-    "No usar paréntesis al sustituir negativos: en $y-7$ con $y=-3$ hay que calcular $(-3)-7$.",
+    "Elevar el coeficiente junto con la letra: $2a^2$ con $a=3$ NO es $(2\\cdot3)^2$.",
+    "Sustituir negativos sin paréntesis: en $y-7$ con $y=-3$, calcula $(-3)-7$, con cuidado del signo.",
   ],
   exercises: [
     {
@@ -378,22 +410,39 @@ export const LESSON_L7: Lesson = {
   title: "Distributiva y términos semejantes",
   conceptIdsTaught: [distributiva.id, semejantes.id],
   intro: {
-    hook: "Compras 3 bolsas iguales, cada una con x manzanas y 4 naranjas: en total tienes $3x+12$ frutas. Eso hizo la propiedad distributiva.",
+    hook: "Compras 3 bolsas idénticas, cada una con x manzanas y 4 naranjas: en total tienes $3x+12$ frutas, sin abrir ninguna bolsa. Eso es la propiedad distributiva trabajando por ti.",
     intuition: [
-      "Distribuir = repartir el factor externo a CADA término del paréntesis: $a(b+c)=ab+ac$.",
-      "Términos semejantes tienen exactamente la misma parte variable: $5x$ y $2x$ son semejantes; $5x$ y $2y$ no.",
-      "Combinar semejantes suma/resta SUS COEFICIENTES: $5x+2x=(5+2)x=7x$.",
+      "Distribuir es repartir el factor de afuera a CADA término de adentro: $a(b+c)=ab+ac$.",
+      "Términos semejantes tienen la MISMA parte variable: $5x$ y $2x$ son semejantes; $5x$ y $2y$, no.",
+      "Combinar semejantes es sumar sus coeficientes y dejar la variable intacta: $5x+2x=(5+2)x=7x$, igual que 5 manzanas más 2 manzanas son 7 manzanas.",
     ],
     definition:
-      "$a(b+c)=ab+ac$. Dos términos son semejantes si difieren solo en el coeficiente numérico; solo ellos pueden combinarse en una suma.",
+      "$a(b+c)=ab+ac$. Dos términos son semejantes si difieren solo en el coeficiente; solo esos se pueden sumar o restar entre sí.",
     workedExamples: [
-      "$3(x+4)=3x+12$: el 3 multiplica a ambos términos.",
-      "$7a-3a+2=(7-3)a+2=4a+2$: el $+2$ no es semejante, queda intacto.",
+      "$3(x+4)=3x+12$: el 3 multiplica a los dos términos, no solo al primero.",
+      "$7a-3a+2=(7-3)a+2=4a+2$: el $+2$ no tiene pareja semejante, así que se queda como está.",
     ],
   },
+  guidedPractice: {
+    problem: "Simplifica $2(x+3)$.",
+    steps: [
+      {
+        instruction: "Distribuye el 2 a ambos términos.",
+        result: "$2x+6$",
+      },
+      {
+        instruction:
+          "No hay términos semejantes que combinar; ya está simplificado.",
+        result: "$2x+6$",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: si $x=4$, ¿cuánto vale $2(x+3)$?",
+    answer: 14,
+    derivation: "2*(4+3)",
+  },
   commonMistakes: [
-    "Distribuir sobre un solo término: $3(x+4)$ NO es $3x+4$; el 3 también multiplica al 4.",
-    "Combinar términos NO semejantes: $5x+2x^2$ no se puede reducir a $7x$ ni a $7x^2$.",
+    "Distribuir sobre un solo término: $3(x+4)$ no es $3x+4$; el 3 también multiplica al 4.",
+    "Combinar términos que NO son semejantes: $5x+2x^2$ no se reduce a $7x$ ni a $7x^2$ — se quedan separados.",
   ],
   exercises: [
     {
@@ -555,24 +604,56 @@ export const LESSON_L8: Lesson = {
   title: "Ecuaciones de un paso",
   conceptIdsTaught: [ec1p.id],
   intro: {
-    hook: "Una balanza en equilibrio: a un lado x+5, al otro 12. Para descubrir x sin romper el equilibrio, haz lo mismo en ambos platos.",
+    hook: "Imagina una balanza en equilibrio: de un lado $x+5$, del otro $12$. Para descubrir cuánto vale x sin romper el equilibrio, haces lo mismo en ambos platos.",
     intuition: [
-      "Resolver una ecuación es despejar x haciendo operaciones inversas en AMBOS lados.",
-      "Si ves $x+5=12$, el opuesto de «+5» es «−5»: réstale 5 a los dos lados.",
-      "Verifica SIEMPRE reemplazando tu respuesta en la ecuación original: ¿queda verdadera?",
+      "Resolver una ecuación es despejar x: aplicas la operación INVERSA a ambos lados por igual.",
+      "Si ves $x+5=12$: lo opuesto de «+5» es «−5». Réstale 5 a los dos lados.",
+      "Verifica siempre sustituyendo tu respuesta en la ecuación original — si no se cumple, algo salió mal en el camino.",
     ],
     definition:
-      "Una ecuación de primer grado con una incógnita se resuelve aplicando la operación inversa en ambos miembros hasta aislar $x$: suma↔resta, multiplicación↔división.",
+      "Una ecuación de un paso se resuelve aplicando la operación inversa en ambos lados hasta dejar sola a $x$: suma↔resta, multiplicación↔división.",
     workedExamples: [
       "$x+5=12$: resto 5 en ambos lados → $x=7$. Verificación: $7+5=12$ ✓.",
-      "$4x=20$: divido ambos lados entre 4 → $x=5$. Verificación: $4·5=20$ ✓.",
+      "$4x=20$: divido ambos lados entre 4 → $x=5$. Verificación: $4\\cdot5=20$ ✓.",
     ],
   },
+  guidedPractice: {
+    problem: "$x+7=15$",
+    steps: [
+      {
+        instruction: "El inverso de «+7» es «−7»: réstalo en ambos lados.",
+        result: "$x=15-7$",
+      },
+      {
+        instruction: "Calcula.",
+        result: "$x=8$",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: ¿cuánto vale $x$ en $x-4=9$?",
+    answer: 13,
+    derivation: "9+4",
+  },
   commonMistakes: [
-    "Hacer la misma operación en un solo lado, rompiendo el equilibrio.",
-    "Aplicar la operación directa en lugar de la inversa: en $x+5=12$, sumar otro 5 en vez de restar.",
+    "Operar solo un lado de la balanza: rompe el equilibrio y da una respuesta falsa.",
+    "Usar la operación directa en vez de la inversa: en $x+5=12$, sumar otro 5 en lugar de restarlo.",
   ],
   exercises: [
+    {
+      type: "number-line",
+      id: "u1l8e0",
+      conceptsUsed: [ec1p.id],
+      difficulty: 1,
+      prompt: "Ubica en la recta numérica la solución de $x+5=12$.",
+      min: 0,
+      max: 20,
+      step: 1,
+      answer: 7,
+      derivation: "12-5",
+      hints: [
+        { level: 1, text: "Resta 5 en ambos lados: $x=12-5$." },
+        { level: 2, text: "$12-5=7$." },
+      ],
+    },
     {
       type: "multiple-choice",
       id: "u1l8e1",

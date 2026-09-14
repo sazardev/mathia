@@ -1,0 +1,68 @@
+---
+const pillars = [
+  {
+    title: "Offline-first total",
+    text: "Funciona en cualquier lugar; la red jamás es requisito, ni siquiera para instalar contenido nuevo.",
+  },
+  {
+    title: "Privacidad radical",
+    text: "Sin cuenta, sin telemetría, todo se queda en tu computadora.",
+  },
+  {
+    title: "Gratis y libre",
+    text: "Apache-2.0, sin paywalls ni vidas que comprar. El código es tuyo para revisar.",
+  },
+  {
+    title: "Pedagogía verificada",
+    text: "Práctica espaciada, recuperación activa y distractores que enseñan del error, no solo lo señalan.",
+  },
+];
+---
+
+<section class="pillars">
+  <ul>
+    {
+      pillars.map((pillar) => (
+        <li>
+          <h2>{pillar.title}</h2>
+          <p>{pillar.text}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .pillars {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-6);
+  }
+
+  li {
+    background-color: var(--color-surface-1);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  h2 {
+    font-size: var(--text-lg);
+    margin: 0 0 var(--space-2);
+    color: var(--color-primary-600);
+  }
+
+  p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+</style>

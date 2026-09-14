@@ -1,6 +1,23 @@
 import { describe, expect, it } from "vitest";
 import { MathiaError } from "@/lib/errors";
-import { createRng, pickOne, randomInt, shuffled } from "./random";
+import { createRng, hashSeed, pickOne, randomInt, shuffled } from "./random";
+
+describe("hashSeed", () => {
+  it("es determinista para la misma cadena", () => {
+    expect(hashSeed("a::b")).toBe(hashSeed("a::b"));
+  });
+
+  it("produce hashes distintos para cadenas distintas", () => {
+    expect(hashSeed("a::b")).not.toBe(hashSeed("a::c"));
+  });
+
+  it("devuelve un entero de 32 bits sin signo", () => {
+    const value = hashSeed("cualquier-texto");
+    expect(Number.isInteger(value)).toBe(true);
+    expect(value).toBeGreaterThanOrEqual(0);
+    expect(value).toBeLessThanOrEqual(0xffffffff);
+  });
+});
 
 describe("createRng", () => {
   it("es determinista con la misma semilla", () => {

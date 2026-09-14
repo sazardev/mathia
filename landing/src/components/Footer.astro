@@ -1,0 +1,45 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="inner">
+    <p>© {year} Mathia. Apache-2.0. Sin cuentas, sin anuncios, sin rastreo.</p>
+    <nav>
+      <a href="/privacidad">Privacidad</a>
+      <a href="https://github.com/sazardev/mathia" target="_blank" rel="noopener"
+        >GitHub</a
+      >
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-8) var(--space-6);
+    margin-top: var(--space-16);
+  }
+
+  .inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  nav {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+</style>

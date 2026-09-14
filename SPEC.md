@@ -14,7 +14,7 @@
 | Lema secundario | «Álgebra de verdad, sin conexión.» |
 | Lema corto (stores) | «Tu profe de álgebra en el escritorio.» |
 
-**Posicionamiento**: la app de escritorio para aprender álgebra desde cero — offline, privada, gratuita y con pedagogía real. *El "Duolingo del álgebra", pero sin anuncios, sin cuentas y sin internet.*
+**Posicionamiento**: la app para aprender álgebra desde cero — offline, privada, gratuita y con pedagogía real, disponible en escritorio (Win/Mac/Linux), tablet y móvil (Android ya tiene scaffold generado en `src-tauri/gen/android`). *El "Duolingo del álgebra", pero sin anuncios, sin cuentas y sin internet.*
 
 **Diferenciales defendibles**:
 1. **Offline-first total**: funciona en cualquier lugar; la red jamás es requisito.
@@ -51,7 +51,7 @@
 - Estadísticas sin inflación: precisión real ponderada, días practicados ≠ racha (BR-M5-4, BR-M5-5).
 - Los 8 logros v1 celebran constancia y dominio real; ACH-04 «Sin red» lee el estado de conexión del SO localmente, sin enviar nada (BR-M7-17).
 
-**Fuera de alcance v1** (explícito): cuentas/sync en la nube, multiusuario online, contenido generado por IA en runtime, móvil, marketplace de cursos, integración con colegios.
+**Fuera de alcance v1** (explícito): cuentas/sync en la nube, multiusuario online, contenido generado por IA en runtime, marketplace de cursos, integración con colegios.
 
 ---
 

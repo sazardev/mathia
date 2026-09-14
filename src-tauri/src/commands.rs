@@ -26,6 +26,29 @@ pub struct ProgressDto {
     pub updated_at: i64,
 }
 
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DailyLogDto {
+    pub day: String,
+    pub xp: i64,
+    pub goal_met: bool,
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AchievementRowDto {
+    pub achievement_id: String,
+    pub unlocked_at: i64,
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SrsItemDto {
+    pub exercise_id: String,
+    pub interval_days: i64,
+    pub due_at: i64,
+}
+
 fn now_millis() -> MathiaResult<i64> {
     Ok(SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -198,6 +221,140 @@ pub fn get_setting(
         Some(value) => Ok(Some(value?)),
         None => Ok(None),
     }
+}
+
+#[tauri::command]
+pub fn add_daily_xp(
+    db: State<'_, Db>,
+    profile_id: String,
+    day: String,
+    xp_delta: i64,
+    goal_active: i64,
+) -> MathiaResult<DailyLogDto> {
+    if xp_delta < 0 {
+        return Err(crate::errors::MathiaError::InvalidInput(
+            "El XP a sumar no puede ser negativo".into(),
+        ));
+    }
+    let conn = db.0.lock().map_err(lock_poisoned)?;
+    conn.execute(
+        "INSERT INTO daily_log(profile_id, day, xp, goal_met)
+         VALUES (?1, ?2, ?3, 0)
+         ON CONFLICT(profile_id, day)
+         DO UPDATE SET xp = xp + excluded.xp",
+        rusqlite::params![profile_id, day, xp_delta],
+    )?;
+    conn.execute(
+        "UPDATE daily_log SET goal_met = (xp >= ?3)
+         WHERE profile_id = ?1 AND day = ?2",
+        rusqlite::params![profile_id, day, goal_active],
+    )?;
+    let (xp, goal_met): (i64, bool) = conn.query_row(
+        "SELECT xp, goal_met FROM daily_log WHERE profile_id = ?1 AND day = ?2",
+        rusqlite::params![profile_id, day],
+        |row| Ok((row.get(0)?, row.get(1)?)),
+    )?;
+    Ok(DailyLogDto { day, xp, goal_met })
+}
+
+#[tauri::command]
+pub fn get_daily_log(
+    db: State<'_, Db>,
+    profile_id: String,
+    since_day: String,
+) -> MathiaResult<Vec<DailyLogDto>> {
+    let conn = db.0.lock().map_err(lock_poisoned)?;
+    let mut stmt = conn.prepare(
+        "SELECT day, xp, goal_met FROM daily_log
+         WHERE profile_id = ?1 AND day >= ?2 ORDER BY day",
+    )?;
+    let rows = stmt
+        .query_map(rusqlite::params![profile_id, since_day], |row| {
+            Ok(DailyLogDto {
+                day: row.get(0)?,
+                xp: row.get(1)?,
+                goal_met: row.get(2)?,
+            })
+        })?
+        .collect::<Result<Vec<_>, _>>()?;
+    Ok(rows)
+}
+
+#[tauri::command]
+pub fn unlock_achievement(
+    db: State<'_, Db>,
+    profile_id: String,
+    achievement_id: String,
+) -> MathiaResult<bool> {
+    let unlocked_at = now_millis()?;
+    let conn = db.0.lock().map_err(lock_poisoned)?;
+    let inserted = conn.execute(
+        "INSERT OR IGNORE INTO achievements(profile_id, achievement_id, unlocked_at)
+         VALUES (?1, ?2, ?3)",
+        rusqlite::params![profile_id, achievement_id, unlocked_at],
+    )?;
+    Ok(inserted > 0)
+}
+
+#[tauri::command]
+pub fn get_achievements(
+    db: State<'_, Db>,
+    profile_id: String,
+) -> MathiaResult<Vec<AchievementRowDto>> {
+    let conn = db.0.lock().map_err(lock_poisoned)?;
+    let mut stmt =
+        conn.prepare("SELECT achievement_id, unlocked_at FROM achievements WHERE profile_id = ?1")?;
+    let rows = stmt
+        .query_map(rusqlite::params![profile_id], |row| {
+            Ok(AchievementRowDto {
+                achievement_id: row.get(0)?,
+                unlocked_at: row.get(1)?,
+            })
+        })?
+        .collect::<Result<Vec<_>, _>>()?;
+    Ok(rows)
+}
+
+#[tauri::command]
+pub fn enqueue_srs_item(
+    db: State<'_, Db>,
+    profile_id: String,
+    exercise_id: String,
+    interval_days: i64,
+    due_at: i64,
+) -> MathiaResult<()> {
+    if interval_days <= 0 {
+        return Err(crate::errors::MathiaError::InvalidInput(
+            "El intervalo debe ser mayor a 0".into(),
+        ));
+    }
+    let conn = db.0.lock().map_err(lock_poisoned)?;
+    conn.execute(
+        "INSERT INTO srs_queue(profile_id, exercise_id, interval_days, due_at)
+         VALUES (?1, ?2, ?3, ?4)
+         ON CONFLICT(profile_id, exercise_id)
+         DO UPDATE SET interval_days = excluded.interval_days, due_at = excluded.due_at",
+        rusqlite::params![profile_id, exercise_id, interval_days, due_at],
+    )?;
+    Ok(())
+}
+
+#[tauri::command]
+pub fn get_srs_queue(db: State<'_, Db>, profile_id: String) -> MathiaResult<Vec<SrsItemDto>> {
+    let conn = db.0.lock().map_err(lock_poisoned)?;
+    let mut stmt = conn.prepare(
+        "SELECT exercise_id, interval_days, due_at FROM srs_queue WHERE profile_id = ?1",
+    )?;
+    let rows = stmt
+        .query_map(rusqlite::params![profile_id], |row| {
+            Ok(SrsItemDto {
+                exercise_id: row.get(0)?,
+                interval_days: row.get(1)?,
+                due_at: row.get(2)?,
+            })
+        })?
+        .collect::<Result<Vec<_>, _>>()?;
+    Ok(rows)
 }
 
 fn lock_poisoned<T>(_: T) -> crate::errors::MathiaError {
