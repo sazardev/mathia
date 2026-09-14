@@ -146,5 +146,45 @@ export const LESSON_U8L1: Lesson = {
       answer: -1,
       derivation: "0+(-4)+3",
     },
+    {
+      type: "multiple-choice",
+      id: "u8l1e8",
+      conceptsUsed: [ecPolinomicasFactorizacion.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: para CUALQUIER polinomio $P(x)$ factorizado completamente como $(x-r_1)(x-r_2)\\cdots(x-r_n)$, ¿cuántas soluciones (contando repeticiones) tiene $P(x)=0$?",
+      hints: [
+        {
+          level: 1,
+          text: "Cada factor lineal aporta exactamente una solución.",
+        },
+      ],
+      successFeedback:
+        "¡Correcto! Esa cuenta funciona sin importar cuántos factores tenga el polinomio ni cuáles sean sus raíces.",
+      choices: [
+        { id: "a", text: "Exactamente $n$", isCorrect: true },
+        {
+          id: "b",
+          text: "Como máximo 2",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Eso solo aplica a cuadráticas; un polinomio factorizado en $n$ factores lineales tiene $n$ raíces.",
+        },
+        {
+          id: "c",
+          text: "Depende de los valores de las raíces",
+          isCorrect: false,
+          feedbackIfWrong:
+            "No depende de los VALORES de las raíces, solo de CUÁNTOS factores lineales hay.",
+        },
+        {
+          id: "d",
+          text: "Siempre exactamente 3",
+          isCorrect: false,
+          feedbackIfWrong:
+            "3 es el caso particular de una cúbica; la regla general depende del número de factores $n$.",
+        },
+      ],
+    },
   ],
 };

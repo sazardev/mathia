@@ -160,5 +160,24 @@ export const LESSON_U8L2: Lesson = {
       answer: 0,
       derivation: "2*(1/2)^3-3*(1/2)^2-11*(1/2)+6",
     },
+    {
+      type: "true-false",
+      id: "u8l2e8",
+      conceptsUsed: [teoremaRaizRacional.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER polinomio con coeficientes enteros, TODAS sus raíces reales deben estar en la lista de candidatos racionales del teorema.",
+      answer: false,
+      explanation:
+        "NO: el teorema de la raíz racional solo predice las raíces RACIONALES posibles. Un polinomio puede tener raíces irracionales (como $\\sqrt{2}$) que nunca aparecerán en esa lista, aunque sean raíces reales válidas.",
+      successFeedback:
+        "¡Exacto! El teorema acota candidatos RACIONALES, no todas las raíces reales — una distinción clave que conecta con lo que aprendiste sobre números irracionales.",
+      hints: [
+        {
+          level: 1,
+          text: "¿Qué tipo de raíces (racionales, irracionales) predice exactamente este teorema?",
+        },
+      ],
+    },
   ],
 };
