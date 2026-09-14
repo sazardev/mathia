@@ -88,4 +88,12 @@ export const CONCEPTS = {
     id: "c-sistemas-aplicaciones",
     name: "Plantear y resolver sistemas de ecuaciones desde problemas",
   },
+  ecRacionales: {
+    id: "c-ec-racionales",
+    name: "Resolver ecuaciones racionales",
+  },
+  ecRadicales: {
+    id: "c-ec-radicales",
+    name: "Resolver ecuaciones radicales",
+  },
 } satisfies Record<string, Concept>;
