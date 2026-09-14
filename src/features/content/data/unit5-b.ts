@@ -335,6 +335,7 @@ export const LESSON_U5L4: Lesson = {
         "Dos boletos de adulto y uno de niño cuestan 100; un adulto y un niño cuestan 70. Sea $a,n$ los precios: $2a+n=100$, $a+n=70$. Restando la segunda de la primera, ¿cuál es $a$?",
       hints: [{ level: 1, text: "$(2a+n)-(a+n)=100-70$." }],
       answer: 30,
+      unit: "$",
       derivation: "100-70",
     },
     {
@@ -345,6 +346,7 @@ export const LESSON_U5L4: Lesson = {
       prompt: "Con $a=30$ en $a+n=70$, ¿cuál es $n$?",
       hints: [{ level: 1, text: "$n=70-30$." }],
       answer: 40,
+      unit: "$",
       derivation: "70-30",
     },
     {
@@ -379,6 +381,7 @@ export const LESSON_U5L4: Lesson = {
         { level: 2, text: "$3b=38-2$." },
       ],
       answer: 12,
+      unit: "años",
       derivation: "36/3",
     },
     {

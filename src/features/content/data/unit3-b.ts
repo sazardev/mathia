@@ -195,6 +195,7 @@ export const LESSON_U3L4: Lesson = {
         },
       ],
       answer: 4,
+      unit: "s",
       derivation: "(64+4096^0.5)/32",
     },
     {

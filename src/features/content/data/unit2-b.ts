@@ -333,6 +333,7 @@ export const LESSON_U2L5: Lesson = {
         { level: 2, text: "$300h=2400$; divide entre 300." },
       ],
       answer: 8,
+      unit: "h",
       derivation: "(4400-2000)/300",
     },
     {
