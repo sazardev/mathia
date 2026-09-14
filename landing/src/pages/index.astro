@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Pillars from "../components/Pillars.astro";
+import Faq from "../components/Faq.astro";
+import Footer from "../components/Footer.astro";
+import { FAQ } from "../data/faq";
+
+const title = "Mathia — Aprende álgebra desde cero, offline y gratis";
+const description =
+  "App de escritorio para aprender álgebra desde cero: offline, privada, gratuita y con pedagogía real. El Duolingo del álgebra, sin internet ni anuncios.";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Mathia",
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Windows, macOS, Linux",
+    description,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    url: "https://mathia.app",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <Header />
+  <main>
+    <Hero />
+    <Pillars />
+    <Faq />
+  </main>
+  <Footer />
+</BaseLayout>

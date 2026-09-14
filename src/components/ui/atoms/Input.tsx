@@ -7,6 +7,9 @@ type InputProps = {
   inputMode?: "text" | "numeric" | "decimal";
   placeholder?: string;
   ariaLabel?: string;
+  id?: string | undefined;
+  autoComplete?: string | undefined;
+  ariaDescribedBy?: string | undefined;
   invalid?: boolean;
   disabled?: boolean;
   onBlur?: () => void;
@@ -18,17 +21,23 @@ export function Input({
   inputMode = "text",
   placeholder,
   ariaLabel,
+  id,
+  autoComplete,
+  ariaDescribedBy,
   invalid = false,
   disabled = false,
   onBlur,
 }: InputProps) {
   return (
     <input
+      id={id}
       type="text"
       inputMode={inputMode}
       value={value}
       placeholder={placeholder}
       aria-label={ariaLabel}
+      autoComplete={autoComplete}
+      aria-describedby={ariaDescribedBy}
       aria-invalid={invalid || undefined}
       disabled={disabled}
       onChange={(event) => onChange(event.currentTarget.value)}

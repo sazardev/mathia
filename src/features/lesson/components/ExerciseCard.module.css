@@ -37,3 +37,42 @@
   transform: translateY(0);
   color: var(--color-danger-500);
 }
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.rankBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.stepText {
+  flex: 1;
+}
+
+.stepActions {
+  display: inline-flex;
+  gap: var(--space-1);
+}
+
+.matchGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.matchCol {
+  display: grid;
+  gap: var(--space-2);
+}

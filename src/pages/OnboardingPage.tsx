@@ -19,19 +19,22 @@ export function OnboardingPage() {
   const step: 1 | 2 = search.step === 2 ? 2 : 1;
   const [goal, setGoal] = useState<DailyGoal | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const goToStep = (next: 1 | 2) => {
     void navigateFn({ to: "/onboarding", search: { step: next } });
   };
 
   const finish = () => {
-    if (goal === null) return;
+    if (goal === null || isSubmitting) return;
+    setIsSubmitting(true);
     void (async () => {
       try {
         await saveSettings({ ...DEFAULT_SETTINGS, dailyGoal: goal });
         navigate(ROUTES.home);
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : String(cause));
+        setIsSubmitting(false);
       }
     })();
   };
@@ -87,7 +90,11 @@ export function OnboardingPage() {
               Empezar
             </Button>
           ) : (
-            <Button size="lg" disabled={goal === null} onPress={finish}>
+            <Button
+              size="lg"
+              disabled={goal === null || isSubmitting}
+              onPress={finish}
+            >
               Listo
             </Button>
           )}

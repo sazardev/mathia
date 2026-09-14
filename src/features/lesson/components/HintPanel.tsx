@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/atoms/Button";
 import { Icon } from "@/components/ui/atoms/Icon";
 import { Text } from "@/components/ui/atoms/Text";
+import { MathText } from "@/components/ui/molecules/MathText";
 import styles from "./HintPanel.module.css";
 
 type HintPanelProps = {
@@ -22,7 +23,7 @@ export function HintPanel({ hints, revealedCount, onReveal }: HintPanelProps) {
             <Icon name="lightbulb" size={16} />
           </span>
           <Text as="span" size="sm">
-            {hint}
+            <MathText text={hint} />
           </Text>
         </p>
       ))}

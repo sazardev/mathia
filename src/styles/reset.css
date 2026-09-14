@@ -23,6 +23,19 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Identidad tipográfica: encabezados en Fredoka (redondeada, con carácter);
+   el cuerpo se queda en Inter (legibilidad ante todo, DESIGN.md §6). */
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
 img,
 svg {
   display: block;

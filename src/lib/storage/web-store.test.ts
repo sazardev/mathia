@@ -88,6 +88,58 @@ describe("WebStore — perfiles y progreso", () => {
   });
 });
 
+describe("WebStore — XP diario y logros (M7)", () => {
+  it("addDailyXp acumula y recalcula goalMet", async () => {
+    const store = await WebStore.openInMemory(SQL);
+    const profile = await store.createProfile("Gamer", 0);
+    const first = await store.addDailyXp(profile.id, "2026-08-25", 10, 20);
+    expect(first).toEqual({ day: "2026-08-25", xp: 10, goalMet: false });
+    const second = await store.addDailyXp(profile.id, "2026-08-25", 15, 20);
+    expect(second).toEqual({ day: "2026-08-25", xp: 25, goalMet: true });
+  });
+
+  it("getDailyLog filtra por fecha y ordena", async () => {
+    const store = await WebStore.openInMemory(SQL);
+    const profile = await store.createProfile("Gamer2", 0);
+    await store.addDailyXp(profile.id, "2026-08-01", 5, 20);
+    await store.addDailyXp(profile.id, "2026-08-25", 30, 20);
+    const log = await store.getDailyLog(profile.id, "2026-08-10");
+    expect(log).toEqual([{ day: "2026-08-25", xp: 30, goalMet: true }]);
+  });
+
+  it("unlockAchievement es idempotente (BR-M7-16)", async () => {
+    const store = await WebStore.openInMemory(SQL);
+    const profile = await store.createProfile("Gamer3", 0);
+    expect(await store.unlockAchievement(profile.id, "ACH-01")).toBe(true);
+    expect(await store.unlockAchievement(profile.id, "ACH-01")).toBe(false);
+    const achievements = await store.getAchievements(profile.id);
+    expect(achievements).toHaveLength(1);
+    expect(achievements[0]?.achievementId).toBe("ACH-01");
+  });
+});
+
+describe("WebStore — cola SRS (M6)", () => {
+  it("enqueueSrsItem hace upsert por ejercicio", async () => {
+    const store = await WebStore.openInMemory(SQL);
+    const profile = await store.createProfile("Srs", 0);
+    await store.enqueueSrsItem(profile.id, "u1-l1-e1", 1, 1000);
+    await store.enqueueSrsItem(profile.id, "u1-l1-e1", 2, 2000);
+    const queue = await store.getSrsQueue(profile.id);
+    expect(queue).toEqual([
+      { exerciseId: "u1-l1-e1", intervalDays: 2, dueAt: 2000 },
+    ]);
+  });
+
+  it("aísla la cola por perfil", async () => {
+    const store = await WebStore.openInMemory(SQL);
+    const a = await store.createProfile("A", 0);
+    const b = await store.createProfile("B", 1);
+    await store.enqueueSrsItem(a.id, "ex-a", 1, 1000);
+    expect(await store.getSrsQueue(b.id)).toEqual([]);
+    expect(await store.getSrsQueue(a.id)).toHaveLength(1);
+  });
+});
+
 describe("WebStore — persistencia entre recargas (HU-05)", () => {
   it("los datos sobreviven a un reinicio completo del store", async () => {
     const persistence = memoryPersistence();

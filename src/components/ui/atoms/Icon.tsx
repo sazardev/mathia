@@ -18,10 +18,10 @@ const paths = {
   ),
   settings: (
     <>
-      <path d="M4 6h16M4 12h16M4 18h16" />
-      <circle cx="9" cy="6" r="2" />
-      <circle cx="16" cy="12" r="2" />
-      <circle cx="8" cy="18" r="2" />
+      <path d="M4 6h4M12 6h8M4 12h10M18 12h2M4 18h6M14 18h6" />
+      <circle cx="10" cy="6" r="1.6" />
+      <circle cx="16" cy="12" r="1.6" />
+      <circle cx="12" cy="18" r="1.6" />
     </>
   ),
   flame: (
@@ -79,6 +79,18 @@ const paths = {
     </>
   ),
   play: <path d="M7 5l12 7-12 7V5z" />,
+  pencil: (
+    <path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
+  ),
+  eraser: <path d="M4 14l6-6 6 6-4 4H8l-4-4zM9 19h10" />,
+  undo: <path d="M9 14L4 9l5-5M4 9h11a5 5 0 0 1 0 10h-3" />,
+  notebook: (
+    <>
+      <path d="M5 4h11l3 3v13H5z" />
+      <path d="M9 4v16M14 9h3M14 13h3" />
+    </>
+  ),
+  trash: <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" />,
 } satisfies Record<string, JSX.Element>;
 
 export type IconName = keyof typeof paths;
@@ -96,7 +108,7 @@ export function Icon({ name, size = 24 }: IconProps) {
       height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
+      strokeWidth={2.25}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"

@@ -10,6 +10,7 @@ type IconButtonProps = {
   iconSize?: number;
   disabled?: boolean;
   onPress?: () => void;
+  className?: string | undefined;
 };
 
 export function IconButton({
@@ -20,6 +21,7 @@ export function IconButton({
   iconSize,
   disabled = false,
   onPress,
+  className,
 }: IconButtonProps) {
   return (
     <button
@@ -28,7 +30,12 @@ export function IconButton({
       title={label}
       disabled={disabled}
       onClick={onPress}
-      className={cn(styles["iconButton"], styles[size], styles[variant])}
+      className={cn(
+        styles["iconButton"],
+        styles[size],
+        styles[variant],
+        className,
+      )}
     >
       <Icon name={icon} size={iconSize ?? (size === "sm" ? 16 : 20)} />
     </button>

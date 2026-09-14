@@ -21,14 +21,15 @@ export function useWindowedRange(
 ): WindowedScroll {
   const [scrollTop, setScrollTop] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(FALLBACK_VIEWPORT);
+  const [node, setNode] = useState<HTMLDivElement | null>(null);
   const nodeRef = useRef<HTMLDivElement | null>(null);
 
-  const containerRef = useCallback((node: HTMLDivElement | null) => {
-    nodeRef.current = node;
+  const containerRef = useCallback((next: HTMLDivElement | null) => {
+    nodeRef.current = next;
+    setNode(next);
   }, []);
 
   useEffect(() => {
-    const node = nodeRef.current;
     if (node === null) return;
     const measure = () => setViewportHeight(node.clientHeight);
     measure();
@@ -37,7 +38,7 @@ export function useWindowedRange(
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [node]);
 
   const onScroll = useCallback((event: React.UIEvent<HTMLDivElement>) => {
     setScrollTop(event.currentTarget.scrollTop);

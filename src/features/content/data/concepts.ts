@@ -20,4 +20,104 @@ export const CONCEPTS = {
   ecFracciones: { id: "c-ec-fracciones", name: "Ecuaciones con denominadores" },
   plantear: { id: "c-plantear", name: "Plantear ecuaciones desde problemas" },
   desig1p: { id: "c-desig1p", name: "Desigualdades de un paso" },
+  ecFracDecimales: {
+    id: "c-ec-frac-decimales",
+    name: "Ecuaciones con coeficientes fraccionarios y decimales",
+  },
+  metodosResolucion: {
+    id: "c-metodos-resolucion",
+    name: "Métodos de resolución: balanza y despeje directo",
+  },
+  cuadIntro: {
+    id: "c-cuad-intro",
+    name: "Introducción a las ecuaciones cuadráticas",
+  },
+  cuadFactorizacion: {
+    id: "c-cuad-factorizacion",
+    name: "Resolver cuadráticas por factorización",
+  },
+  cuadFormula: {
+    id: "c-cuad-formula",
+    name: "Fórmula general y discriminante",
+  },
+  cuadAplicaciones: {
+    id: "c-cuad-aplicaciones",
+    name: "Plantear y resolver problemas con ecuaciones cuadráticas",
+  },
+  multPolinomios: {
+    id: "c-mult-polinomios",
+    name: "Multiplicar polinomios (FOIL)",
+  },
+  productosNotables: {
+    id: "c-productos-notables",
+    name: "Productos notables (cuadrado de un binomio, diferencia de cuadrados)",
+  },
+  factorEspecial: {
+    id: "c-factor-especial",
+    name: "Factorizar diferencia de cuadrados y trinomios cuadrados perfectos",
+  },
+  factorAgrupacion: {
+    id: "c-factor-agrupacion",
+    name: "Factorizar por agrupación",
+  },
+  factorACnoUno: {
+    id: "c-factor-ac-no-uno",
+    name: "Factorizar trinomios con coeficiente principal distinto de 1",
+  },
+  divisionPolinomios: {
+    id: "c-division-polinomios",
+    name: "División de polinomios y teorema del residuo/factor",
+  },
+  factorCubos: {
+    id: "c-factor-cubos",
+    name: "Factorizar suma y diferencia de cubos",
+  },
+  sistemasSustitucion: {
+    id: "c-sistemas-sustitucion",
+    name: "Resolver sistemas de ecuaciones lineales por sustitución",
+  },
+  sistemasEliminacion: {
+    id: "c-sistemas-eliminacion",
+    name: "Resolver sistemas de ecuaciones lineales por eliminación",
+  },
+  sistemasClasificacion: {
+    id: "c-sistemas-clasificacion",
+    name: "Clasificar sistemas: solución única, sin solución, infinitas soluciones",
+  },
+  sistemasAplicaciones: {
+    id: "c-sistemas-aplicaciones",
+    name: "Plantear y resolver sistemas de ecuaciones desde problemas",
+  },
+  ecRacionales: {
+    id: "c-ec-racionales",
+    name: "Resolver ecuaciones racionales",
+  },
+  ecRadicales: {
+    id: "c-ec-radicales",
+    name: "Resolver ecuaciones radicales",
+  },
+  ecExponencialesBase: {
+    id: "c-ec-exponenciales-base",
+    name: "Resolver ecuaciones exponenciales con la misma base",
+  },
+  logaritmoIntro: {
+    id: "c-logaritmo-intro",
+    name: "Qué es un logaritmo",
+  },
+  logaritmoPropiedades: {
+    id: "c-logaritmo-propiedades",
+    name: "Propiedades de logaritmos (producto, cociente, potencia)",
+  },
+  ecLogExponencial: {
+    id: "c-ec-log-exponencial",
+    name: "Resolver ecuaciones exponenciales y logarítmicas",
+  },
+  ecPolinomicasFactorizacion: {
+    id: "c-ec-polinomicas-factorizacion",
+    name: "Resolver ecuaciones polinómicas por factorización",
+  },
+  teoremaRaizRacional: {
+    id: "c-teorema-raiz-racional",
+    name: "Teorema de la raíz racional",
+  },
 } satisfies Record<string, Concept>;

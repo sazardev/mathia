@@ -9,22 +9,38 @@ export const LESSON_U2L1: Lesson = {
   title: "Ecuaciones de dos pasos",
   conceptIdsTaught: [ec2p.id],
   intro: {
-    hook: "Un taxi cobra 5 de banderazo más 2 por minuto. Si pagaste 17, ¿cuántos minutos viajaste? Eso es $2m+5=17$: una ecuación de dos pasos.",
+    hook: "Ya despejas x en un paso. Un taxi cobra 5 de banderazo más 2 por minuto: si pagaste 17, ¿cuántos minutos viajaste? Esa ecuación, $2m+5=17$, necesita DOS pasos para resolverse.",
     intuition: [
-      "Desvestir a un muñeco: te quitas los zapatos ANTES que la bufanda. En $ax+b=c$, primero se quita el $+b$ (suma/resta) y luego el $a$ (multiplicación/división).",
-      "El orden de despeje es el INVERSO al orden de operaciones: lo último que se hizo al construir la expresión es lo primero que se deshace.",
-      "Todo lo que hagas a un lado de la igualdad, hazlo también al otro: el equilibrio manda.",
+      "Piensa en desvestir a un muñeco: te quitas primero lo de afuera. En $ax+b=c$, primero deshaces la suma/resta ($+b$) y después la multiplicación ($a$).",
+      "El orden de despeje es el inverso al orden en que se construyó la expresión.",
+      "Todo lo que hagas a un lado, hazlo también al otro — el equilibrio de la balanza sigue mandando.",
     ],
     definition:
-      "Para resolver $ax+b=c$: 1) suma o resta $b$ en ambos miembros para aislar el término con $x$; 2) divide (o multiplica) ambos miembros entre $a$. Verifica sustituyendo.",
+      "Para resolver $ax+b=c$: primero suma o resta $b$ en ambos lados para aislar el término con $x$; después divide (o multiplica) entre $a$. Verifica sustituyendo.",
     workedExamples: [
-      "$2x+5=11$: resto 5 → $2x=6$; divido entre 2 → $x=3$. Verificación: $2·3+5=11$ ✓.",
-      "$-3x-4=8$: sumo 4 → $-3x=12$; divido entre −3 → $x=-4$. Verificación: $-3·(-4)-4=8$ ✓.",
+      "$2x+5=11$: resto 5 → $2x=6$; divido entre 2 → $x=3$. Verificación: $2\\cdot3+5=11$ ✓.",
+      "$-3x-4=8$: sumo 4 → $-3x=12$; divido entre $-3$ → $x=-4$.",
     ],
   },
+  guidedPractice: {
+    problem: "$3x+2=14$",
+    steps: [
+      {
+        instruction: "Resta 2 en ambos lados.",
+        result: "$3x=12$",
+      },
+      {
+        instruction: "Divide entre 3.",
+        result: "$x=4$",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: resuelve $2x-1=9$.",
+    answer: 5,
+    derivation: "(9+1)/2",
+  },
   commonMistakes: [
-    "Dividir antes de despejar la suma/resta: en $2x+3=11$ calcular $(11÷2)-3$, mezclando el orden.",
-    "Perder el signo del coeficiente negativo en la división final: $(−12)÷(−3)$ es $+4$, no $−4$.",
+    "Dividir antes de despejar la suma/resta: mezcla el orden y complica el camino.",
+    "Perder el signo en la división final: $(-12)\\div(-3)=4$, no $-4$.",
   ],
   exercises: [
     {
@@ -162,6 +178,20 @@ export const LESSON_U2L1: Lesson = {
       answer: 5,
       derivation: "((-13)-2)/(-3)",
     },
+    {
+      type: "numeric-input",
+      id: "u2l1e7",
+      conceptsUsed: [ec2p.id, intMult.id],
+      difficulty: 4,
+      prompt: "Reto: resuelve $-8x+3=35$.",
+      hints: [
+        { level: 1, text: "Resta 3 en ambos lados: $-8x=32$." },
+        { level: 2, text: "Divide entre $-8$." },
+        { level: 3, text: "Positivo entre negativo da negativo: $x=-4$." },
+      ],
+      answer: -4,
+      derivation: "(35-3)/(-8)",
+    },
   ],
 };
 
@@ -170,22 +200,38 @@ export const LESSON_U2L2: Lesson = {
   title: "Variables en ambos lados",
   conceptIdsTaught: [ambosLados.id],
   intro: {
-    hook: "Dos gimnasios cobran así: A pide 30 fijo; B pide 10 fijo más 4 por visita. ¿Cuándo cuestan igual? Igualar sus fórmulas pone variables en ambos lados.",
+    hook: "Ya despejas ecuaciones de dos pasos. Dos gimnasios cobran distinto: uno pide 30 fijo, otro 10 fijo más 4 por visita. ¿Cuándo cuestan igual? Igualar sus fórmulas pone variables en AMBOS lados.",
     intuition: [
-      "La estrategia: junta todas las $x$ en UN lado y todos los números en el otro.",
-      "Cuando un término cambia de lado, cambia de signo: $5x = x+12$ → $5x-x=12$.",
-      "Termina siendo una ecuación de uno o dos pasos que ya sabes resolver.",
+      "Estrategia: junta todas las $x$ en un solo lado y todos los números en el otro.",
+      "Cuando un término cruza al otro lado, cambia de signo: $5x=x+12$ se convierte en $5x-x=12$.",
+      "Después de agrupar, te queda una ecuación de uno o dos pasos que ya sabes resolver.",
     ],
     definition:
-      "En $ax+b=cx+d$: aplica la operación inversa para agrupar $(a-c)x=d-b$ (o equivalente) y despeja. Elige el lado que evite coeficientes negativos cuando sea posible.",
+      "En $ax+b=cx+d$: aplica la operación inversa para agrupar las x en un lado, $(a-c)x=d-b$, y despeja.",
     workedExamples: [
-      "$5x=x+12$: resto $x$ en ambos → $4x=12$; divido entre 4 → $x=3$.",
+      "$5x=x+12$: resto x en ambos lados → $4x=12$; divido entre 4 → $x=3$.",
       "$7x-2=3x+10$: resto $3x$ → $4x-2=10$; sumo 2 → $4x=12$; $x=3$.",
     ],
   },
+  guidedPractice: {
+    problem: "$6x=2x+8$",
+    steps: [
+      {
+        instruction: "Resta $2x$ en ambos lados.",
+        result: "$4x=8$",
+      },
+      {
+        instruction: "Divide entre 4.",
+        result: "$x=2$",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: resuelve $5x=3x+10$.",
+    answer: 5,
+    derivation: "10/(5-3)",
+  },
   commonMistakes: [
-    "Cambiar de lado sin cambiar el signo: $5x=x+12$ NO se convierte en $5x+x=12$.",
-    "Dividir constantes entre sí «en paralelo»: en $4x-3=2x+5$ no puedes hacer $x=(5-3)/(4-2)=1$.",
+    "Cambiar de lado sin cambiar el signo: $5x=x+12$ no se vuelve $5x+x=12$.",
+    "Operar coeficientes y constantes por separado en vez de agrupar cada lado completo primero.",
   ],
   exercises: [
     {
@@ -319,6 +365,23 @@ export const LESSON_U2L2: Lesson = {
       answer: 4,
       derivation: "(17+7)/((11)-(5))",
     },
+    {
+      type: "numeric-input",
+      id: "u2l2e7",
+      conceptsUsed: [ambosLados.id, intSuma.id],
+      difficulty: 4,
+      prompt: "Reto: resuelve $-3x+8=2x-12$.",
+      hints: [
+        {
+          level: 1,
+          text: "Agrupa las x: resta $2x$ en ambos lados → $-5x+8=-12$.",
+        },
+        { level: 2, text: "Resta 8 en ambos lados: $-5x=-20$." },
+        { level: 3, text: "Divide entre $-5$: $x=4$." },
+      ],
+      answer: 4,
+      derivation: "(-12-8)/((-3)-(2))",
+    },
   ],
 };
 
@@ -327,21 +390,37 @@ export const LESSON_U2L3: Lesson = {
   title: "Paréntesis en ecuaciones",
   conceptIdsTaught: [ecParentesis.id],
   intro: {
-    hook: "Tres cajas iguales con x canicas cada una, más sueltan 4 en total... Cuando una ecuación trae paréntesis, la distributiva abre el camino.",
+    hook: "Ya agrupas variables en ambos lados. Ahora aparece un paréntesis en el camino: tres cajas iguales con x canicas más algunas sueltas. La distributiva te abre ese paréntesis.",
     intuition: [
-      "Dos caminos equivalentes: DISTRIBUIR el factor, o DIVIDIR ambos lados entre él si divide exacto.",
-      "Distribuir significa multiplicar a TODOS los términos de adentro, con sus signos.",
-      "Tras abrir paréntesis, la ecuación vuelve a ser de «dos pasos» o «variables en ambos lados», que ya dominas.",
+      "Dos caminos válidos: distribuir el factor, o dividir ambos lados entre él si divide exacto — tú eliges el más cómodo.",
+      "Distribuir significa multiplicar TODOS los términos de adentro, arrastrando sus signos.",
+      "Una vez abierto el paréntesis, la ecuación vuelve a ser una de las que ya dominas.",
     ],
     definition:
-      "Para resolver ecuaciones con paréntesis: aplica $a(b+c)=ab+ac$ para eliminarlos (o divide ambos miembros por el factor común), luego resuelve como ecuación lineal conocida.",
+      "Para ecuaciones con paréntesis: aplica $a(b+c)=ab+ac$ para eliminarlos (o divide ambos lados entre el factor común), luego resuelve como ecuación lineal conocida.",
     workedExamples: [
-      "$2(x+4)=14$: distribuyo → $2x+8=14$; $2x=6$; $x=3$. (Camino alterno: divido entre 2 → $x+4=7$.)",
+      "$2(x+4)=14$: distribuyo → $2x+8=14$; $2x=6$; $x=3$. (Camino alterno: divido entre 2 primero → $x+4=7$.)",
       "$4(x-2)=2x+6$: distribuyo → $4x-8=2x+6$; agrupo → $2x=14$; $x=7$.",
     ],
   },
+  guidedPractice: {
+    problem: "$3(x+1)=12$",
+    steps: [
+      {
+        instruction: "Distribuye el 3.",
+        result: "$3x+3=12$",
+      },
+      {
+        instruction: "Resta 3 y divide entre 3.",
+        result: "$x=3$",
+      },
+    ],
+    prompt: "Ahora resuélvelo tú: resuelve $2(x-1)=10$.",
+    answer: 6,
+    derivation: "(10/2)+1",
+  },
   commonMistakes: [
-    "Distribuir sobre un solo término: $2(x+4)$ NO es $2x+4$.",
+    "Distribuir sobre un solo término: $2(x+4)$ no es $2x+4$.",
     "Perder el signo al distribuir negativos: $-3(x-2)=-3x+6$, no $-3x-6$.",
   ],
   exercises: [
@@ -474,6 +553,20 @@ export const LESSON_U2L3: Lesson = {
       ],
       answer: 2,
       derivation: "(11+4-3)/6",
+    },
+    {
+      type: "numeric-input",
+      id: "u2l3e7",
+      conceptsUsed: [ecParentesis.id, distributiva.id, ambosLados.id],
+      difficulty: 4,
+      prompt: "Reto: resuelve $2(3x+1)=4(x+3)$.",
+      hints: [
+        { level: 1, text: "Distribuye ambos lados: $6x+2=4x+12$." },
+        { level: 2, text: "Agrupa las x: $6x-4x=12-2$." },
+        { level: 3, text: "$2x=10$; divide entre 2." },
+      ],
+      answer: 5,
+      derivation: "(12-2)/(6-4)",
     },
   ],
 };

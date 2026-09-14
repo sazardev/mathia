@@ -3,6 +3,7 @@ import type {
   Exercise,
   Lesson,
   MultipleChoiceExercise,
+  NumberLineExercise,
   NumericInputExercise,
   TrueFalseExercise,
   Unit,
@@ -52,6 +53,25 @@ function num(
   };
 }
 
+function numberLine(
+  overrides: Partial<NumberLineExercise> = {},
+): NumberLineExercise {
+  return {
+    type: "number-line",
+    id: "ex-nl",
+    conceptsUsed: ["c-a"],
+    difficulty: 1,
+    hints: [{ level: 1, text: "pista base" }],
+    prompt: "Ubica $2+2$ en la recta.",
+    min: -10,
+    max: 10,
+    step: 1,
+    answer: 4,
+    derivation: "2+2",
+    ...overrides,
+  };
+}
+
 function tf(overrides: Partial<TrueFalseExercise> = {}): TrueFalseExercise {
   return {
     type: "true-false",
@@ -79,6 +99,16 @@ function buildLesson(
       intuition: ["i"],
       definition: "d",
       workedExamples: ["w"],
+    },
+    guidedPractice: {
+      problem: "$2+2$",
+      steps: [
+        { instruction: "Suma las unidades.", result: "$2+2=4$" },
+        { instruction: "Confirma el resultado.", result: "$4$" },
+      ],
+      prompt: "¿Cuánto es $3+3$?",
+      answer: 6,
+      derivation: "3+3",
     },
     commonMistakes: ["error común"],
     exercises,
@@ -146,6 +176,92 @@ describe("validateCurriculum — estructura y esquema", () => {
       buildUnit([buildLesson([...exercises.slice(0, 4), exercises[0]!])]),
     ]);
     expect(ruleIds(result.errors)).toContain("SCHEMA");
+  });
+});
+
+describe("validateCurriculum — number-line", () => {
+  it("acepta un number-line válido", () => {
+    const result = validateCurriculum([
+      buildUnit([
+        buildLesson([...validExercises(), numberLine({ difficulty: 4 })]),
+      ]),
+    ]);
+    expect(result.ok).toBe(true);
+  });
+
+  it("rechaza min >= max", () => {
+    const result = validateCurriculum([
+      buildUnit([
+        buildLesson([
+          ...validExercises(),
+          numberLine({ difficulty: 4, min: 5, max: 5 }),
+        ]),
+      ]),
+    ]);
+    expect(ruleIds(result.errors)).toContain("SCHEMA");
+  });
+
+  it("rechaza answer fuera de [min, max]", () => {
+    const result = validateCurriculum([
+      buildUnit([
+        buildLesson([
+          ...validExercises(),
+          numberLine({ difficulty: 4, min: 0, max: 10, answer: 20 }),
+        ]),
+      ]),
+    ]);
+    expect(ruleIds(result.errors)).toContain("CONTENT");
+  });
+
+  it("M-01: rechaza cuando la derivación no coincide con answer", () => {
+    const result = validateCurriculum([
+      buildUnit([
+        buildLesson([
+          ...validExercises(),
+          numberLine({ difficulty: 4, answer: 4, derivation: "2+3" }),
+        ]),
+      ]),
+    ]);
+    expect(ruleIds(result.errors)).toContain("M-01");
+  });
+});
+
+describe("validateCurriculum — práctica guiada", () => {
+  it("M-01: rechaza cuando la derivación no coincide con la respuesta", () => {
+    const result = validateCurriculum([
+      buildUnit([
+        buildLesson(validExercises(), {
+          guidedPractice: {
+            problem: "$2+2$",
+            steps: [
+              { instruction: "a", result: "b" },
+              { instruction: "c", result: "d" },
+            ],
+            prompt: "¿Cuánto es $3+3$?",
+            answer: 6,
+            derivation: "3+4",
+          },
+        }),
+      ]),
+    ]);
+    expect(ruleIds(result.errors)).toContain("M-01");
+  });
+
+  it("CONTENT: rechaza menos de 2 pasos", () => {
+    const result = validateCurriculum([
+      buildUnit([
+        buildLesson(validExercises(), {
+          guidedPractice: {
+            problem: "$2+2$",
+            steps: [{ instruction: "a", result: "b" }],
+            prompt: "¿Cuánto es $3+3$?",
+            answer: 6,
+            derivation: "3+3",
+          },
+        }),
+      ]),
+    ]);
+    expect(ruleIds(result.errors)).toContain("CONTENT");
   });
 });
 
@@ -276,5 +392,39 @@ describe("validateCurriculum — verificación matemática y notación", () => {
     ];
     const result = validateCurriculum([buildUnit([buildLesson(exercises)])]);
     expect(ruleIds(result.errors)).toContain("U-06");
+  });
+
+  it("U-06: rechaza dinero con $ (prosa dentro del span matemático)", () => {
+    const exercises = [
+      ...validExercises().slice(0, 4),
+      mc({
+        id: "e5",
+        difficulty: 4,
+        prompt: "Ana tiene $50 y compra de $3. ¿Cuánto le queda?",
+      }),
+    ];
+    const result = validateCurriculum([buildUnit([buildLesson(exercises)])]);
+    const moneyError = result.errors.find((error) =>
+      error.message.includes("escríbelo con palabras"),
+    );
+    expect(moneyError?.ruleId).toBe("U-06");
+  });
+
+  it("U-06: acepta \\text{} y funciones sin backslash dentro de spans", () => {
+    const exercises = [
+      ...validExercises().slice(0, 4),
+      mc({
+        id: "e5",
+        difficulty: 4,
+        prompt:
+          "El valor de $\\text{sen}(x)$ con $x = \\max\\{1, 2\\}$ es válido.",
+      }),
+    ];
+    const result = validateCurriculum([buildUnit([buildLesson(exercises)])]);
+    expect(
+      result.errors.filter((error) =>
+        error.message.includes("escríbelo con palabras"),
+      ),
+    ).toEqual([]);
   });
 });

@@ -100,6 +100,87 @@ mod tests {
     }
 
     #[test]
+    fn daily_log_xp_se_acumula_y_goal_met_se_actualiza() {
+        let conn = memory();
+        conn.execute(
+            "INSERT INTO profiles(id, name, avatar, created_at) VALUES ('p1', 'Ana', 3, 1)",
+            [],
+        )
+        .expect("perfil");
+        let upsert = |xp: i64| {
+            conn.execute(
+                "INSERT INTO daily_log(profile_id, day, xp, goal_met)
+                 VALUES ('p1', '2026-08-25', ?1, 0)
+                 ON CONFLICT(profile_id, day) DO UPDATE SET xp = xp + excluded.xp",
+                rusqlite::params![xp],
+            )
+            .expect("acumular xp");
+            conn.execute(
+                "UPDATE daily_log SET goal_met = (xp >= 20)
+                 WHERE profile_id = 'p1' AND day = '2026-08-25'",
+                [],
+            )
+            .expect("actualizar goal_met");
+        };
+        upsert(10);
+        let (xp, goal_met): (i64, bool) = conn
+            .query_row(
+                "SELECT xp, goal_met FROM daily_log WHERE profile_id = 'p1' AND day = '2026-08-25'",
+                [],
+                |row| Ok((row.get(0)?, row.get(1)?)),
+            )
+            .expect("leer daily_log");
+        assert_eq!(
+            xp, 10,
+            "BR-M7-8: el XP se acumula por sesión, no se reemplaza"
+        );
+        assert!(!goal_met, "10 XP no alcanza la meta de 20 (BR-M7-1)");
+
+        upsert(15);
+        let (xp, goal_met): (i64, bool) = conn
+            .query_row(
+                "SELECT xp, goal_met FROM daily_log WHERE profile_id = 'p1' AND day = '2026-08-25'",
+                [],
+                |row| Ok((row.get(0)?, row.get(1)?)),
+            )
+            .expect("leer daily_log");
+        assert_eq!(xp, 25, "10 + 15 acumulado en el mismo día");
+        assert!(goal_met, "25 XP >= meta de 20 (BR-M7-1: goal_met)");
+    }
+
+    #[test]
+    fn logro_se_desbloquea_una_sola_vez() {
+        let conn = memory();
+        conn.execute(
+            "INSERT INTO profiles(id, name, avatar, created_at) VALUES ('p1', 'Ana', 3, 1)",
+            [],
+        )
+        .expect("perfil");
+        let intentar_desbloquear = || {
+            conn.execute(
+                "INSERT OR IGNORE INTO achievements(profile_id, achievement_id, unlocked_at)
+                 VALUES ('p1', 'ACH-01', 1000)",
+                [],
+            )
+            .expect("intento de desbloqueo")
+        };
+        assert_eq!(
+            intentar_desbloquear(),
+            1,
+            "primer desbloqueo inserta una fila"
+        );
+        assert_eq!(
+            intentar_desbloquear(),
+            0,
+            "BR-M7-16: evaluar es idempotente, desbloquear dos veces es imposible"
+        );
+        let total: i64 = conn
+            .query_row("SELECT count(*) FROM achievements", [], |row| row.get(0))
+            .expect("contar logros");
+        assert_eq!(total, 1);
+    }
+
+    #[test]
     fn mastery_fuera_de_rango_rechazada() {
         let conn = memory();
         conn.execute(

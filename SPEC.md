@@ -14,7 +14,9 @@
 | Lema secundario | «Álgebra de verdad, sin conexión.» |
 | Lema corto (stores) | «Tu profe de álgebra en el escritorio.» |
 
-**Posicionamiento**: la app de escritorio para aprender álgebra desde cero — offline, privada, gratuita y con pedagogía real. *El "Duolingo del álgebra", pero sin anuncios, sin cuentas y sin internet.*
+**Posicionamiento (v1)**: la app para aprender álgebra desde cero — offline, privada, gratuita y con pedagogía real, disponible en escritorio (Win/Mac/Linux), tablet y móvil (Android ya tiene scaffold generado en `src-tauri/gen/android`). *El "Duolingo del álgebra", pero sin anuncios, sin cuentas y sin internet.*
+
+**Visión a largo plazo (post-v1, decisión explícita del usuario 2026-09-14)**: Mathia deja de limitarse a "álgebra de bachillerato" y se convierte en la plataforma de formación matemática completa del propio usuario (ingeniero de software), siguiendo una progresión deliberada nivel por nivel — de aritmética/álgebra clásica hasta álgebra abstracta y teoría de Galois — con el mismo motor de currículo (unidades→lecciones→ejercicios) que ya existe. Esto **contradice a propósito** el "fuera de alcance v1" de abajo y el riesgo #4 de §8; se acepta conscientemente porque el objetivo del producto pasó de "servir a estudiantes de bachillerato" a "ser la herramienta de formación matemática personal del usuario", sin descartar que después sirva a un público más amplio. El roadmap completo de niveles vive en `BACKLOG.md` §"Visión ampliada"; NO se reescribe aquí la lista completa para no duplicar fuente de verdad. v1 (álgebra básica) sigue siendo el hito activo y no se abandona a medias: la expansión es un AÑADIDO secuencial después/en paralelo, no un reinicio.
 
 **Diferenciales defendibles**:
 1. **Offline-first total**: funciona en cualquier lugar; la red jamás es requisito.
@@ -26,6 +28,7 @@
 1. Estudiantes de secundaria/bachillerato que necesitan aprobar álgebra.
 2. Adultos que retoman matemáticas (oposiciones, universidad, curiosidad).
 3. Autodidactas técnicos que quieren base sólida antes de programar/ingeniería.
+4. **(post-v1)** Autodidactas formándose en matemáticas universitarias completas (lógica, álgebra lineal, cálculo, álgebra abstracta) con disciplina de ingeniería de software — ver visión a largo plazo arriba.
 
 **Promesa central**: cada minuto en Mathia produce aprendizaje medible. Nada más, nada menos.
 
@@ -51,7 +54,7 @@
 - Estadísticas sin inflación: precisión real ponderada, días practicados ≠ racha (BR-M5-4, BR-M5-5).
 - Los 8 logros v1 celebran constancia y dominio real; ACH-04 «Sin red» lee el estado de conexión del SO localmente, sin enviar nada (BR-M7-17).
 
-**Fuera de alcance v1** (explícito): cuentas/sync en la nube, multiusuario online, contenido generado por IA en runtime, móvil, marketplace de cursos, integración con colegios.
+**Fuera de alcance v1** (explícito): cuentas/sync en la nube, multiusuario online, contenido generado por IA en runtime, marketplace de cursos, integración con colegios. Nota: "más contenido matemático que álgebra básica" YA NO está fuera de alcance del producto a largo plazo (ver visión ampliada en §0 y `BACKLOG.md`) — pero sigue fuera del hito v1 concreto, que no se reabre.
 
 ---
 
@@ -128,8 +131,9 @@ Tuteo cercano sin infantilizar. Celebrar logros específicos («Dominaste ecuaci
 | **v0.3 Progreso y hábito** | M5 mastery + estadísticas (§4 BUSINESS-RULES) + M6 SRS + F4 exámenes (composición canónica §F4) + M7 XP/niveles/rachas/logros + ligas simuladas + ajustes mínimos | Pendiente |
 | **v0.4 Pulido y distribución** | Presupuestos §5 verificados, auditoría ui-auditor-max limpia, bundles Win/Mac/Linux, landing + SEO §5 | Pendiente |
 | **v1.0 Lanzamiento público** | Contenido completo de álgebra básica, stores listados, updater decidido, CSP endurecida | Pendiente |
+| **v2.0+ Matemáticas completas** | Expansión post-v1 nivel por nivel (álgebra clásica avanzada → funciones → lógica/conjuntos → discreta/teoría de números → álgebra lineal → cálculo → álgebra abstracta → Galois), ver visión a largo plazo §0 | Backlog, detalle en `BACKLOG.md` |
 
-Regla: ningún hito avanza con hallazgos bloqueantes/mayores abiertos en su alcance (Q de RULES.md).
+Regla: ningún hito avanza con hallazgos bloqueantes/mayores abiertos en su alcance (Q de RULES.md). v2.0+ no empieza en serio hasta cerrar v1.0, salvo unidades que extiendan la pista de álgebra ya en curso (mismo motor, sin deuda de alcance).
 
 ## 8. Riesgos y mitigaciones
 
@@ -138,10 +142,10 @@ Regla: ningún hito avanza con hallazgos bloqueantes/mayores abiertos en su alca
 | 1 | Contenido matemático erróneo destruye confianza | M-01/M-02 obligatorios + tests por regla BR-* + revisión `mathia-math-expert` |
 | 2 | Gamificación se siente barata o culpabilizante | Filosofía §0 BUSINESS-RULES; ligas etiquetadas «simuladas»; cero culpa por racha |
 | 3 | Webview lenta en máquinas viejas | Presupuestos P-01..P-04 bloqueantes + perf-profiler en cada release |
-| 4 | Alcance desbocado (hacer Duolingo entero) | Fuera-de-alcance v1 explícito §1 + hitos cerrados |
+| 4 | Alcance desbocado dentro de v1 (hacer Duolingo entero antes de cerrar v1) | Fuera-de-alcance v1 explícito §1 + hitos cerrados. La expansión post-v1 a matemáticas completas (§0 visión a largo plazo) es una decisión consciente, no scope creep silencioso: cada nivel del roadmap es una tarea explícita en `BACKLOG.md`, nunca contenido "de paso" en una tarea de otro alcance |
 | 5 | Dependencias rompen offline/build | Política §6 TECH-STACK.md (6 criterios + humano aprueba) |
 | 6 | Onboarding aburrido → abandono temprano | HU-01 ≤60 s + primera lección jugable real, no tutorial |
 
 ---
 
-*Fuente de verdad de producto. Actualizar aquí primero, después el código. Última actualización: 2026-08-24.*
+*Fuente de verdad de producto. Actualizar aquí primero, después el código. Última actualización: 2026-09-14.*

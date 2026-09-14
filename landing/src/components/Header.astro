@@ -1,0 +1,62 @@
+---
+---
+
+<header class="header">
+  <a href="/" class="brand">
+    <img src="/favicon.svg" alt="" width="32" height="32" />
+    <span>Mathia</span>
+  </a>
+  <nav class="nav">
+    <a href="#faq">Preguntas</a>
+    <a href="/privacidad">Privacidad</a>
+    <a
+      class="cta"
+      href="https://github.com/sazardev/mathia/releases"
+      target="_blank"
+      rel="noopener"
+    >
+      Descargar
+    </a>
+  </nav>
+</header>
+
+<style>
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 800;
+    font-size: var(--text-lg);
+    text-decoration: none;
+    color: var(--color-text-primary);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .nav a {
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .cta {
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary-500);
+    color: var(--color-text-on-primary) !important;
+    font-weight: 700;
+  }
+</style>

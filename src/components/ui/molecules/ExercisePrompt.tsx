@@ -1,5 +1,6 @@
 import { KaTeX } from "@/components/ui/atoms/KaTeX";
 import { Text } from "@/components/ui/atoms/Text";
+import { MathText } from "@/components/ui/molecules/MathText";
 import styles from "./ExercisePrompt.module.css";
 
 type ExercisePromptProps = {
@@ -11,7 +12,7 @@ export function ExercisePrompt({ prompt, tex }: ExercisePromptProps) {
   return (
     <div className={styles["promptBox"]}>
       <Text as="h2" size="xl" weight="bold">
-        {prompt}
+        <MathText text={prompt} />
       </Text>
       {tex !== undefined && (
         <span className={styles["texLine"]}>

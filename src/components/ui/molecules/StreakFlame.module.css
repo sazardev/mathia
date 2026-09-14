@@ -7,6 +7,18 @@
 .flameOn {
   display: inline-flex;
   color: var(--color-flame-500);
+  animation: flamePop var(--dur-celebrate) var(--ease-juicy);
+}
+
+@keyframes flamePop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .flameOff {
