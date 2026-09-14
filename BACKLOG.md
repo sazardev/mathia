@@ -30,6 +30,48 @@ Hito activo según `SPEC.md` §7: **v0.2 Núcleo de aprendizaje**.
 | B-11 | P2 | XP/niveles/rachas/logros (BR-M7-*) | pendiente | Rachas con freeze; ligas simuladas etiquetadas |
 | B-12 | P2 | Ajustes mínimos: tema claro/oscuro vía tokens | pendiente | |
 
+## Visión ampliada — Matemáticas completas (post-v1, ver `SPEC.md` §0)
+
+> Decisión del usuario (2026-09-14): Mathia deja de limitarse a "álgebra de bachillerato" y se
+> convierte en su plataforma personal de formación matemática completa, siguiendo el roadmap de
+> niveles de abajo (de aritmética hasta teoría de Galois), con el MISMO motor de currículo
+> (unidades→lecciones→ejercicios, `src/features/content/`) que ya existe — sin arquitectura nueva
+> hasta que haga falta de verdad (ver nota de arquitectura al final). v1.0 (álgebra básica, hitos
+> arriba) sigue siendo el hito activo y NO se abandona a medias; esta tabla es la cola para
+> DESPUÉS/en paralelo cuando el hito activo lo permita, nunca contenido "de paso" en otra tarea.
+>
+> Cada nivel es su propia tarea (o varias) cuando le toque el turno — no se implementan de golpe.
+> Al empezar un nivel, expandir su fila en sub-tareas concretas (unidades/lecciones) igual que las
+> tablas de arriba.
+
+| ID | Pri | Nivel (roadmap del usuario) | Estado | Notas |
+|---|---|---|---|---|
+| N0 | — | Nivel 0 — Fundamentos matemáticos | hecho (vía Unidad 1) | Enteros, potencias/raíces, jerarquía, variables/expresiones, distributiva, términos semejantes — ya cubierto por `u1` (8 lecciones) |
+| N1 | P1 | Nivel 1 — Álgebra clásica | en curso | Identidades/factorización básica, ecuaciones lineales y cuadráticas YA cubiertas (`u2`, `u3`, incl. `u3-l4` aplicaciones). **Falta**: factorización avanzada (agrupación, suma/diferencia de cubos, teorema del factor/residuo), ecuaciones racionales, radicales, exponenciales, logarítmicas. Siguiente paso natural: Unidad 4 "Polinomios" + Unidad 5 "Ecuaciones racionales/radicales/exp/log" |
+| N2 | P2 | Nivel 2 — Polinomios y teoría clásica de ecuaciones | pendiente | Teorema fundamental del álgebra, fórmulas de Viète, multiplicidad de raíces, historia de cúbicas/cuárticas (sin memorizar fórmulas) — siembra la pregunta que lleva a Galois (N13) |
+| N3 | P2 | Nivel 3 — Funciones | pendiente | Dominio/codominio/imagen, inyectiva/sobreyectiva/biyectiva, composición, inversa, familias de funciones (polinómica/racional/exp/log/trig/por partes) |
+| N4 | P2 | Nivel 4 — Lógica matemática y demostraciones | pendiente | Conectores, cuantificadores, técnicas de demostración (directa/contrapositiva/contradicción/inducción), contraejemplos. Punto crítico: primer contacto con rigor formal — puede requerir un tipo de ejercicio nuevo ("demostración guiada") si `expression-input`/`order-steps` no alcanzan |
+| N5 | P2 | Nivel 5 — Teoría de conjuntos | pendiente | Subconjuntos, unión/intersección/diferencia/complemento, producto cartesiano, relaciones, cardinalidad |
+| N6 | P2 | Nivel 6 — Matemática discreta | pendiente | Combinatoria, recurrencias, grafos, notación O grande — relevante para el perfil de ingeniero de software del usuario |
+| N7 | P2 | Nivel 7 — Teoría de números elemental | pendiente | Divisibilidad, Euclides/Bézout, congruencias, Fermat pequeño, teorema chino del residuo — siembra `Z/nZ` como estructura algebraica (puente a N10) |
+| N8 | P3 | Nivel 8 — Álgebra lineal | pendiente | Vectores, matrices, espacios vectoriales, transformaciones lineales, eigenvalues/eigenvectors. Aquí el roadmap del usuario bifurca hacia Cálculo (N9) en paralelo — evaluar entonces si la pista lineal sigue cabiendo en el array plano de unidades o necesita agrupación (ver nota de arquitectura) |
+| N9 | P3 | Nivel 9 — Cálculo | pendiente | Límites/continuidad/derivadas/integrales (Cálculo I-II) + multivariable. Rama paralela a N8, no bloquea álgebra abstracta |
+| N10 | P3 | Nivel 10 — Álgebra abstracta I (grupos) | pendiente | Arranque oficial del álgebra moderna: operación binaria, grupo, subgrupos, Lagrange, homomorfismos/isomorfismos |
+| N11 | P3 | Nivel 11 — Álgebra abstracta II (anillos) | pendiente | Anillos, ideales, dominios íntegros, `Z[x]` — reconecta con teoría clásica de ecuaciones (N2) |
+| N12 | P3 | Nivel 12 — Cuerpos | pendiente | Extensiones de cuerpos, grado de extensión, ej. `[Q(√2):Q]=2` |
+| N13 | P3 | Nivel 13 — Teoría de Galois | pendiente | El gran objetivo: por qué no hay fórmula por radicales para grado 5. Correspondencia de Galois, resolubilidad |
+| N14 | — | Nivel 14 — Especialización (teoría de números / representaciones / álgebra conmutativa / geometría algebraica) | futuro, sin priorizar | Se elige cuando se llegue ahí; no planear en detalle todavía |
+
+**Nota de arquitectura** (confirmado por investigación 2026-09-14, ver `memory.md`): el motor actual
+(`CURRICULUM: Unit[]` plano en `src/features/content/index.ts`, desbloqueo lineal en
+`src/features/progress/service.ts`) sirve perfectamente para una secuencia lineal de niveles — que
+es exactamente lo que el usuario quiere seguir (roadmap en orden, sin saltarse pasos). NO se
+introduce un concepto de "curso/pista" superior hasta que el roadmap realmente bifurque en algo que
+el usuario quiera hacer en paralelo (la bifurcación N8→N9 es la primera candidata real). Evitar
+diseñar esa arquitectura por adelantado (YAGNI); cuando haga falta, tocará: `CURRICULUM` → mapa por
+curso, `loadPath` parametrizado por curso, un segmento de ruta nuevo, y reescribir `BR-M2-1/3`/`BR-M5-3`
+para hablar de "unidad siguiente dentro del curso".
+
 ## Mantenimiento continuo
 
 | ID | Pri | Tarea | Estado | Notas |
