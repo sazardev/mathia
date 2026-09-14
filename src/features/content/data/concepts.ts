@@ -96,4 +96,20 @@ export const CONCEPTS = {
     id: "c-ec-radicales",
     name: "Resolver ecuaciones radicales",
   },
+  ecExponencialesBase: {
+    id: "c-ec-exponenciales-base",
+    name: "Resolver ecuaciones exponenciales con la misma base",
+  },
+  logaritmoIntro: {
+    id: "c-logaritmo-intro",
+    name: "Qué es un logaritmo",
+  },
+  logaritmoPropiedades: {
+    id: "c-logaritmo-propiedades",
+    name: "Propiedades de logaritmos (producto, cociente, potencia)",
+  },
+  ecLogExponencial: {
+    id: "c-ec-log-exponencial",
+    name: "Resolver ecuaciones exponenciales y logarítmicas",
+  },
 } satisfies Record<string, Concept>;
