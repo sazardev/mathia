@@ -138,6 +138,25 @@ export const LESSON_U9L3: Lesson = {
       answer: 2,
       derivation: "7+(-4)-1",
     },
+    {
+      type: "true-false",
+      id: "u9l3e8",
+      conceptsUsed: [complejosSumaResta.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: la suma de un número complejo $a+bi$ y su 'conjugado' $a-bi$, para CUALQUIER $a$ y $b$, siempre da un número REAL.",
+      answer: true,
+      explanation:
+        "Sí: al sumar un complejo con su conjugado, las partes imaginarias se cancelan siempre ($bi-bi=0$), dejando $2a$, un número real — sin importar los valores de $a$ y $b$. Esta propiedad es la base para 'limpiar' expresiones con complejos más adelante.",
+      successFeedback:
+        "¡Excelente! Acabas de descubrir por qué el 'conjugado' de un número complejo es una herramienta tan útil.",
+      hints: [
+        {
+          level: 1,
+          text: "Suma las partes reales por un lado y las imaginarias por otro: ¿qué pasa con $bi$ y $-bi$?",
+        },
+      ],
+    },
   ],
 };
 
@@ -279,6 +298,25 @@ export const LESSON_U9L4: Lesson = {
       hints: [{ level: 1, text: "Usa $ac-bd$ con $a=1,b=1,c=1,d=-1$." }],
       answer: 2,
       derivation: "1*1-1*(-1)",
+    },
+    {
+      type: "true-false",
+      id: "u9l4e8",
+      conceptsUsed: [complejosMultiplicacion.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número complejo $a+bi$, el producto $(a+bi)(a-bi)$ con su conjugado siempre da un número REAL.",
+      answer: true,
+      explanation:
+        "Sí: $(a+bi)(a-bi)=a^2-(bi)^2=a^2-b^2i^2=a^2+b^2$ — el resultado es siempre real (y nunca negativo), sin importar $a$ y $b$. Esta es la propiedad detrás de dividir números complejos: multiplicar por el conjugado siempre elimina la $i$ del denominador.",
+      successFeedback:
+        "¡Correcto! Combinaste lo que aprendiste sobre el conjugado en la lección anterior con la multiplicación de esta lección — así se conecta el conocimiento en matemáticas.",
+      hints: [
+        {
+          level: 1,
+          text: "Aplica FOIL a $(a+bi)(a-bi)$ y sustituye $i^2=-1$.",
+        },
+      ],
     },
   ],
 };
