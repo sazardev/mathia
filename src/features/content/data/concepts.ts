@@ -112,4 +112,12 @@ export const CONCEPTS = {
     id: "c-ec-log-exponencial",
     name: "Resolver ecuaciones exponenciales y logarítmicas",
   },
+  ecPolinomicasFactorizacion: {
+    id: "c-ec-polinomicas-factorizacion",
+    name: "Resolver ecuaciones polinómicas por factorización",
+  },
+  teoremaRaizRacional: {
+    id: "c-teorema-raiz-racional",
+    name: "Teorema de la raíz racional",
+  },
 } satisfies Record<string, Concept>;
