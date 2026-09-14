@@ -188,6 +188,46 @@ export const LESSON_U5L3: Lesson = {
         },
       ],
     },
+    {
+      type: "multiple-choice",
+      id: "u5l3e8",
+      conceptsUsed: [sistemasClasificacion.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: para el sistema $y=mx+k$ y $y=mx+j$ (MISMA pendiente $m$ en ambas), ¿bajo qué condición tiene infinitas soluciones, para CUALQUIER valor de $m$?",
+      hints: [
+        {
+          level: 1,
+          text: "¿Cuándo dos rectas con la misma pendiente son la MISMA recta?",
+        },
+      ],
+      successFeedback:
+        "¡Esa condición vale sin importar cuál sea la pendiente $m$ — eso es pensar la clasificación en general!",
+      choices: [
+        { id: "a", text: "Cuando $k=j$ (mismo intercepto)", isCorrect: true },
+        {
+          id: "b",
+          text: "Cuando $k\\neq j$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Si los interceptos son distintos, con la misma pendiente son rectas PARALELAS: sin solución, no infinitas.",
+        },
+        {
+          id: "c",
+          text: "Siempre, sin importar $k$ y $j$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "No siempre: si $k\\neq j$ las rectas nunca se cruzan (son paralelas distintas).",
+        },
+        {
+          id: "d",
+          text: "Nunca, porque la pendiente es igual",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Cuando además el intercepto coincide, son la MISMA recta: sí hay infinitas soluciones.",
+        },
+      ],
+    },
   ],
 };
 
@@ -340,6 +380,42 @@ export const LESSON_U5L4: Lesson = {
       ],
       answer: 12,
       derivation: "36/3",
+    },
+    {
+      type: "multiple-choice",
+      id: "u5l4e8",
+      conceptsUsed: [sistemasAplicaciones.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: si 'la suma de dos números es $S$ y su diferencia es $D$' para CUALQUIER $S$ y $D$, ¿cuál es la fórmula general para el número MAYOR?",
+      hints: [
+        { level: 1, text: "Plantea $x+y=S$, $x-y=D$ y súmalas con letras." },
+      ],
+      successFeedback:
+        "¡Con esa fórmula resuelves de inmediato cualquier problema de 'suma y diferencia', sin volver a plantear el sistema cada vez!",
+      choices: [
+        { id: "a", text: "$\\dfrac{S+D}{2}$", isCorrect: true },
+        {
+          id: "b",
+          text: "$\\dfrac{S-D}{2}$",
+          isCorrect: false,
+          feedbackIfWrong: "Esa es la fórmula del número MENOR, no del mayor.",
+        },
+        {
+          id: "c",
+          text: "$S+D$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Olvidaste dividir entre 2: sumar las ecuaciones ($x+y=S$, $x-y=D$) da $2x=S+D$.",
+        },
+        {
+          id: "d",
+          text: "$\\dfrac{S}{2}+D$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "No es correcto combinar así: hay que sumar las ecuaciones completas y LUEGO dividir entre 2.",
+        },
+      ],
     },
   ],
 };
