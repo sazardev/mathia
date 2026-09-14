@@ -72,4 +72,20 @@ export const CONCEPTS = {
     id: "c-factor-cubos",
     name: "Factorizar suma y diferencia de cubos",
   },
+  sistemasSustitucion: {
+    id: "c-sistemas-sustitucion",
+    name: "Resolver sistemas de ecuaciones lineales por sustitución",
+  },
+  sistemasEliminacion: {
+    id: "c-sistemas-eliminacion",
+    name: "Resolver sistemas de ecuaciones lineales por eliminación",
+  },
+  sistemasClasificacion: {
+    id: "c-sistemas-clasificacion",
+    name: "Clasificar sistemas: solución única, sin solución, infinitas soluciones",
+  },
+  sistemasAplicaciones: {
+    id: "c-sistemas-aplicaciones",
+    name: "Plantear y resolver sistemas de ecuaciones desde problemas",
+  },
 } satisfies Record<string, Concept>;

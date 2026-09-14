@@ -10,10 +10,11 @@ import { UNIT1 } from "@/features/content/data/unit1";
 import { UNIT2 } from "@/features/content/data/unit2";
 import { UNIT3 } from "@/features/content/data/unit3";
 import { UNIT4 } from "@/features/content/data/unit4";
+import { UNIT5 } from "@/features/content/data/unit5";
 
 export * from "@/features/content/schema";
 export * from "@/features/content/types";
 
-export const CURRICULUM = [UNIT1, UNIT2, UNIT3, UNIT4];
+export const CURRICULUM = [UNIT1, UNIT2, UNIT3, UNIT4, UNIT5];
 
 export const ALL_CONCEPTS: Concept[] = Object.values(CONCEPTS);
