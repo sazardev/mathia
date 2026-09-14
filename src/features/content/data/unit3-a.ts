@@ -204,6 +204,22 @@ export const LESSON_U3L1: Lesson = {
       answer: -1,
       derivation: "((-2)*(2^2))+(3*2)+1",
     },
+    {
+      type: "true-false",
+      id: "u3l1e8",
+      conceptsUsed: [cuadIntro.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER ecuación cuadrática $ax^2+bx+c=0$, el coeficiente $a$ NUNCA puede ser 0.",
+      answer: true,
+      explanation:
+        "Correcto: si $a=0$, el término $x^2$ desaparece y la ecuación se vuelve lineal ($bx+c=0$), no cuadrática. La condición $a\\neq0$ es parte de la DEFINICIÓN misma de ecuación cuadrática.",
+      successFeedback:
+        "¡Exacto! Entender POR QUÉ existe una condición como $a\\neq0$ es tan importante como saber aplicarla.",
+      hints: [
+        { level: 1, text: "¿Qué le pasa a la ecuación si sustituyes $a=0$?" },
+      ],
+    },
   ],
 };
 
@@ -419,6 +435,50 @@ export const LESSON_U3L2: Lesson = {
       answer: -4,
       derivation: "-4",
     },
+    {
+      type: "multiple-choice",
+      id: "u3l2e9",
+      conceptsUsed: [cuadFactorizacion.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: si $x^2+bx+c=(x-r_1)(x-r_2)$ para CUALQUIER par de raíces $r_1,r_2$, ¿cómo se relacionan $b$ y $c$ con $r_1$ y $r_2$?",
+      hints: [
+        {
+          level: 1,
+          text: "Expande $(x-r_1)(x-r_2)$ con FOIL y compara término a término.",
+        },
+      ],
+      successFeedback:
+        "¡Acabas de descubrir, con tus propias palabras, lo que más adelante conocerás como las fórmulas de Viète!",
+      choices: [
+        {
+          id: "a",
+          text: "$b=-(r_1+r_2)$ y $c=r_1\\cdot r_2$",
+          isCorrect: true,
+        },
+        {
+          id: "b",
+          text: "$b=r_1+r_2$ y $c=-r_1\\cdot r_2$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Signo invertido en b: al expandir, $(x-r_1)(x-r_2)=x^2-(r_1+r_2)x+r_1r_2$, así que $b=-(r_1+r_2)$.",
+        },
+        {
+          id: "c",
+          text: "$b=r_1\\cdot r_2$ y $c=r_1+r_2$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Invertiste los roles: $b$ se relaciona con la SUMA de raíces, $c$ con el PRODUCTO.",
+        },
+        {
+          id: "d",
+          text: "Depende de los valores específicos de $r_1$ y $r_2$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "No depende: la relación vale para CUALQUIER par de raíces — es una fórmula general.",
+        },
+      ],
+    },
   ],
 };
 
@@ -611,6 +671,25 @@ export const LESSON_U3L3: Lesson = {
       ],
       answer: 2,
       derivation: "(3+5)/4",
+    },
+    {
+      type: "true-false",
+      id: "u3l3e9",
+      conceptsUsed: [cuadFormula.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: si el discriminante de una ecuación cuadrática es NEGATIVO, la ecuación no tiene NINGUNA solución.",
+      answer: false,
+      explanation:
+        "Tiene 0 soluciones REALES, pero SÍ tiene 2 soluciones complejas (usando la unidad imaginaria $i$, donde $i^2=-1$) — lo verás cuando estudies números complejos. 'Sin solución real' no es lo mismo que 'sin solución'.",
+      successFeedback:
+        "¡Justo esta distinción es la que abre la puerta a los números complejos más adelante en tu recorrido!",
+      hints: [
+        {
+          level: 1,
+          text: "¿'Sin solución real' significa exactamente lo mismo que 'sin ninguna solución'?",
+        },
+      ],
     },
   ],
 };
