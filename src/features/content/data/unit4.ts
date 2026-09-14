@@ -8,6 +8,7 @@ import {
   LESSON_U4L4,
   LESSON_U4L5,
   LESSON_U4L6,
+  LESSON_U4L7,
 } from "@/features/content/data/unit4-b";
 
 export const UNIT4: Unit = {
@@ -15,7 +16,7 @@ export const UNIT4: Unit = {
   number: 4,
   title: "Polinomios",
   description:
-    "Multiplica, reconoce patrones y factoriza polinomios a fondo: productos notables, agrupación, trinomios con coeficiente principal distinto de 1, y el teorema del residuo/factor.",
+    "Multiplica, reconoce patrones y factoriza polinomios a fondo: productos notables, agrupación, trinomios con coeficiente principal distinto de 1, suma/diferencia de cubos, y el teorema del residuo/factor.",
   lessons: [
     LESSON_U4L1,
     LESSON_U4L2,
@@ -23,5 +24,6 @@ export const UNIT4: Unit = {
     LESSON_U4L4,
     LESSON_U4L5,
     LESSON_U4L6,
+    LESSON_U4L7,
   ],
 };

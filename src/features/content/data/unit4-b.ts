@@ -1,7 +1,8 @@
 import type { Lesson } from "@/features/content/schema";
 import { CONCEPTS } from "./concepts";
 
-const { factorAgrupacion, factorACnoUno, divisionPolinomios } = CONCEPTS;
+const { factorAgrupacion, factorACnoUno, divisionPolinomios, factorCubos } =
+  CONCEPTS;
 
 export const LESSON_U4L4: Lesson = {
   id: "u4-l4",
@@ -510,6 +511,165 @@ export const LESSON_U4L6: Lesson = {
       ],
       answer: 15,
       derivation: "2*(-2)^3+3*(-2)^2-8*(-2)+3",
+    },
+  ],
+};
+
+export const LESSON_U4L7: Lesson = {
+  id: "u4-l7",
+  title: "Factorizar suma y diferencia de cubos",
+  conceptIdsTaught: [factorCubos.id],
+  intro: {
+    hook: "Los cubos tienen su propio patrón de factorización, distinto al de los cuadrados — y aparece más de lo que crees.",
+    intuition: [
+      "Suma de cubos: $a^3+b^3=(a+b)(a^2-ab+b^2)$.",
+      "Diferencia de cubos: $a^3-b^3=(a-b)(a^2+ab+b^2)$.",
+      "El binomio $(a\\pm b)$ copia el signo del original; el trinomio SIEMPRE tiene el término medio de signo OPUESTO al binomio.",
+    ],
+    definition:
+      "$a^3+b^3=(a+b)(a^2-ab+b^2)$; $a^3-b^3=(a-b)(a^2+ab+b^2)$. El trinomio cuadrático resultante generalmente ya no se puede factorizar más.",
+    workedExamples: [
+      "$x^3+8$: $8=2^3$ → $a=x,b=2$ → $(x+2)(x^2-2x+4)$.",
+      "$x^3-27$: $27=3^3$ → $a=x,b=3$ → $(x-3)(x^2+3x+9)$.",
+    ],
+  },
+  guidedPractice: {
+    problem: "$x^3+64$",
+    steps: [
+      {
+        instruction: "Identifica $a=x$, $b=4$ (ya que $64=4^3$).",
+        result: "$a^3+b^3=(a+b)(a^2-ab+b^2)$",
+      },
+      {
+        instruction: "Sustituye.",
+        result: "$(x+4)(x^2-4x+16)$",
+      },
+    ],
+    prompt:
+      "Ahora resuélvelo tú: al factorizar $x^3-125$ como $(x-k)(x^2+kx+k^2)$, ¿cuál es $k$?",
+    answer: 5,
+    derivation: "5",
+  },
+  commonMistakes: [
+    "Confundir el patrón de cubos con el de cuadrados: el trinomio de cubos NO es un cuadrado perfecto — tiene signo opuesto al del binomio, no un doble producto exacto.",
+    "Olvidar que el trinomio cuadrático resultante generalmente no se puede factorizar más (no es cuadrado perfecto ni diferencia de cuadrados).",
+  ],
+  exercises: [
+    {
+      type: "numeric-input",
+      id: "u4l7e1",
+      conceptsUsed: [factorCubos.id],
+      difficulty: 1,
+      prompt: "Al factorizar $x^3+27$ como $(x+k)(x^2-kx+k^2)$, ¿cuál es $k$?",
+      hints: [{ level: 1, text: "$27=3^3$." }],
+      answer: 3,
+      derivation: "3",
+    },
+    {
+      type: "true-false",
+      id: "u4l7e2",
+      conceptsUsed: [factorCubos.id],
+      difficulty: 1,
+      statement:
+        "En la factorización $a^3-b^3=(a-b)(a^2+ab+b^2)$, el término medio del trinomio es $+ab$, positivo.",
+      answer: true,
+      explanation:
+        "Correcto: en diferencia de cubos el binomio lleva signo negativo, pero el trinomio lleva el término medio POSITIVO — son signos opuestos.",
+      hints: [
+        { level: 1, text: "Compara el signo del binomio con el del trinomio." },
+      ],
+    },
+    {
+      type: "multiple-choice",
+      id: "u4l7e3",
+      conceptsUsed: [factorCubos.id],
+      difficulty: 2,
+      prompt: "¿Cuál es la factorización de $x^3-8$?",
+      hints: [{ level: 1, text: "$8=2^3$: diferencia de cubos." }],
+      choices: [
+        { id: "a", text: "$(x-2)(x^2+2x+4)$", isCorrect: true },
+        {
+          id: "b",
+          text: "$(x-2)(x^2-2x+4)$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "El término medio del trinomio debe tener signo OPUESTO al del binomio: aquí el binomio es negativo, así que el trinomio debe ser positivo ($+2x$).",
+        },
+        {
+          id: "c",
+          text: "$(x-2)^3$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Diferencia de cubos no es un cubo perfecto de un binomio: factoriza como binomio×trinomio, no como una sola potencia.",
+        },
+        {
+          id: "d",
+          text: "$(x+2)(x^2-2x+4)$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "El signo del binomio debe coincidir con el signo original: $x^3-8$ es diferencia, así que el binomio es $(x-2)$, no $(x+2)$.",
+        },
+      ],
+    },
+    {
+      type: "numeric-input",
+      id: "u4l7e4",
+      conceptsUsed: [factorCubos.id],
+      difficulty: 2,
+      prompt: "Al factorizar $x^3+125$ como $(x+k)(x^2-kx+k^2)$, ¿cuál es $k$?",
+      hints: [{ level: 1, text: "$125=5^3$." }],
+      answer: 5,
+      derivation: "5",
+    },
+    {
+      type: "numeric-input",
+      id: "u4l7e5",
+      conceptsUsed: [factorCubos.id],
+      difficulty: 3,
+      prompt:
+        "Al factorizar $8x^3-27$ como $(2x-k)(4x^2+2kx+k^2)$, ¿cuál es $k$?",
+      hints: [
+        { level: 1, text: "$8x^3=(2x)^3$ y $27=3^3$." },
+        { level: 2, text: "$k=3$." },
+      ],
+      answer: 3,
+      derivation: "3",
+    },
+    {
+      type: "order-steps",
+      id: "u4l7e6",
+      conceptsUsed: [factorCubos.id],
+      difficulty: 3,
+      prompt: "Ordena los pasos para factorizar $x^3+1$.",
+      steps: [
+        {
+          id: "s1",
+          text: "Reconoce $1=1^3$: es suma de cubos con $a=x,b=1$.",
+        },
+        { id: "s2", text: "Aplica $a^3+b^3=(a+b)(a^2-ab+b^2)$." },
+        { id: "s3", text: "Sustituye: $(x+1)(x^2-x+1)$." },
+      ],
+      correctOrder: ["s1", "s2", "s3"],
+      hints: [
+        {
+          level: 1,
+          text: "Primero identifica el patrón, luego aplica la fórmula, luego sustituye.",
+        },
+      ],
+    },
+    {
+      type: "numeric-input",
+      id: "u4l7e7",
+      conceptsUsed: [factorCubos.id],
+      difficulty: 4,
+      prompt:
+        "Reto: al factorizar $27x^3-64$ como $(3x-k)(9x^2+3kx+k^2)$, ¿cuál es $k$?",
+      hints: [
+        { level: 1, text: "$27x^3=(3x)^3$ y $64=4^3$." },
+        { level: 2, text: "$k=4$." },
+      ],
+      answer: 4,
+      derivation: "4",
     },
   ],
 };

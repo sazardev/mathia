@@ -68,4 +68,8 @@ export const CONCEPTS = {
     id: "c-division-polinomios",
     name: "División de polinomios y teorema del residuo/factor",
   },
+  factorCubos: {
+    id: "c-factor-cubos",
+    name: "Factorizar suma y diferencia de cubos",
+  },
 } satisfies Record<string, Concept>;
