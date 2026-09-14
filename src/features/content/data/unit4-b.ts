@@ -185,6 +185,41 @@ export const LESSON_U4L4: Lesson = {
       answer: -4,
       derivation: "-4",
     },
+    {
+      type: "multiple-choice",
+      id: "u4l4e8",
+      conceptsUsed: [factorAgrupacion.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: para $ax+ay+bx+by$ con CUALQUIER número $a,b,x,y$, ¿cuál es su forma factorizada general?",
+      hints: [{ level: 1, text: "Agrupa en parejas y factoriza cada una." }],
+      successFeedback:
+        "¡Esa es la fórmula general detrás de cada ejercicio de agrupación que resolviste!",
+      choices: [
+        { id: "a", text: "$(x+y)(a+b)$", isCorrect: true },
+        {
+          id: "b",
+          text: "$(x-y)(a+b)$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Revisa los signos: al agrupar $(ax+ay)+(bx+by)=a(x+y)+b(x+y)$, ambos términos suman.",
+        },
+        {
+          id: "c",
+          text: "$(a+x)(b+y)$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Agrupaste mal los factores: el binomio común que sale de ambas parejas es $(x+y)$.",
+        },
+        {
+          id: "d",
+          text: "$ab(x+y)$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Eso multiplicaría $a$ y $b$ entre sí, pero deben quedar SUMADOS como factor: $(a+b)$.",
+        },
+      ],
+    },
   ],
 };
 
@@ -347,6 +382,25 @@ export const LESSON_U4L5: Lesson = {
       ],
       answer: 9,
       derivation: "9",
+    },
+    {
+      type: "true-false",
+      id: "u4l5e8",
+      conceptsUsed: [factorACnoUno.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: el método AC funciona para factorizar CUALQUIER trinomio $ax^2+bx+c$ con coeficientes enteros, siempre que existan dos enteros que multipliquen $ac$ y sumen $b$.",
+      answer: true,
+      explanation:
+        "Sí: si tales dos enteros existen, el método AC siempre funciona, sin importar los valores específicos de $a$, $b$, $c$ — es un método general, no un truco para casos particulares. Si esos enteros no existen, el trinomio simplemente no factoriza con enteros.",
+      successFeedback:
+        "¡Correcto! Un método que funciona 'siempre que se cumpla una condición clara' es exactamente lo que hace útil un algoritmo general.",
+      hints: [
+        {
+          level: 1,
+          text: "¿El método depende de qué números concretos sean $a$, $b$, $c$, o solo de que existan esos dos enteros?",
+        },
+      ],
     },
   ],
 };
@@ -512,6 +566,25 @@ export const LESSON_U4L6: Lesson = {
       answer: 15,
       derivation: "2*(-2)^3+3*(-2)^2-8*(-2)+3",
     },
+    {
+      type: "true-false",
+      id: "u4l6e8",
+      conceptsUsed: [divisionPolinomios.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER polinomio $P(x)$ y CUALQUIER número $k$, el residuo de dividir $P(x)$ entre $(x-k)$ es siempre $P(k)$.",
+      answer: true,
+      explanation:
+        "Sí, es el teorema del residuo: vale para CUALQUIER polinomio y CUALQUIER $k$, sin excepción — por eso puedes saber el residuo sin dividir, solo evaluando.",
+      successFeedback:
+        "¡Exacto! Un teorema 'para cualquier polinomio' es mucho más poderoso que una regla que solo funciona en casos concretos.",
+      hints: [
+        {
+          level: 1,
+          text: "Prueba el teorema con un par de polinomios distintos y compáralo con hacer la división completa.",
+        },
+      ],
+    },
   ],
 };
 
@@ -670,6 +743,25 @@ export const LESSON_U4L7: Lesson = {
       ],
       answer: 4,
       derivation: "4",
+    },
+    {
+      type: "true-false",
+      id: "u4l7e8",
+      conceptsUsed: [factorCubos.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número $a$ y $b$, se cumple que $a^3+b^3=(a+b)^3$.",
+      answer: false,
+      explanation:
+        "NO: $(a+b)^3$ expandido tiene 4 términos ($a^3+3a^2b+3ab^2+b^3$), mientras $a^3+b^3=(a+b)(a^2-ab+b^2)$. Contraejemplo con $a=1,b=1$: $a^3+b^3=2$, pero $(a+b)^3=8$ — distintos.",
+      successFeedback:
+        "¡Correcto! Confundir 'la suma de cubos' con 'el cubo de la suma' es un error muy común — ahora sabes distinguirlos con un contraejemplo.",
+      hints: [
+        {
+          level: 1,
+          text: "Prueba con $a=1,b=1$ y compara ambos lados.",
+        },
+      ],
     },
   ],
 };
