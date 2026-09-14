@@ -203,6 +203,46 @@ export const LESSON_U2L4: Lesson = {
       answer: 15,
       derivation: "((7-1)*5)/2",
     },
+    {
+      type: "multiple-choice",
+      id: "u2l4e7",
+      conceptsUsed: [ecFracciones.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: para $\\frac{ax}{b}=c$ con CUALQUIER $a\\neq0$, $b\\neq0$ y $c$, ¿cuál es la fórmula general para $x$?",
+      hints: [
+        {
+          level: 1,
+          text: "Multiplica primero por $b$, luego divide entre $a$, con letras en vez de números.",
+        },
+      ],
+      successFeedback:
+        "¡Esa fórmula general resuelve de un solo golpe cualquier ecuación con esta forma, sin importar los números!",
+      choices: [
+        { id: "a", text: "$x=\\dfrac{bc}{a}$", isCorrect: true },
+        {
+          id: "b",
+          text: "$x=\\dfrac{a}{bc}$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Invertiste la fórmula: multiplicar por $b$ y dividir entre $a$ da $bc/a$, no su inverso.",
+        },
+        {
+          id: "c",
+          text: "$x=\\dfrac{ac}{b}$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Cambiaste el rol de $a$ y $b$: $b$ (el denominador) multiplica arriba, y $a$ divide.",
+        },
+        {
+          id: "d",
+          text: "$x=a\\cdot b\\cdot c$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Eso multiplicaría todo, pero $a$ debe DIVIDIR (no multiplicar), ya que originalmente multiplica a $x$.",
+        },
+      ],
+    },
   ],
 };
 
@@ -393,6 +433,43 @@ export const LESSON_U2L5: Lesson = {
       ],
       answer: 7,
       derivation: "(46+3)/7",
+    },
+    {
+      type: "multiple-choice",
+      id: "u2l5e7",
+      conceptsUsed: [plantear.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: si un problema dice 'el triple de un número disminuido en $k$ da $m$', ¿cuál es la fórmula general para el número $n$, en términos de $k$ y $m$?",
+      hints: [
+        { level: 1, text: "Primero plantea la ecuación con letras: $3n-k=m$." },
+      ],
+      successFeedback:
+        "¡Convertiste una frase en una fórmula que sirve para CUALQUIER k y m, no solo para un caso!",
+      choices: [
+        { id: "a", text: "$n=\\dfrac{m+k}{3}$", isCorrect: true },
+        {
+          id: "b",
+          text: "$n=\\dfrac{m-k}{3}$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "'Disminuido en k' resta k después de triplicar: para despejar hay que SUMAR k, no restarlo.",
+        },
+        {
+          id: "c",
+          text: "$n=3(m+k)$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "El 3 multiplica a $n$ en la ecuación original, así que para despejar hay que DIVIDIR entre 3, no multiplicar.",
+        },
+        {
+          id: "d",
+          text: "$n=3m+k$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "La ecuación correcta es $3n-k=m$; despejando $n$ da $(m+k)/3$, no esta expresión.",
+        },
+      ],
     },
   ],
 };
@@ -635,6 +712,25 @@ export const LESSON_U2L6: Lesson = {
           isCorrect: false,
           feedbackIfWrong:
             "Cumple: es menor que $-3$ y $-3·(-3{,}5)=10{,}5>9$ ✓.",
+        },
+      ],
+    },
+    {
+      type: "true-false",
+      id: "u2l6e7",
+      conceptsUsed: [desig1p.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número negativo $a$, si $ax>b$, al despejar $x$ SIEMPRE hay que voltear el símbolo de la desigualdad.",
+      answer: true,
+      explanation:
+        "Sí, sin excepción: dividir (o multiplicar) ambos lados de una desigualdad por CUALQUIER número negativo invierte su sentido — es una regla universal, no depende de qué tan negativo sea $a$.",
+      successFeedback:
+        "¡Correcto! Una regla que vale 'siempre, sin importar el número' es exactamente lo que hace útil una fórmula general.",
+      hints: [
+        {
+          level: 1,
+          text: "Prueba con varios negativos distintos: ¿cambia la conclusión?",
         },
       ],
     },

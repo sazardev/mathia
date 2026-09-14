@@ -192,6 +192,45 @@ export const LESSON_U2L1: Lesson = {
       answer: -4,
       derivation: "(35-3)/(-8)",
     },
+    {
+      type: "multiple-choice",
+      id: "u2l1e8",
+      conceptsUsed: [ec2p.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: si $ax+b=c$ para CUALQUIER número $a\\neq0$, $b$ y $c$, ¿cuál es la fórmula general para $x$?",
+      hints: [
+        {
+          level: 1,
+          text: "Aplica a la fórmula las mismas dos operaciones inversas de siempre.",
+        },
+      ],
+      successFeedback:
+        "¡Esa es la fórmula general de toda ecuación de dos pasos — funciona para cualquier a, b y c!",
+      choices: [
+        { id: "a", text: "$x=\\dfrac{c-b}{a}$", isCorrect: true },
+        {
+          id: "b",
+          text: "$x=\\dfrac{c+b}{a}$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "El $b$ se resta (operación inversa de sumar), no se suma.",
+        },
+        {
+          id: "c",
+          text: "$x=\\dfrac{b-c}{a}$",
+          isCorrect: false,
+          feedbackIfWrong: "Invertiste el orden: es $c-b$, no $b-c$.",
+        },
+        {
+          id: "d",
+          text: "$x=a(c-b)$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Multiplicar por $a$ deshace una división, no una multiplicación — aquí toca DIVIDIR entre $a$.",
+        },
+      ],
+    },
   ],
 };
 
@@ -382,6 +421,45 @@ export const LESSON_U2L2: Lesson = {
       answer: 4,
       derivation: "(-12-8)/((-3)-(2))",
     },
+    {
+      type: "multiple-choice",
+      id: "u2l2e8",
+      conceptsUsed: [ambosLados.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: si $ax=cx+d$ con $a\\neq c$, ¿cuál es la fórmula general para $x$?",
+      hints: [
+        {
+          level: 1,
+          text: "Agrupa las x de la fórmula igual que agrupas x numéricas.",
+        },
+      ],
+      successFeedback:
+        "¡Esa fórmula funciona para cualquier a, c y d (mientras $a\\neq c$) — la condición $a\\neq c$ es justo lo que evita dividir entre cero!",
+      choices: [
+        { id: "a", text: "$x=\\dfrac{d}{a-c}$", isCorrect: true },
+        {
+          id: "b",
+          text: "$x=\\dfrac{d}{a+c}$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Agrupar las x resta $c$ de $a$ (pasa restando al otro lado), no se suman.",
+        },
+        {
+          id: "c",
+          text: "$x=\\dfrac{a-c}{d}$",
+          isCorrect: false,
+          feedbackIfWrong: "Invertiste numerador y denominador.",
+        },
+        {
+          id: "d",
+          text: "$x=d(a-c)$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Multiplicar deshace una división, no aísla x aquí — hay que DIVIDIR entre $(a-c)$.",
+        },
+      ],
+    },
   ],
 };
 
@@ -567,6 +645,25 @@ export const LESSON_U2L3: Lesson = {
       ],
       answer: 5,
       derivation: "(12-2)/(6-4)",
+    },
+    {
+      type: "true-false",
+      id: "u2l3e8",
+      conceptsUsed: [ecParentesis.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER número $a$ (con $a\\neq0$), $b$ y $c$, la ecuación $a(x+b)=c$ SIEMPRE se puede resolver dividiendo primero entre $a$, en vez de distribuir.",
+      answer: true,
+      explanation:
+        "Sí: dividir entre $a$ da $x+b=c/a$ directamente, un camino igual de válido que distribuir — ambos métodos SIEMPRE llegan a la misma solución, porque son pasos algebraicos equivalentes.",
+      successFeedback:
+        "¡Correcto! Que dos caminos distintos lleguen siempre al mismo resultado es una idea central del álgebra.",
+      hints: [
+        {
+          level: 1,
+          text: "Compara los dos caminos con un ejemplo numérico concreto.",
+        },
+      ],
     },
   ],
 };

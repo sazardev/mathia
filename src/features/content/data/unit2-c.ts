@@ -218,6 +218,46 @@ export const LESSON_U2L7: Lesson = {
       answer: 10,
       derivation: "((5.5-1.5)*5)/2",
     },
+    {
+      type: "multiple-choice",
+      id: "u2l7e9",
+      conceptsUsed: [ecFracDecimales.id],
+      difficulty: 4,
+      prompt:
+        "Reto de abstracción: para CUALQUIER fracción $\\frac{a}{b}$ (con $a,b\\neq0$) usada como coeficiente en $\\frac{a}{b}x=c$, ¿por qué número se multiplica siempre para despejar $x$?",
+      hints: [
+        {
+          level: 1,
+          text: "Piensa en qué número, multiplicado por $\\frac{a}{b}$, da 1.",
+        },
+      ],
+      successFeedback:
+        "¡El recíproco funciona para CUALQUIER fracción no nula — esa es la regla general detrás de cada ejercicio de esta lección!",
+      choices: [
+        { id: "a", text: "Por el recíproco, $\\dfrac{b}{a}$", isCorrect: true },
+        {
+          id: "b",
+          text: "Por $\\dfrac{a}{b}$ otra vez",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Multiplicar por el mismo coeficiente no lo elimina, lo eleva al cuadrado.",
+        },
+        {
+          id: "c",
+          text: "Por $a$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Multiplicar solo por $a$ deja $\\frac{a^2}{b}x=ac$: no elimina la fracción.",
+        },
+        {
+          id: "d",
+          text: "Por $b$",
+          isCorrect: false,
+          feedbackIfWrong:
+            "Multiplicar solo por $b$ deja $ax=bc$: todavía queda el coeficiente $a$ sin eliminar.",
+        },
+      ],
+    },
   ],
 };
 
@@ -441,6 +481,25 @@ export const LESSON_U2L8: Lesson = {
       ],
       answer: 12,
       derivation: "9+3",
+    },
+    {
+      type: "true-false",
+      id: "u2l8e9",
+      conceptsUsed: [metodosResolucion.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER ecuación lineal con solución única, el método de la balanza y el método de despeje directo SIEMPRE llegan al mismo valor de $x$.",
+      answer: true,
+      explanation:
+        "Sí: ambos métodos aplican las mismas operaciones inversas a ambos lados, solo con distinta forma de explicarlo — son equivalentes matemáticamente, así que nunca pueden dar resultados distintos para la misma ecuación.",
+      successFeedback:
+        "¡Exacto! Que dos caminos distintos sean equivalentes es una idea que vas a reencontrar constantemente en álgebra.",
+      hints: [
+        {
+          level: 1,
+          text: "Resuelve una ecuación con ambos métodos y compara los resultados.",
+        },
+      ],
     },
   ],
 };
