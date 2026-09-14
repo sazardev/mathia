@@ -158,6 +158,25 @@ export const LESSON_U7L3: Lesson = {
       answer: 7,
       derivation: "2*2+3",
     },
+    {
+      type: "true-false",
+      id: "u7l3e8",
+      conceptsUsed: [logaritmoPropiedades.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER base $b$ y CUALQUIER número positivo $m$ y $n$, se cumple $\\log_b(m+n)=\\log_b(m)+\\log_b(n)$.",
+      answer: false,
+      explanation:
+        "NO: esa regla es para el PRODUCTO ($mn$), no para la suma. Contraejemplo: $\\log_2(4+4)=\\log_2(8)=3$, pero $\\log_2(4)+\\log_2(4)=2+2=4$ — distintos.",
+      successFeedback:
+        "¡Correcto! Confundir 'logaritmo de una suma' con 'suma de logaritmos' es un error muy común — ahora tienes un contraejemplo claro para recordarlo.",
+      hints: [
+        {
+          level: 1,
+          text: "Prueba con $m=4,n=4$ en base 2 y compara ambos lados.",
+        },
+      ],
+    },
   ],
 };
 
@@ -296,6 +315,25 @@ export const LESSON_U7L4: Lesson = {
       ],
       answer: 3,
       derivation: "(8+1)/3",
+    },
+    {
+      type: "true-false",
+      id: "u7l4e8",
+      conceptsUsed: [ecLogExponencial.id],
+      difficulty: 4,
+      statement:
+        "Reto de abstracción: para CUALQUIER ecuación logarítmica $\\log_b(f(x))=k$, toda solución obtenida al convertir a forma exponencial es automáticamente válida, sin necesidad de verificar nada.",
+      answer: false,
+      explanation:
+        "NO: siempre hay que verificar que el argumento $f(x)$ sea POSITIVO con la solución encontrada — si el álgebra produce una solución que hace $f(x)\\leq0$, esa solución no es válida porque el logaritmo no está definido ahí.",
+      successFeedback:
+        "¡Correcto! El mismo cuidado de verificar que tuviste con ecuaciones racionales y radicales aplica también aquí.",
+      hints: [
+        {
+          level: 1,
+          text: "¿Qué le pasa a $\\log_b(x)$ si $x$ es negativo o cero?",
+        },
+      ],
     },
   ],
 };
