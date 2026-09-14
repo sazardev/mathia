@@ -25,6 +25,11 @@
     "active": true,
     "targets": "all",
     "createUpdaterArtifacts": true,
+    "publisher": "sazardev",
+    "category": "Education",
+    "copyright": "© sazardev, licenciado bajo Apache-2.0",
+    "shortDescription": "Las matemáticas, a tu ritmo.",
+    "longDescription": "Mathia es la app para aprender álgebra desde cero: offline, privada, gratuita y con pedagogía real (práctica espaciada, recuperación activa, distractores que enseñan del error). Sin anuncios, sin cuentas, sin internet.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

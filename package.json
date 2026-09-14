@@ -2,6 +2,21 @@
   "name": "mathia",
   "private": true,
   "version": "0.1.0",
+  "description": "Las matemáticas, a tu ritmo: app offline, privada y gratuita para aprender álgebra desde cero, con pedagogía real y sin conexión.",
+  "keywords": [
+    "algebra",
+    "matematicas",
+    "educacion",
+    "offline",
+    "tauri",
+    "aprendizaje"
+  ],
+  "author": "sazardev",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sazardev/mathia.git"
+  },
   "type": "module",
   "scripts": {
     "prepare": "lefthook install",
