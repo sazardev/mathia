@@ -20,7 +20,9 @@
   padding: var(--space-4);
   background-color: rgb(0 0 0 / 0.45);
   animation: fade var(--dur-fast) var(--ease-standard);
-  z-index: 100;
+  /* Por encima de cualquier overlay flotante de la app (kit de estudio: 1000-1002) — un
+     modal SIEMPRE debe ganar la pila, si no los clics se los queda lo que esté debajo. */
+  z-index: 1100;
 }
 
 .header {

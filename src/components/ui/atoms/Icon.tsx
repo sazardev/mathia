@@ -91,6 +91,65 @@ const paths = {
     </>
   ),
   trash: <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" />,
+  highlighter: (
+    <>
+      <path d="M6 14l7-7 4 4-7 7H6v-4z" />
+      <path d="M4 20h6" />
+    </>
+  ),
+  arrow: (
+    <>
+      <path d="M5 19L19 5" />
+      <path d="M9 5h10v10" />
+    </>
+  ),
+  rectangle: <rect x="4" y="6" width="16" height="12" rx="1" />,
+  ellipse: <ellipse cx="12" cy="12" rx="8" ry="5" />,
+  line: <path d="M4 20L20 4" />,
+  calculator: (
+    <>
+      <rect x="5" y="3" width="14" height="18" rx="2" />
+      <path d="M8 7h8" />
+      <path d="M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01" />
+    </>
+  ),
+  save: (
+    <>
+      <path d="M5 3h11l3 3v15H5z" />
+      <path d="M8 3v6h8V3M8 21v-7h8v7" />
+    </>
+  ),
+  download: (
+    <>
+      <path d="M12 4v12" />
+      <path d="M7 12l5 5 5-5" />
+      <path d="M4 20h16" />
+    </>
+  ),
+  curve: (
+    <>
+      <path d="M3 19h18M3 5v14" />
+      <path d="M3 15c2-8 5-11 7-6s4 8 6 3 3-6.5 5-6.5" />
+    </>
+  ),
+  zoomIn: (
+    <>
+      <circle cx="10" cy="10" r="7" />
+      <path d="M21 21l-5.5-5.5M10 7v6M7 10h6" />
+    </>
+  ),
+  zoomOut: (
+    <>
+      <circle cx="10" cy="10" r="7" />
+      <path d="M21 21l-5.5-5.5M7 10h6" />
+    </>
+  ),
+  keyboard: (
+    <>
+      <rect x="3" y="6" width="18" height="12" rx="2" />
+      <path d="M6 9h.01M9 9h.01M12 9h.01M15 9h.01M18 9h.01M6 12h.01M18 12h.01M8 15h8" />
+    </>
+  ),
 } satisfies Record<string, JSX.Element>;
 
 export type IconName = keyof typeof paths;

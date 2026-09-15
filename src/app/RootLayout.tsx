@@ -4,7 +4,7 @@ import { ROUTE_PATHS as ROUTES } from "@/app/router/paths";
 import { AppShell } from "@/features/navigation";
 import type { NavItem } from "@/features/navigation";
 import { applyTheme, loadSettings } from "@/features/settings";
-import { Scratchpad } from "@/features/lesson/components/Scratchpad";
+import { StudyToolkit } from "@/features/notebook";
 import { ErrorBoundary } from "./ErrorBoundary";
 import styles from "./RootLayout.module.css";
 
@@ -68,7 +68,7 @@ export function RootLayout() {
         <ErrorBoundary>
           <Outlet />
         </ErrorBoundary>
-        <Scratchpad />
+        <StudyToolkit />
       </>
     );
   }
@@ -89,7 +89,7 @@ export function RootLayout() {
           </ErrorBoundary>
         </div>
       </AppShell>
-      <Scratchpad />
+      <StudyToolkit />
     </>
   );
 }

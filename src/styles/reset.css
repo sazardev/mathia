@@ -72,6 +72,11 @@ ol[role="list"] {
   outline-offset: 2px;
 }
 
+::selection {
+  background-color: var(--color-primary-300);
+  color: var(--color-text-primary);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

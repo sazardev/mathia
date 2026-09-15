@@ -6,7 +6,10 @@ use rusqlite::Connection;
 use crate::errors::MathiaResult;
 
 /// Migraciones — FUENTE ÚNICA en `src/lib/storage/sql/` (misma que consume el driver web).
-const MIGRATIONS: &[&str] = &[include_str!("../../src/lib/storage/sql/0001_init.sql")];
+const MIGRATIONS: &[&str] = &[
+    include_str!("../../src/lib/storage/sql/0001_init.sql"),
+    include_str!("../../src/lib/storage/sql/0002_notebook.sql"),
+];
 
 /// Estado gestionado por Tauri: conexión única protegida (§2.5: Mutex fino).
 pub struct Db(pub Mutex<Connection>);
@@ -68,12 +71,12 @@ mod tests {
         let count: i64 = conn
             .query_row(
                 "SELECT count(*) FROM sqlite_master WHERE type='table' AND name IN
-                 ('meta','profiles','progress','srs_queue','daily_log','achievements','settings')",
+                 ('meta','profiles','progress','srs_queue','daily_log','achievements','settings','notebook_entries')",
                 [],
                 |row| row.get(0),
             )
             .expect("conteo de tablas");
-        assert_eq!(count, 7);
+        assert_eq!(count, 8);
     }
 
     #[test]
@@ -178,6 +181,35 @@ mod tests {
             .query_row("SELECT count(*) FROM achievements", [], |row| row.get(0))
             .expect("contar logros");
         assert_eq!(total, 1);
+    }
+
+    #[test]
+    fn notebook_entries_se_borran_en_cascada_con_el_perfil() {
+        let conn = memory();
+        conn.execute(
+            "INSERT INTO profiles(id, name, avatar, created_at) VALUES ('p1', 'Ana', 3, 1)",
+            [],
+        )
+        .expect("perfil");
+        conn.execute(
+            "INSERT INTO notebook_entries
+                (id, profile_id, scope_type, scope_id, kind, title, content, created_at, updated_at)
+             VALUES ('n1', 'p1', 'lesson', 'u1-l1', 'text', 'Repaso', 'x+2=5', 1, 1)",
+            [],
+        )
+        .expect("insertar nota");
+
+        conn.execute("DELETE FROM profiles WHERE id = 'p1'", [])
+            .expect("borrar perfil");
+        let restantes: i64 = conn
+            .query_row("SELECT count(*) FROM notebook_entries", [], |row| {
+                row.get(0)
+            })
+            .expect("contar notas");
+        assert_eq!(
+            restantes, 0,
+            "BR-NOTE-3: ON DELETE CASCADE debe limpiar notebook_entries"
+        );
     }
 
     #[test]

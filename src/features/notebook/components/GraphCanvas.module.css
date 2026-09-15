@@ -1,0 +1,48 @@
+.wrap {
+  position: relative;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--color-surface-1);
+  touch-action: none;
+  cursor: grab;
+}
+
+.svg:active {
+  cursor: grabbing;
+}
+
+.grid {
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.axis {
+  stroke: var(--color-text-muted);
+  stroke-width: 1.5;
+}
+
+.tickLabel {
+  font-size: 8px;
+  fill: var(--color-text-muted);
+}
+
+.curve {
+  fill: none;
+  stroke: var(--color-primary-500);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.zoomButtons {
+  position: absolute;
+  right: var(--space-2);
+  bottom: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}

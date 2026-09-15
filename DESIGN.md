@@ -215,6 +215,20 @@ Charts SIEMPRE SVG propio (§2.6); sin librerías.
 | `LeagueBoard` | ranking de liga (virtualizado si > 50, §5) | `entries` | ✅ |
 | `AchievementGrid` | logros | `achievements` | ✅ |
 
+#### Organisms — Kit de estudio (`features/notebook/components/`)
+
+Montado una sola vez en `RootLayout` (mismo lugar global que antes ocupaba el `Scratchpad` de M4, ahora reemplazado). Cero red (M9/BR-M9-1): notas y dibujos solo en SQLite local.
+
+| Componente | Responsabilidad única | Props clave | Estado |
+|---|---|---|---|
+| `StudyToolkit` | orquestador raíz: FAB cerrado / overlay abierto | — | ✅ |
+| `ToolCanvas` | lienzo de dibujo (lápiz/marcador/goma/formas) | `paper`, `canvasRef` | ✅ |
+| `Toolbar` | selección de herramienta/color/grosor + accesos al panel/calculadora/exportar | `tool`, `color`, `activeWidth` | ✅ |
+| `ShapePicker` | presets de forma (flecha, línea, rectángulo, elipse) | `active`, `onChange` | ✅ |
+| `NotebookPanel` | notas persistidas por lección/unidad/general, guardar y recargar | `profileId`, `onLoadStrokes` | ✅ |
+| `NoteEditor` | edición de nota de texto (usa `Dialog`) | `open`, `onSave` | ✅ |
+| `Calculator` | calculadora básica flotante y arrastrable | `onClose` | ✅ |
+
 ### 3.4 Layouts (Templates)
 
 Viven en `src/templates/`. Un template define estructura y slots; jamás importa datos ni organismos concretos. Breakpoints canónicos documentados como comentario en `styles/tokens.css` (CSS custom properties no funcionan dentro de `@media`, así que se documentan ahí y se reutiliza el valor exacto en cada `@media`):

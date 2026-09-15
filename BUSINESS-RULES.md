@@ -194,6 +194,13 @@ Tablas v1: `profiles` · `settings` · `lesson_progress(profile_id, lesson_id, m
 - `BR-M9-6`: WAL habilitado: lectura de stats/UI nunca bloquea la escritura del motor.
 - `BR-M9-7`: Ítems SRS huérfanos (ejercicio eliminado tras migración de contenido) se purgan en el rollover F6 con contador en log interno, sin UI (borde 6).
 
+**Cuaderno de notas del kit de estudio** (tabla `notebook_entries`, migración v2 — mismo régimen de privacidad de M9, BR-M9-1 aplica igual):
+
+- `BR-NOTE-1`: Cada nota pertenece a un único `scope_type` (`global` · `unit` · `lesson`). `scope_id` es obligatorio salvo en `global`, donde debe ir vacío.
+- `BR-NOTE-2`: El contenido de una nota (texto o dibujo serializado) no puede superar 300 000 bytes.
+- `BR-NOTE-3`: Las notas se borran en cascada al borrar el perfil dueño (mismo patrón que `progress`/`settings`).
+- `BR-NOTE-4`: El título de una nota no puede superar 120 caracteres.
+
 ---
 
 ## 3. Flujos principales

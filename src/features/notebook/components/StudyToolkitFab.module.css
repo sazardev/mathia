@@ -1,0 +1,7 @@
+.fab {
+  position: fixed;
+  right: var(--space-6);
+  bottom: var(--space-6);
+  z-index: 1000;
+  box-shadow: var(--shadow-2);
+}

@@ -7,6 +7,22 @@
   padding: var(--space-5) var(--space-4) var(--space-8);
 }
 
+/* Cap de ancho sin padding propio: para pantallas que ya definen su propio
+   padding interno (rescate, resumen) y solo necesitan quedar centradas al
+   mismo ancho que la vista de ejercicio (contenido corto y centrado, no
+   lectura larga). */
+.widthCap {
+  width: min(100%, 560px);
+  margin: 0 auto;
+}
+
+/* Cap de lectura: más ancho que .widthCap porque envuelve párrafos,
+   ejemplos y recuadros de la pantalla de introducción, no botones. */
+.readWidth {
+  width: min(94%, 820px);
+  margin: 0 auto;
+}
+
 .loading {
   display: flex;
   align-items: center;

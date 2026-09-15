@@ -40,6 +40,29 @@ export interface SrsItemRow {
   readonly dueAt: number;
 }
 
+export type NotebookScopeType = "global" | "unit" | "lesson";
+export type NotebookEntryKind = "text" | "drawing";
+
+export interface NotebookEntryRow {
+  readonly id: string;
+  readonly scopeType: NotebookScopeType;
+  readonly scopeId: string | null;
+  readonly kind: NotebookEntryKind;
+  readonly title: string;
+  readonly content: string;
+  readonly createdAt: number;
+  readonly updatedAt: number;
+}
+
+export interface NotebookEntryInput {
+  readonly id?: string;
+  readonly scopeType: NotebookScopeType;
+  readonly scopeId: string | null;
+  readonly kind: NotebookEntryKind;
+  readonly title: string;
+  readonly content: string;
+}
+
 export interface MathiaStore {
   /** Identifica la implementación activa (diagnóstico/QA). */
   readonly kind: "tauri" | "web";
@@ -80,6 +103,18 @@ export interface MathiaStore {
   ): Promise<void>;
   /** Todos los ítems de la cola, sin filtrar por vencimiento (el orden BR-M6-2 se aplica en `lib/srs`). */
   getSrsQueue(profileId: string): Promise<SrsItemRow[]>;
+
+  /** Crea (sin id) o actualiza (con id) una nota del cuaderno. BR-NOTE-1/2/4 se validan en el backend. */
+  saveNotebookEntry(
+    profileId: string,
+    entry: NotebookEntryInput,
+  ): Promise<NotebookEntryRow>;
+  listNotebookEntries(
+    profileId: string,
+    scopeType: NotebookScopeType,
+    scopeId: string | null,
+  ): Promise<NotebookEntryRow[]>;
+  deleteNotebookEntry(profileId: string, id: string): Promise<void>;
 
   /** Solo driver web: fuerza volcado a IndexedDB. En Tauri es no-op. */
   flush(): Promise<void>;

@@ -57,7 +57,7 @@ Mathia is a Tauri 2 desktop app: React 19 + TypeScript (strict) frontend over a 
 │  components/ui/ (atoms→molecules) · lib/ (pure) · styles/ (CSS tokens)                │
 │                              │ invoke (IPC, serde DTOs)                               │
 │  Backend: Rust                                                                        │
-│  commands/ · curriculum/ · progress/ · gamification/ · srs/ · db/ (SQLite WAL)        │
+│  commands.rs · db.rs · errors.rs (SQLite WAL, PRAGMA user_version)                    │
 └─────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -87,15 +87,17 @@ styles/         CSS custom-property tokens (no Tailwind/CSS-in-JS)
 
 ### Backend (`src-tauri/`)
 
-- Rust, edition 2024. `#[tauri::command]` handlers are thin: validate → delegate to a module → return serializable DTOs.
-- Modules mirror the domain: `curriculum/`, `progress/`, `gamification/`, `srs/`, `db/`, `commands/`.
-- SQLite in WAL mode, no ORM, versioned hand-written migrations (`migrations/NNN_*.sql`) applied in order at startup.
+- Rust, edition 2024. `#[tauri::command]` handlers are thin: validate → delegate → return serializable DTOs.
+- Current state is flat, not yet split by domain: `commands.rs` holds every `#[tauri::command]` handler (profiles, progress, settings, XP/daily log, achievements, SRS queue), `db.rs` owns the connection + migrations, `errors.rs` defines `MathiaError`. DESIGN.md §2.5 describes delegating to domain modules as the target shape — split `commands.rs` into submodules (`curriculum/`, `progress/`, `gamification/`, `srs/`) as it grows, don't assume they already exist.
+- SQLite in WAL mode, no ORM. Migrations are plain `.sql` files under `src/lib/storage/sql/` (yes, in the frontend tree, not `src-tauri/`), embedded via `include_str!` into the `MIGRATIONS` array in `db.rs` and applied in order at startup, tracked with `PRAGMA user_version` — there is no `src-tauri/migrations/` directory.
 - Errors are `Result<T, MathiaError>` via `thiserror` — `.unwrap()`/`.expect()` forbidden in production code paths.
 - Every formula/rule cited as `BR-*` in `BUSINESS-RULES.md` requires a one-to-one Rust test.
 
 ### Domain modules (see `BUSINESS-RULES.md` for full detail)
 
 M1 Profiles → M5/M7 Progress/Gamification → M3 Daily session → M2/M4/M6 Content/Exercise-eval/SRS (strict dependency direction, nothing flows backward). Nine modules total (M1–M9): profiles, curriculum/content, daily session, exercise & evaluation, progress & mastery, SRS (spaced repetition), gamification (XP/streaks/leagues), settings, persistence & privacy.
+
+Curriculum content (M2) is authored as plain TS data, not fetched: one file per unit under `features/content/data/unitN.ts` (large units are split into `unitN-a.ts`/`-b.ts`/`-c.ts`), aggregated into `CURRICULUM` by `features/content/index.ts`. `schema.ts` is the single source of domain types; `lib/validation/content-validator.ts` enforces cross-cutting math-content laws (`M-*` in `RULES.md`, e.g. `M-03` cumulative-concepts-only) and runs in `features/content/__tests__/curriculum.test.ts` alongside per-lesson exercise-count assertions — update both the content file and its test expectations together.
 
 ## Key hard constraints to keep in mind while coding
 

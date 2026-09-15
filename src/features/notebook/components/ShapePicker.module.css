@@ -1,0 +1,8 @@
+.group {
+  display: flex;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-inline-size: auto;
+}

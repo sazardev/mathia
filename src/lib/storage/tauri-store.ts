@@ -3,6 +3,7 @@ import type {
   AchievementRow,
   DailyLogRow,
   MathiaStore,
+  NotebookEntryRow,
   Profile,
   ProgressRow,
   SrsItemRow,
@@ -95,6 +96,32 @@ export function createTauriStore(): MathiaStore {
 
     async getSrsQueue(profileId) {
       return invoke<SrsItemRow[]>("get_srs_queue", { profileId });
+    },
+
+    async saveNotebookEntry(profileId, entry) {
+      return invoke<NotebookEntryRow>("save_notebook_entry", {
+        entry: {
+          id: entry.id ?? null,
+          profileId,
+          scopeType: entry.scopeType,
+          scopeId: entry.scopeId,
+          kind: entry.kind,
+          title: entry.title,
+          content: entry.content,
+        },
+      });
+    },
+
+    async listNotebookEntries(profileId, scopeType, scopeId) {
+      return invoke<NotebookEntryRow[]>("list_notebook_entries", {
+        profileId,
+        scopeType,
+        scopeId,
+      });
+    },
+
+    async deleteNotebookEntry(profileId, id) {
+      await invoke("delete_notebook_entry", { id, profileId });
     },
 
     async flush() {

@@ -140,6 +140,104 @@ describe("WebStore — cola SRS (M6)", () => {
   });
 });
 
+describe("WebStore — cuaderno de notas (BR-NOTE)", () => {
+  it("crea y actualiza una nota por id (upsert)", async () => {
+    const store = await WebStore.openInMemory(SQL);
+    const profile = await store.createProfile("Nota", 0);
+    const created = await store.saveNotebookEntry(profile.id, {
+      scopeType: "lesson",
+      scopeId: "u1-l1",
+      kind: "text",
+      title: "Repaso",
+      content: "x + 2 = 5",
+    });
+    expect(created.id).toMatch(/^[0-9a-f]{32}$/);
+
+    const updated = await store.saveNotebookEntry(profile.id, {
+      id: created.id,
+      scopeType: "lesson",
+      scopeId: "u1-l1",
+      kind: "text",
+      title: "Repaso editado",
+      content: "x = 3",
+    });
+    expect(updated.id).toBe(created.id);
+    expect(updated.title).toBe("Repaso editado");
+
+    const entries = await store.listNotebookEntries(
+      profile.id,
+      "lesson",
+      "u1-l1",
+    );
+    expect(entries).toHaveLength(1);
+    expect(entries[0]?.content).toBe("x = 3");
+  });
+
+  it("BR-NOTE-1: aísla notas por scope (global vs unit vs lesson)", async () => {
+    const store = await WebStore.openInMemory(SQL);
+    const profile = await store.createProfile("Scopes", 0);
+    await store.saveNotebookEntry(profile.id, {
+      scopeType: "global",
+      scopeId: null,
+      kind: "text",
+      title: "General",
+      content: "nota general",
+    });
+    await store.saveNotebookEntry(profile.id, {
+      scopeType: "unit",
+      scopeId: "u1",
+      kind: "text",
+      title: "Unidad",
+      content: "nota de unidad",
+    });
+
+    expect(
+      await store.listNotebookEntries(profile.id, "global", null),
+    ).toHaveLength(1);
+    expect(
+      await store.listNotebookEntries(profile.id, "unit", "u1"),
+    ).toHaveLength(1);
+    expect(
+      await store.listNotebookEntries(profile.id, "lesson", "u1-l1"),
+    ).toEqual([]);
+  });
+
+  it("BR-NOTE-3: borrar el perfil borra en cascada sus notas", async () => {
+    const store = await WebStore.openInMemory(SQL);
+    const profile = await store.createProfile("Cascada", 0);
+    await store.saveNotebookEntry(profile.id, {
+      scopeType: "global",
+      scopeId: null,
+      kind: "drawing",
+      title: "Dibujo",
+      content: "[]",
+    });
+    await store.deleteProfile(profile.id);
+    expect(await store.listNotebookEntries(profile.id, "global", null)).toEqual(
+      [],
+    );
+  });
+
+  it("deleteNotebookEntry solo borra la nota del perfil dueño", async () => {
+    const store = await WebStore.openInMemory(SQL);
+    const a = await store.createProfile("A", 0);
+    const b = await store.createProfile("B", 1);
+    const entry = await store.saveNotebookEntry(a.id, {
+      scopeType: "global",
+      scopeId: null,
+      kind: "text",
+      title: "De A",
+      content: "solo A",
+    });
+    await store.deleteNotebookEntry(b.id, entry.id);
+    expect(await store.listNotebookEntries(a.id, "global", null)).toHaveLength(
+      1,
+    );
+    await store.deleteNotebookEntry(a.id, entry.id);
+    expect(await store.listNotebookEntries(a.id, "global", null)).toEqual([]);
+  });
+});
+
 describe("WebStore — persistencia entre recargas (HU-05)", () => {
   it("los datos sobreviven a un reinicio completo del store", async () => {
     const persistence = memoryPersistence();

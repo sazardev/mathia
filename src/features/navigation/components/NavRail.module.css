@@ -43,18 +43,6 @@
   color: var(--color-primary-600);
 }
 
-.active::before {
-  content: "";
-  position: absolute;
-  left: -6px;
-  top: 50%;
-  width: 4px;
-  height: 60%;
-  border-radius: var(--radius-full);
-  background-color: var(--color-primary-500);
-  transform: translateY(-50%);
-}
-
 /* Tablet compacto (768-1023): solo ícono, centrado, sin texto visible. */
 @media (min-width: 768px) and (max-width: 1023px) {
   .item {

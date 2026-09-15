@@ -4,10 +4,39 @@ import type {
   AchievementRow,
   DailyLogRow,
   MathiaStore,
+  NotebookEntryInput,
+  NotebookEntryRow,
+  NotebookScopeType,
   Profile,
   ProgressRow,
   SrsItemRow,
 } from "@/lib/storage/types";
+
+const MAX_NOTEBOOK_CONTENT_BYTES = 300_000;
+const MAX_NOTEBOOK_TITLE_CHARS = 120;
+
+/** Espejo de `validate_notebook_entry` en `commands.rs` (BR-NOTE-1/2/4). */
+function validateNotebookEntry(
+  entry: Pick<
+    NotebookEntryInput,
+    "scopeType" | "scopeId" | "kind" | "title" | "content"
+  >,
+): void {
+  if (entry.scopeType !== "global" && (entry.scopeId ?? "") === "") {
+    throw new Error("scope_id es requerido cuando scopeType no es 'global'");
+  }
+  if (entry.scopeType === "global" && entry.scopeId !== null) {
+    throw new Error("scope_id debe estar vacío cuando scopeType es 'global'");
+  }
+  if (
+    new TextEncoder().encode(entry.content).length > MAX_NOTEBOOK_CONTENT_BYTES
+  ) {
+    throw new Error("El contenido de la nota excede el tamaño máximo");
+  }
+  if ([...entry.title].length > MAX_NOTEBOOK_TITLE_CHARS) {
+    throw new Error("El título debe tener máximo 120 caracteres");
+  }
+}
 
 /** Persistencia binaria intercambiable: IndexedDB en producción, memoria en tests. */
 export interface BinaryPersistence {
@@ -332,4 +361,89 @@ export class WebStore implements MathiaStore {
       dueAt: num(row, "due_at"),
     }));
   }
+
+  async saveNotebookEntry(
+    profileId: string,
+    entry: NotebookEntryInput,
+  ): Promise<NotebookEntryRow> {
+    validateNotebookEntry(entry);
+    const now = Date.now();
+    const title = entry.title.trim();
+
+    if (entry.id !== undefined && entry.id !== "") {
+      this.db.run(
+        `UPDATE notebook_entries SET title = ?1, content = ?2, updated_at = ?3
+         WHERE id = ?4 AND profile_id = ?5`,
+        [title, entry.content, now, entry.id, profileId],
+      );
+      this.scheduleSave();
+      const row = rowsOf(
+        this.db,
+        "SELECT id, scope_type, scope_id, kind, title, content, created_at, updated_at FROM notebook_entries WHERE id = ?1",
+        [entry.id],
+      )[0];
+      if (!row) throw new Error("Nota no encontrada");
+      return toNotebookEntryRow(row);
+    }
+
+    this.db.run(
+      `INSERT INTO notebook_entries
+         (id, profile_id, scope_type, scope_id, kind, title, content, created_at, updated_at)
+       VALUES (lower(hex(randomblob(16))), ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?7)`,
+      [
+        profileId,
+        entry.scopeType,
+        entry.scopeId,
+        entry.kind,
+        title,
+        entry.content,
+        now,
+      ],
+    );
+    this.scheduleSave();
+    const row = rowsOf(
+      this.db,
+      "SELECT id, scope_type, scope_id, kind, title, content, created_at, updated_at FROM notebook_entries WHERE rowid = last_insert_rowid()",
+    )[0];
+    if (!row) throw new Error("No se pudo crear la nota");
+    return toNotebookEntryRow(row);
+  }
+
+  async listNotebookEntries(
+    profileId: string,
+    scopeType: NotebookScopeType,
+    scopeId: string | null,
+  ): Promise<NotebookEntryRow[]> {
+    const sql =
+      scopeId === null
+        ? "SELECT id, scope_type, scope_id, kind, title, content, created_at, updated_at FROM notebook_entries WHERE profile_id = ?1 AND scope_type = ?2 AND scope_id IS NULL ORDER BY updated_at DESC"
+        : "SELECT id, scope_type, scope_id, kind, title, content, created_at, updated_at FROM notebook_entries WHERE profile_id = ?1 AND scope_type = ?2 AND scope_id = ?3 ORDER BY updated_at DESC";
+    const params =
+      scopeId === null
+        ? [profileId, scopeType]
+        : [profileId, scopeType, scopeId];
+    return rowsOf(this.db, sql, params).map(toNotebookEntryRow);
+  }
+
+  async deleteNotebookEntry(profileId: string, id: string): Promise<void> {
+    this.db.run(
+      "DELETE FROM notebook_entries WHERE id = ?1 AND profile_id = ?2",
+      [id, profileId],
+    );
+    this.scheduleSave();
+  }
+}
+
+function toNotebookEntryRow(row: SqlJsRow): NotebookEntryRow {
+  const scopeId = row["scope_id"];
+  return {
+    id: str(row, "id"),
+    scopeType: str(row, "scope_type") as NotebookScopeType,
+    scopeId: scopeId === null || scopeId === undefined ? null : String(scopeId),
+    kind: str(row, "kind") as NotebookEntryRow["kind"],
+    title: str(row, "title"),
+    content: str(row, "content"),
+    createdAt: num(row, "created_at"),
+    updatedAt: num(row, "updated_at"),
+  };
 }

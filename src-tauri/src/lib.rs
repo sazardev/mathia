@@ -42,6 +42,9 @@ pub fn run() {
             commands::get_achievements,
             commands::enqueue_srs_item,
             commands::get_srs_queue,
+            commands::save_notebook_entry,
+            commands::list_notebook_entries,
+            commands::delete_notebook_entry,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

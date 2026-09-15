@@ -79,29 +79,33 @@ export function LessonPlayer({
     step === 1
   ) {
     return (
-      <LessonIntroScreen
-        title={content.title}
-        intro={content.intro}
-        guidedPractice={content.guidedPractice}
-        commonMistakes={content.commonMistakes}
-        onStart={() => onStepChange(2)}
-      />
+      <div className={styles["readWidth"]}>
+        <LessonIntroScreen
+          title={content.title}
+          intro={content.intro}
+          guidedPractice={content.guidedPractice}
+          commonMistakes={content.commonMistakes}
+          onStart={() => onStepChange(2)}
+        />
+      </div>
     );
   }
 
   if (session.status === "active" && session.rescueActive) {
     return (
-      <RescueScreen
-        onReviewConcept={
-          content?.intro !== null && content?.intro !== undefined
-            ? () => {
-                dismissRescue();
-                onStepChange(1);
-              }
-            : undefined
-        }
-        onFinishNow={endSessionNow}
-      />
+      <div className={styles["widthCap"]}>
+        <RescueScreen
+          onReviewConcept={
+            content?.intro !== null && content?.intro !== undefined
+              ? () => {
+                  dismissRescue();
+                  onStepChange(1);
+                }
+              : undefined
+          }
+          onFinishNow={endSessionNow}
+        />
+      </div>
     );
   }
 
@@ -117,12 +121,14 @@ export function LessonPlayer({
       xpAwarded: session.earnedXp,
     };
     return (
-      <ReviewSummary
-        sessionResult={result}
-        newlyUnlocked={newlyUnlocked}
-        onRetry={() => startSession(sessionId, session.queue)}
-        onFinish={onExit}
-      />
+      <div className={styles["widthCap"]}>
+        <ReviewSummary
+          sessionResult={result}
+          newlyUnlocked={newlyUnlocked}
+          onRetry={() => startSession(sessionId, session.queue)}
+          onFinish={onExit}
+        />
+      </div>
     );
   }
 
