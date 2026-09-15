@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/atoms/Button";
-import { Icon } from "@/components/ui/atoms/Icon";
+import { Icon, type IconName } from "@/components/ui/atoms/Icon";
 import { ProgressRing } from "@/components/ui/atoms/ProgressRing";
 import { Skeleton } from "@/components/ui/atoms/Skeleton";
 import { Text } from "@/components/ui/atoms/Text";
+import { cn } from "@/lib/cn";
 import { navigate, ROUTES } from "@/app/router";
 import {
-  AchievementGrid,
   StreakWidget,
   XPHeader,
   loadAchievementsView,
@@ -24,7 +24,7 @@ import {
 } from "@/features/progress";
 import { getDefaultProfile } from "@/lib/storage";
 import { HomeTemplate } from "@/templates/HomeTemplate";
-import styles from "./shared.module.css";
+import homeStyles from "./HomePage.module.css";
 
 const UNIT_ACCENTS = [
   "var(--color-primary-500)",
@@ -33,18 +33,24 @@ const UNIT_ACCENTS = [
   "var(--color-accent-teal)",
 ];
 
+const QUICK_TONE_CLASS = {
+  primary: homeStyles["tonePrimary"],
+  flame: homeStyles["toneFlame"],
+  gold: homeStyles["toneGold"],
+} as const;
+
 const unitProgress = (unit: PathUnit): number =>
   unit.lessons.filter((lesson) => lesson.status === "done").length /
   Math.max(1, unit.lessons.length);
 
 function UnitStrip({ units }: { units: PathUnit[] }) {
   return (
-    <div className={styles["unitStrip"]}>
+    <div className={homeStyles["unitStrip"]}>
       {units.map((unit, index) => (
         <button
           key={unit.id}
           type="button"
-          className={styles["unitChip"]}
+          className={homeStyles["unitChip"]}
           style={{
             ["--chip-accent" as string]:
               UNIT_ACCENTS[index % UNIT_ACCENTS.length],
@@ -55,12 +61,58 @@ function UnitStrip({ units }: { units: PathUnit[] }) {
             value={unitProgress(unit)}
             size={36}
             label={`Progreso de ${unit.title}`}
-          />
-          <span className={styles["chipLabel"]}>
+          >
+            <Icon name={unit.icon} size={16} />
+          </ProgressRing>
+          <span className={homeStyles["chipLabel"]}>
             {unit.title.replace(/^Unidad \d+ · /, "")}
           </span>
         </button>
       ))}
+    </div>
+  );
+}
+
+type QuickActionProps = {
+  icon: IconName;
+  label: string;
+  badge?: string;
+  tone: keyof typeof QUICK_TONE_CLASS;
+  onPress: () => void;
+};
+
+function QuickAction({ icon, label, badge, tone, onPress }: QuickActionProps) {
+  return (
+    <button
+      type="button"
+      className={cn(homeStyles["tile"], homeStyles["quickTile"])}
+      onClick={onPress}
+    >
+      <span className={cn(homeStyles["quickIcon"], QUICK_TONE_CLASS[tone])}>
+        <Icon name={icon} size={20} />
+      </span>
+      <Text as="span" size="sm" weight="bold">
+        {label}
+      </Text>
+      {badge !== undefined && (
+        <span className={homeStyles["quickBadge"]}>{badge}</span>
+      )}
+    </button>
+  );
+}
+
+function BentoSkeleton() {
+  return (
+    <div className={homeStyles["bento"]}>
+      <div className={cn(homeStyles["tile"], homeStyles["tileHero"])}>
+        <Skeleton shape="rect" />
+      </div>
+      <div className={cn(homeStyles["tile"], homeStyles["tileStreak"])}>
+        <Skeleton shape="rect" />
+      </div>
+      <div className={cn(homeStyles["tile"], homeStyles["tileWide"])}>
+        <Skeleton shape="rect" />
+      </div>
     </div>
   );
 }
@@ -91,7 +143,7 @@ export function HomePage() {
       setCurrent(findCurrentLesson(pathUnits));
       setUnits(pathUnits);
       setSummary(gamificationSummary);
-      setAchievements(achievementsView.achievements.slice(0, 3));
+      setAchievements(achievementsView.achievements);
       setDueReviews(due);
       setLoaded(true);
     })();
@@ -100,111 +152,113 @@ export function HomePage() {
     };
   }, []);
 
+  const unlockedCount =
+    achievements?.filter((achievement) => achievement.unlocked).length ?? 0;
+
   return (
     <HomeTemplate
       header={
         summary !== null ? <XPHeader progress={summary.xpProgress} /> : null
       }
       content={
-        loaded && current !== null ? (
-          <>
-            <div className={styles["card"]}>
-              <div className={styles["sectionHead"]}>
-                <Text as="h2" size="lg" weight="bold">
-                  Continúa donde lo dejaste
-                </Text>
-                <span className={styles["row"]}>
-                  <Icon name="book" size={20} />
+        <>
+          <h1 className={homeStyles["srOnly"]}>Inicio</h1>
+          {loaded && current !== null ? (
+            <div className={homeStyles["bento"]}>
+              <div className={cn(homeStyles["tile"], homeStyles["tileHero"])}>
+                <span className={homeStyles["heroIcon"]}>
+                  <Icon name="book" size={22} />
                 </span>
-              </div>
-              <Text size="sm" tone="secondary">
-                Lección: {current.title} · {current.exerciseCount} ejercicios
-                pendientes
-              </Text>
-              <Button
-                size="lg"
-                onPress={() => navigate(`/leccion/${current.id}`)}
-              >
-                Continuar lección
-              </Button>
-            </div>
-
-            {dueReviews > 0 && (
-              <div className={styles["card"]}>
-                <div className={styles["sectionHead"]}>
-                  <Text as="h2" size="lg" weight="bold">
-                    Tienes {dueReviews}{" "}
-                    {dueReviews === 1
-                      ? "repaso pendiente"
-                      : "repasos pendientes"}
-                  </Text>
-                  <Icon name="refresh" size={20} />
-                </div>
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  onPress={() => navigate(ROUTES.review)}
+                <Text
+                  as="span"
+                  size="xs"
+                  weight="bold"
+                  tone="secondary"
+                  className={homeStyles["eyebrow"]}
                 >
-                  Repasar ahora
+                  Continúa
+                </Text>
+                <Text
+                  as="h2"
+                  size="lg"
+                  weight="bold"
+                  className={homeStyles["heroTitle"]}
+                >
+                  {current.title}
+                </Text>
+                <span className={homeStyles["heroMeta"]}>
+                  {current.exerciseCount} ejercicios
+                </span>
+                <Button
+                  size="lg"
+                  block
+                  onPress={() => navigate(`/leccion/${current.id}`)}
+                >
+                  Continuar
                 </Button>
               </div>
-            )}
 
-            {units !== null && units.length > 0 && (
-              <div className={styles["card"]}>
-                <Text as="h2" size="lg" weight="bold">
-                  Tus unidades
-                </Text>
-                <UnitStrip units={units} />
-              </div>
-            )}
-
-            {summary !== null && (
-              <div className={styles["card"]}>
-                <StreakWidget streak={summary.streak} />
-              </div>
-            )}
-
-            {achievements !== null && achievements.length > 0 && (
-              <div className={styles["card"]}>
-                <div className={styles["sectionHead"]}>
-                  <Text as="h2" size="lg" weight="bold">
-                    Logros
-                  </Text>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onPress={() => navigate(ROUTES.achievements)}
-                  >
-                    Ver todos
-                  </Button>
+              {summary !== null && (
+                <div
+                  className={cn(homeStyles["tile"], homeStyles["tileStreak"])}
+                >
+                  <StreakWidget streak={summary.streak} />
                 </div>
-                <AchievementGrid achievements={achievements} />
+              )}
+
+              {units !== null && units.length > 0 && (
+                <div className={cn(homeStyles["tile"], homeStyles["tileWide"])}>
+                  <div className={homeStyles["wideHead"]}>
+                    <Text as="h2" size="md" weight="bold">
+                      Tu ruta
+                    </Text>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onPress={() => navigate(ROUTES.path)}
+                    >
+                      Ver todo
+                    </Button>
+                  </div>
+                  <UnitStrip units={units} />
+                </div>
+              )}
+
+              <div
+                className={cn(homeStyles["tileWide"], homeStyles["quickRow"])}
+              >
+                {dueReviews > 0 && (
+                  <QuickAction
+                    icon="refresh"
+                    label="Repaso"
+                    badge={String(dueReviews)}
+                    tone="flame"
+                    onPress={() => navigate(ROUTES.review)}
+                  />
+                )}
+
+                {achievements !== null && (
+                  <QuickAction
+                    icon="trophy"
+                    label="Logros"
+                    badge={`${unlockedCount}/${achievements.length}`}
+                    tone="gold"
+                    onPress={() => navigate(ROUTES.achievements)}
+                  />
+                )}
+
+                <QuickAction
+                  icon="zap"
+                  label="Práctica libre"
+                  tone="primary"
+                  onPress={() => navigate(ROUTES.practice)}
+                />
               </div>
-            )}
-
-            <Button
-              variant="secondary"
-              block
-              onPress={() => navigate(ROUTES.path)}
-            >
-              Explorar la ruta de aprendizaje
-            </Button>
-
-            <Button
-              variant="ghost"
-              block
-              onPress={() => navigate(ROUTES.practice)}
-            >
-              Práctica libre · ejercicios aleatorios
-            </Button>
-          </>
-        ) : (
-          <>
-            <Skeleton shape="rect" />
-            <Skeleton shape="rect" />
-          </>
-        )
+            </div>
+          ) : (
+            <BentoSkeleton />
+          )}
+        </>
       }
     />
   );
