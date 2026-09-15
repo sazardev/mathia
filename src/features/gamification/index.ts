@@ -18,4 +18,10 @@ export {
   recordOfflineSessionStart,
   recordSessionCompletion,
 } from "./service";
-export type { Achievement, LeagueEntry, StreakData, XpProgress } from "./types";
+export type {
+  Achievement,
+  DailyGoalProgress,
+  LeagueEntry,
+  StreakData,
+  XpProgress,
+} from "./types";

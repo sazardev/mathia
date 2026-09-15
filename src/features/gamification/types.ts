@@ -4,6 +4,12 @@ export type XpProgress = {
   nextLevelXp: number;
 };
 
+/** Anillo de meta diaria de Home (F2.2 BUSINESS-RULES.md): XP de hoy vs meta activa. */
+export type DailyGoalProgress = {
+  xpToday: number;
+  xpGoal: number;
+};
+
 export type StreakData = {
   currentDays: number;
   bestDays: number;

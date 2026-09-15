@@ -52,6 +52,13 @@
   gap: var(--space-3);
 }
 
+.heroIconSlot {
+  /* .tile es grid; sin esto, el <span> de ProgressRing (grid item directo)
+     hereda justify-self: stretch y su overlay de icono (position:absolute;
+     inset:0) se estira a todo el ancho del tile en vez de quedarse en 44px. */
+  justify-self: start;
+}
+
 .heroIcon {
   display: inline-flex;
   align-items: center;

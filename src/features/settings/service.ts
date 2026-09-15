@@ -10,6 +10,7 @@ export const DEFAULT_SETTINGS: MathiaSettings = {
 const DAILY_GOAL_VALUES: readonly DailyGoal[] = [
   "casual",
   "regular",
+  "seria",
   "intensa",
 ];
 

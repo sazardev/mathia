@@ -12,8 +12,6 @@ import {
   loadAchievementsView,
   loadHomeSummary,
   type Achievement,
-  type StreakData,
-  type XpProgress,
 } from "@/features/gamification";
 import { countDueReviews } from "@/features/lesson";
 import {
@@ -122,10 +120,9 @@ export function HomePage() {
   const [units, setUnits] = useState<PathUnit[] | null>(null);
   const [achievements, setAchievements] = useState<Achievement[] | null>(null);
   const [dueReviews, setDueReviews] = useState(0);
-  const [summary, setSummary] = useState<{
-    xpProgress: XpProgress;
-    streak: StreakData;
-  } | null>(null);
+  const [summary, setSummary] = useState<Awaited<
+    ReturnType<typeof loadHomeSummary>
+  > | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -166,9 +163,26 @@ export function HomePage() {
           {loaded && current !== null ? (
             <div className={homeStyles["bento"]}>
               <div className={cn(homeStyles["tile"], homeStyles["tileHero"])}>
-                <span className={homeStyles["heroIcon"]}>
-                  <Icon name="book" size={22} />
-                </span>
+                <div className={homeStyles["heroIconSlot"]}>
+                  {summary !== null ? (
+                    <ProgressRing
+                      value={
+                        summary.dailyGoal.xpGoal > 0
+                          ? summary.dailyGoal.xpToday / summary.dailyGoal.xpGoal
+                          : 0
+                      }
+                      size={44}
+                      tone="gold"
+                      label={`Meta diaria: ${summary.dailyGoal.xpToday} de ${summary.dailyGoal.xpGoal} XP`}
+                    >
+                      <Icon name="book" size={20} />
+                    </ProgressRing>
+                  ) : (
+                    <span className={homeStyles["heroIcon"]}>
+                      <Icon name="book" size={22} />
+                    </span>
+                  )}
+                </div>
                 <Text
                   as="span"
                   size="xs"

@@ -13,13 +13,20 @@ import {
   localDayKey,
   nextLeagueTier,
 } from "./engine";
-import type { Achievement, LeagueEntry, StreakData, XpProgress } from "./types";
+import type {
+  Achievement,
+  DailyGoalProgress,
+  LeagueEntry,
+  StreakData,
+  XpProgress,
+} from "./types";
 
 const HISTORY_DAYS = 400;
-/** BR-M7-10: XP de la meta activa. "Seria" (100) no existe aún como opción en Settings. */
+/** BR-M7-10: XP de la meta activa. */
 const DAILY_GOAL_XP: Record<string, number> = {
   casual: 20,
   regular: 50,
+  seria: 100,
   intensa: 200,
 };
 const DEFAULT_GOAL_XP = DAILY_GOAL_XP["regular"] ?? 50;
@@ -269,9 +276,11 @@ export async function recordSessionCompletion(
 }
 
 /** Solo lectura — para Home. No muta nada. */
-export async function loadHomeSummary(
-  profileId: string,
-): Promise<{ xpProgress: XpProgress; streak: StreakData }> {
+export async function loadHomeSummary(profileId: string): Promise<{
+  xpProgress: XpProgress;
+  streak: StreakData;
+  dailyGoal: DailyGoalProgress;
+}> {
   const store = await getStore();
   const now = new Date();
   const today = localDayKey(now);
@@ -281,10 +290,12 @@ export async function loadHomeSummary(
     dailyLog,
     totalXpRaw,
     { freezesAvailable, freezeAwardsGranted, persistedBestDays },
+    goalActive,
   ] = await Promise.all([
     store.getDailyLog(profileId, since),
     store.getSetting(profileId, "totalXp"),
     readStreakInputs(store, profileId),
+    readGoalActive(store, profileId),
   ]);
 
   const xpProgress = levelFromXp(readNumber(totalXpRaw, 0));
@@ -295,6 +306,7 @@ export async function loadHomeSummary(
     persistedBestDays,
     freezeAwardsGranted,
   );
+  const todayRow = dailyLog.find((row) => row.day === today);
   return {
     xpProgress,
     streak: {
@@ -303,6 +315,7 @@ export async function loadHomeSummary(
       activeToday: streak.activeToday,
       lastSevenDays: streak.lastSevenDays,
     },
+    dailyGoal: { xpToday: todayRow?.xp ?? 0, xpGoal: goalActive },
   };
 }
 
