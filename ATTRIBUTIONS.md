@@ -39,6 +39,35 @@ Ver `docs/fuentes-contenido.md` para la tabla completa. Las candidatas serias:
 y **Open Up Resources 6–8 Math** (autoría Illustrative Mathematics, CC BY 4.0 real, prohibido usar
 nombre/logo IM u OUR).
 
+### IM 9–12 Math — Algebra 1, Geometry, Algebra 2 — First Edition (2019, pendiente de usar)
+
+- **Licencia real: CC BY 4.0.** Verificado 2026-09-15 directamente en
+  `im.kendallhunt.com/HS/index.html` (a donde redirige permanentemente
+  `curriculum.illustrativemathematics.org/HS/index.html`, la URL "demo" original de IM): el footer
+  cita textualmente "© 2019 Illustrative Mathematics®. Licensed under the Creative Commons
+  Attribution 4.0 license." y enlaza directo a `creativecommons.org/licenses/by/4.0`. Ningún
+  párrafo de la página menciona "commercial"/"non-commercial".
+- Autor: Illustrative Mathematics (2019), distribuido hoy por Kendall Hunt.
+- **Cuidado — hay DOS ediciones distintas conviviendo en el mismo dominio `kendallhunt.com`:**
+  esta es la "First Edition" (2019, la que está en `/HS/...`, CC BY 4.0, uso comercial permitido).
+  La edición que Kendall Hunt promueve activamente hoy, **"IM v.360"**, es una edición DIFERENTE
+  con licencia **CC BY-NC 4.0** más una restricción contractual adicional en sus Términos de Uso
+  (`illustrativemathematics.org/terms-of-use/`) que prohíbe explícitamente el uso comercial de "IM
+  v.360" sin permiso escrito. No confundir ambas — solo la First Edition (2019) es reutilizable
+  aquí.
+- Nombre/logo "Illustrative Mathematics" NO están bajo la licencia CC (igual que OUR): no usar sin
+  permiso, solo el contenido.
+- Cubre exactamente el hueco de Álgebra 2 que ni BCcampus ni OUR 6-8 alcanzan: polinomios,
+  ecuaciones racionales/radicales, exponenciales/logarítmicas, cuadráticas avanzadas — coincide con
+  las unidades 3-10 del currículo de Mathia.
+- **Bonus:** Álgebra 1 ya tiene traducción oficial al español publicada en el mismo sitio
+  (`/AGA_ES/students/1/index.html`), lo que reduce el trabajo de adaptación al tono/idioma de
+  Mathia comparado con las demás fuentes (todas en inglés).
+- Lecciones que lo usan: _(ninguna todavía — sin script de sourcing propio aún; a diferencia de
+  MathQA/CCSS no tiene un dataset descargable en bloque, es HTML página por página en
+  `im.kendallhunt.com/HS/students/{1,2,3}/`, así que la autoría sería lectura manual/asistida
+  directa, no un script de `scripts/content-ingest/`)._
+
 ### MathQA (allenai/math_qa)
 
 - Licencia: **Apache License 2.0**

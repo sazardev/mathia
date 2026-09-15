@@ -34,6 +34,17 @@ una fuente de reutilización, solo de inspiración (tipos de problema, no texto)
 (investigación previa del repo) ya tenía esto correcto y lista fuentes CC BY 4.0 reales:
 **BCcampus "Introductory Algebra"** y **Open Up Resources 6–8 Math**.
 
+**Nueva fuente verificada 2026-09-15 (ver `ATTRIBUTIONS.md`)**: **IM 9–12 Math, First Edition
+(2019)** — Algebra 1/Geometry/Algebra 2 en `im.kendallhunt.com/HS/`, CC BY 4.0 confirmado
+directo en el footer de la página. Cubre el hueco de Álgebra 2 (polinomios, exponenciales/log,
+cuadráticas avanzadas) que ni BCcampus ni OUR 6-8 alcanzan, e incluye Álgebra 1 ya traducida al
+español. **Ojo**: NO es lo mismo que "IM v.360" (la edición que Kendall Hunt promueve hoy,
+CC BY-NC 4.0 + restricción contractual comercial) — ambas ediciones conviven en el mismo dominio,
+confirmar siempre que la URL sea `/HS/...` (First Edition) y no `/hs/...` v.360 antes de reutilizar
+nada. No tiene dataset descargable en bloque como MathQA/CCSS (es HTML página por página), así que
+no hay script de sourcing para esta fuente todavía — la autoría sería lectura manual/asistida
+directa del HTML.
+
 Fuentes evaluadas y descartadas (ver detalle en `ATTRIBUTIONS.md`): CK-12 (CC BY-NC), khan-exercises
 e Illustrative Mathematics "IM Tasks" individuales (CC BY-NC-SA), EEDI/Kaggle (licencia de reuso
 comercial no confirmada). Pendientes de evaluar más a fondo antes de usar: AQuA-RAT (Apache-2.0,
