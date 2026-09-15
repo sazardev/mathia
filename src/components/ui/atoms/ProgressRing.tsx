@@ -35,14 +35,14 @@ export function ProgressRing({
         aria-label={label ?? `Progreso ${Math.round(clamped * 100)} por ciento`}
       >
         <circle
-          className={styles["track"]}
+          className={cn(styles["circle"], styles["track"])}
           cx={size / 2}
           cy={size / 2}
           r={radius}
           strokeWidth={strokeWidth}
         />
         <circle
-          className={cn(styles["fill"], styles[tone])}
+          className={cn(styles["circle"], styles["fill"], styles[tone])}
           cx={size / 2}
           cy={size / 2}
           r={radius}
