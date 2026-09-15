@@ -49,16 +49,39 @@ export function RootLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // El guard de onboarding (beforeLoad, router/routes.tsx) garantiza un
+    // perfil real en toda ruta EXCEPTO /onboarding — ahí getDefaultProfile()
+    // (vía loadSettings) crearía el perfil "Estudiante" de respaldo antes de
+    // que el usuario cree el suyo (BR-M1-4).
+    if (pathname.startsWith("/onboarding")) {
+      applyTheme("light");
+      return;
+    }
     void loadSettings()
       .then((settings) => applyTheme(settings.theme))
       .catch(() => applyTheme("light"));
-  }, []);
+    // Solo debe reevaluar si cambiamos de/hacia onboarding, no en cada
+    // navegación dentro de la app.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname.startsWith("/onboarding")]);
+
+  if (pathname.startsWith("/onboarding")) {
+    return (
+      <>
+        <a href="#main-content" className={styles["skipLink"]}>
+          Saltar al contenido
+        </a>
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
+      </>
+    );
+  }
 
   if (
     pathname.startsWith("/leccion") ||
     pathname.startsWith("/practica") ||
-    pathname.startsWith("/repaso") ||
-    pathname.startsWith("/onboarding")
+    pathname.startsWith("/repaso")
   ) {
     return (
       <>

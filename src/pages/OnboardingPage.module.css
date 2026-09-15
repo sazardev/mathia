@@ -1,0 +1,42 @@
+.avatarGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 360px;
+}
+
+.avatarButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2);
+  border-radius: var(--radius-lg);
+  transition:
+    box-shadow var(--dur-fast) var(--ease-standard),
+    transform var(--dur-instant) var(--ease-standard);
+}
+
+.avatarButton:hover {
+  transform: translateY(-2px);
+}
+
+.avatarButton[aria-checked="true"] {
+  box-shadow: 0 0 0 3px var(--color-primary-500);
+}
+
+.avatarCheck {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-500);
+  color: var(--color-text-on-primary);
+  box-shadow: 0 0 0 2px var(--color-surface-0);
+}
