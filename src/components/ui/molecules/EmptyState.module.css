@@ -23,7 +23,7 @@
 }
 
 .gold {
-  color: #b8860b;
+  color: var(--color-gold-700);
 }
 
 .description {

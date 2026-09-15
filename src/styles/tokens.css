@@ -40,6 +40,10 @@
   --color-flame-500: #ff7a1a;
   --color-xp-500: #8b5cf6;
   --color-gold-500: #ffc94d;
+  /* Shade oscuro del acento gold para texto/ícono tono "gold" sobre superficie
+     neutra (StatBadge, EmptyState) — distinto de --color-text-on-gold, que es
+     para texto sobre fondo --color-gold-500. */
+  --color-gold-700: #b8860b;
   /* Acentos de categoría/unidad — rotan visualmente el contenido sin tocar
      el ancla de marca (verde primario); "vivo, no infantil" (SPEC.md público). */
   --color-accent-blue: #2f8ff0;
