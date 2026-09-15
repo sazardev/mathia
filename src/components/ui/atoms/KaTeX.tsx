@@ -1,41 +1,12 @@
 /* oxlint-disable */
 import { useEffect, useState } from "react";
+import { loadKatex, renderTex } from "@/lib/katex-loader";
 import styles from "./KaTeX.module.css";
 
 type KaTeXProps = {
   tex: string;
   displayMode?: boolean;
 };
-
-let katexModule: Promise<typeof import("katex")> | null = null;
-let katexResolved: typeof import("katex") | null = null;
-let katexFailed = false;
-
-function loadKatex() {
-  if (katexFailed) katexModule = null;
-  katexModule ??= Promise.all([
-    import("katex"),
-    import("katex/dist/katex.min.css"),
-  ])
-    .then(([mod]) => {
-      katexResolved = mod;
-      return mod;
-    })
-    .catch((error) => {
-      katexFailed = true;
-      katexModule = null;
-      throw error;
-    });
-  return katexModule;
-}
-
-function renderTex(tex: string, displayMode: boolean): string | null {
-  if (katexResolved === null) return null;
-  return katexResolved.renderToString(tex, {
-    throwOnError: false,
-    displayMode,
-  });
-}
 
 export function KaTeX({ tex, displayMode = false }: KaTeXProps) {
   const [html, setHtml] = useState<string | null>(() =>
