@@ -55,6 +55,11 @@
   --color-text-secondary: #52635c;
   --color-text-muted: #667874;
   --color-text-on-primary: #ffffff;
+  /* --color-gold-500 no cambia entre temas (ver bloque dark abajo), así que su
+     texto tampoco debe cambiar — nunca usar --color-amber-text aquí, ese token
+     está pareado con --color-amber-bg y en dark mode toma el mismo valor que
+     --color-gold-500, dejando el texto invisible. */
+  --color-text-on-gold: #5c4300;
 
   --space-1: 4px;
   --space-2: 8px;

@@ -1,3 +1,4 @@
+import type { IconName } from "@/components/ui/atoms/Icon";
 import { CURRICULUM } from "@/features/content";
 import { getDefaultProfile, getStore } from "@/lib/storage";
 
@@ -13,7 +14,22 @@ export type PathLesson = {
 export type PathUnit = {
   id: string;
   title: string;
+  icon: IconName;
   lessons: PathLesson[];
+};
+
+/** Icono representativo por tema de unidad; "book" es el respaldo genérico. */
+const UNIT_ICONS: Record<string, IconName> = {
+  u1: "calculator",
+  u2: "line",
+  u3: "curve",
+  u4: "rectangle",
+  u5: "target",
+  u6: "zoomOut",
+  u7: "zap",
+  u8: "chart",
+  u9: "ellipse",
+  u10: "crown",
 };
 
 /**
@@ -31,6 +47,7 @@ export async function loadPath(): Promise<PathUnit[]> {
   return CURRICULUM.map((unit) => ({
     id: unit.id,
     title: `Unidad ${unit.number} · ${unit.title}`,
+    icon: UNIT_ICONS[unit.id] ?? "book",
     lessons: unit.lessons.map((lesson) => {
       const state = stateByLesson.get(lesson.id);
       let status: PathLessonStatus;

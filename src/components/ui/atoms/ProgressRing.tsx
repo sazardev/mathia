@@ -1,4 +1,5 @@
 /* oxlint-disable jsx-a11y/prefer-tag-over-role */
+import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import styles from "./ProgressRing.module.css";
 
@@ -7,6 +8,7 @@ type ProgressRingProps = {
   size?: number;
   tone?: "primary" | "gold" | "danger";
   label?: string;
+  children?: ReactNode;
 };
 
 export function ProgressRing({
@@ -14,6 +16,7 @@ export function ProgressRing({
   size = 48,
   tone = "primary",
   label,
+  children,
 }: ProgressRingProps) {
   const clamped = Math.min(Math.max(value, 0), 1);
   const strokeWidth = Math.max(4, size / 10);
@@ -24,6 +27,7 @@ export function ProgressRing({
   return (
     <span className={styles["ring"]}>
       <svg
+        className={styles["svg"]}
         width={size}
         height={size}
         viewBox={`0 0 ${size} ${size}`}
@@ -47,6 +51,11 @@ export function ProgressRing({
           strokeDashoffset={offset}
         />
       </svg>
+      {children !== undefined && (
+        <span className={styles["icon"]} aria-hidden="true">
+          {children}
+        </span>
+      )}
     </span>
   );
 }

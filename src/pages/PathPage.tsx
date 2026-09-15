@@ -37,7 +37,9 @@ function PathUnits({ units }: { units: PathUnit[] }) {
               value={unitProgress(unit.lessons)}
               size={44}
               label={`Progreso de ${unit.title}`}
-            />
+            >
+              <Icon name={unit.icon} size={20} />
+            </ProgressRing>
           </div>
           <div className={styles["stack"]}>
             {unit.lessons.map((lesson) => (
